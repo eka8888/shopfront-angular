@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RssAngularShopfront
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
@@ -57,3 +58,31 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# RSS Angular Sprint Project
+
+## Team Members
+
+* [eka8888](https://github.com/eka8888)
+* [zorro-amarillo](https://github.com/zorro-amarillo)
+
+## Project Choice
+
+We selected **ShopFront** as our Angular Sprint project.
+
+## Project Description
+
+ShopFront is an online store application built with Angular.
+
+The application will include:
+
+* authentication
+* product catalog
+* cart functionality
+* routing
+* reactive forms
+* Angular signals
+* RxJS
+* API integration
+* testing
+>>>>>>> bff65607921dc344bb2655801bfb7e166694a055
