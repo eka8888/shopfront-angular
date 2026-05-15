@@ -7,4 +7,9 @@ import { SearchBar } from "../search-bar/search-bar";
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {}
+export class Header {
+
+  handleSearch(value: string) {
+  console.log(value);
+}
+}
