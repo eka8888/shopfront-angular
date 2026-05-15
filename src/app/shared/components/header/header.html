@@ -1,18 +1,66 @@
-<header class="header">
-  <div class="logo">
-    ShopFront
+<!-- HEADER -->
+<header
+  class="w-full h-[82px] border-b border-gray-200 bg-white px-6 lg:px-20 flex items-center justify-between"
+>
+  <!-- LOGO -->
+  <div class="flex items-center gap-2 cursor-pointer">
+    <div
+      class="w-9 h-9 rounded-full border border-[#2D2A32] flex items-center justify-center"
+    >
+      <span class="text-sm font-semibold">M</span>
+    </div>
 
+    <h1
+      class="text-[28px] font-semibold tracking-wide text-[#2D2A32]"
+    >
+      ShopFront
+    </h1>
   </div>
 
-  <nav class="navigation">
-    <a href="/">Home</a>
-  </nav>
+  <!-- NAVIGATION -->
+<nav class="hidden md:flex items-center gap-10">
 
- <app-search-bar
-  (search)="handleSearch($event)"
-/>
+  <a
+    routerLink="/"
+    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+  >
+    Home
+  </a>
 
-  <button class="cart-button">
-    Cart
-  </button>
+  <a
+    routerLink="/shop"
+    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+  >
+    Shop
+  </a>
+
+  <a
+    routerLink="/about"
+    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+  >
+    About
+  </a>
+
+  <a
+    routerLink="/contact"
+    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+  >
+    Contact
+  </a>
+
+</nav>
+
+  <!-- RIGHT SIDE -->
+  <div class="flex items-center gap-5">
+    <!-- SEARCH -->
+    <app-search-bar (search)="handleSearch($event)" />
+
+    <!-- CART -->
+    <button
+      type="button"
+      class="relative border border-[#2D2A32] px-5 py-2 text-sm uppercase tracking-widest hover:bg-[#2D2A32] hover:text-white transition duration-300"
+    >
+      Cart
+    </button>
+  </div>
 </header>

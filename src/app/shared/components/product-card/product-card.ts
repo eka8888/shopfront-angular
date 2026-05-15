@@ -6,6 +6,7 @@ import { Product } from '../../interfaces/product.interface';
   imports: [],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
+  standalone: true
 })
 export class ProductCard {
     product = input.required<Product>();

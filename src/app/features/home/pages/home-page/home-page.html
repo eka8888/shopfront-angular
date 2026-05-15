@@ -1,1 +1,27 @@
-<p>home-page works!</p>
+<!-- HOME PAGE -->
+<section class="min-h-screen bg-white px-6 lg:px-20 py-12">
+  <!-- HERO -->
+
+
+  <!-- PRODUCTS -->
+  <div class="mb-12">
+    <h2
+      class="text-3xl uppercase tracking-wide font-semibold text-[#2D2A32]"
+    >
+      Featured Products
+    </h2>
+
+    <div class="w-24 h-[2px] bg-[#2D2A32] mt-4"></div>
+  </div>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
+  >
+    @for (product of products; track product.id) {
+      <app-product-card
+        [product]="product"
+        (addToCart)="handleAddToCart($event)"
+      />
+    }
+  </div>
+</section>

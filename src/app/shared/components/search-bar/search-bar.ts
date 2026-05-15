@@ -5,11 +5,12 @@ import { Component, output } from '@angular/core';
   imports: [],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
+  standalone: true
 })
 export class SearchBar {
-    search = output<string>();
+  search = output<string>();
 
-  onSearch(value: string) {
+  onSearch(value: string): void {
     this.search.emit(value);
   }
 }
