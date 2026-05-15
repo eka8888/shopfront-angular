@@ -1,1 +1,14 @@
-<p>product-card works!</p>
+<div class="product-card">
+  <img
+    [src]="product().image"
+    [alt]="product().title"
+  />
+
+  <h3>{{ product().title }}</h3>
+
+  <p>{{ product().price }}$</p>
+
+  <button (click)="onAddToCart()">
+    Add to cart
+  </button>
+</div>
