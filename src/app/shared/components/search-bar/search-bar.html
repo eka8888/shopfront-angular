@@ -1,11 +1,16 @@
-<div class="search-bar">
+<!-- SEARCH BAR -->
+<div class="hidden lg:flex items-center border border-gray-300 h-[44px]">
   <input
     #searchInput
     type="text"
     placeholder="Search products..."
+    class="h-full w-[220px] px-4 outline-none text-sm"
   />
 
-  <button (click)="onSearch(searchInput.value)">
+  <button
+    (click)="onSearch(searchInput.value)"
+    class="h-full px-5 bg-[#2D2A32] text-white text-sm uppercase tracking-wider hover:opacity-90 transition"
+  >
     Search
   </button>
 </div>
