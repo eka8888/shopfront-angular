@@ -1,7 +1,5 @@
 <!-- PRODUCT CARD -->
-<div
-  class="group bg-white cursor-pointer transition duration-300"
->
+<div class="group bg-white cursor-pointer transition duration-300">
   <!-- IMAGE -->
   <div class="overflow-hidden bg-[#F6F6F6]">
     <img
@@ -13,28 +11,25 @@
 
   <!-- CONTENT -->
   <div class="pt-5">
-    <h3
-      class="text-[18px] uppercase tracking-wide font-medium text-[#2D2A32] line-clamp-1"
-    >
+    <h3 class="text-[18px] uppercase tracking-wide font-medium text-[#2D2A32] line-clamp-1">
       {{ product().title }}
     </h3>
 
     <div class="flex items-center gap-3 mt-3">
-      <p class="text-[20px] font-semibold text-[#2D2A32]">
-        {{ product().price }}$
-      </p>
+      <p class="text-[20px] font-semibold text-[#2D2A32]">{{ product().price }}$</p>
 
-      <span class="text-gray-400 line-through text-sm">
-        {{ product().price + 20 }}$
-      </span>
+      <span class="text-gray-400 line-through text-sm"> {{ product().price + 20 }}$ </span>
     </div>
 
-    <button
+    <!-- <button
       type="button"
       (click)="onAddToCart()"
       class="mt-5 w-full h-[48px] border border-[#2D2A32] uppercase tracking-[2px] text-sm hover:bg-[#2D2A32] hover:text-white transition duration-300"
     >
       Add To Cart
-    </button>
+    </button> -->
+    <app-button variant="outline" [fullWidth]="true" (click)="onAddToCart()"
+      >Add To Cart</app-button
+    >
   </div>
 </div>

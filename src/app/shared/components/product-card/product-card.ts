@@ -1,15 +1,16 @@
 import { Component, input, output } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'app-product-card',
-  imports: [],
+  imports: [Button],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
-  standalone: true
+  standalone: true,
 })
 export class ProductCard {
-    product = input.required<Product>();
+  product = input.required<Product>();
 
   addToCart = output<number>();
 
