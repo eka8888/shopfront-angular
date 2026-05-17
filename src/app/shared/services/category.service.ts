@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import categoriesData from '../shared/data/categories.json';
+import categoriesData from '../data/categories.json';
 
 @Injectable({
   providedIn: 'root',
