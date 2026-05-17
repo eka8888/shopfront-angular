@@ -6,6 +6,9 @@
   <!-- CATEGORIES -->
   <app-categories-section />
 
+  <!-- PROMO -->
+  <app-promo-section />
+
   <!-- PRODUCTS -->
   <div class="mb-12">
     <h2 class="text-3xl font-semibold tracking-wide text-[#2D2A32] uppercase">Featured Products</h2>
@@ -15,9 +18,7 @@
 
   <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
     @for (product of products; track product.id) {
-    <app-product-card
-      [product]="product"
-      (addToCart)="handleAddToCart($event)" />
+      <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
     }
   </div>
 </div>
