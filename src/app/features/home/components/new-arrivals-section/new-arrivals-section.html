@@ -1,0 +1,10 @@
+<section class="mx-auto max-w-277.5 py-20">
+  <h2 class="mb-12 font-secondary font-bold text-[30px] leading-[120%] text-black-marlin uppercase text-center">Discover new arrivals</h2>
+
+  <!-- NEW ARRIVALS -->
+  <div class="flex justify-center gap-7.5">
+    @for (product of newArrivals(); track product.id) {
+      <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
+    }
+  </div>
+</section>
