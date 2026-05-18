@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Porcelain Dinner Plate",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 1,
+    "isNew": true
+  },
+    {
+    "id": 2,
+    "name": "Ophelia Matte Natural  Vase",
+    "price": 40,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
+    "categoryId": 2,
+    "isNew": true
+  },
+  {
+    "id": 3,
+    "name": "Porcelain Dinner Plate",
+    "price": 53,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 1,
+    "isNew": true
+  },
+  {
+    "id": 4,
+    "name": "Luana Bowl",
+    "price": 38,
+    "description": "Lorem ipsum dolor sit amet conse.",
+    "categoryId": 1,
+    "isNew": true
+  }
+]

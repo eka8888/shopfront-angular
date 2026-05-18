@@ -1,1 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"');
+
 @import 'tailwindcss';
+
+@theme {
+  --font-primary: 'Inter', sans-serif;
+  --font-secondary: 'EB Garamond', serif;
+  --color-dark-brown: #826f66;
+  --color-cream: #fffdfb;
+  --color-black-marlin: #3a3845;
+  --color-seashell: #f7f6f5;
+  --color-zambezi: #595667;
+  --color-dark-grey: #807f86;
+}

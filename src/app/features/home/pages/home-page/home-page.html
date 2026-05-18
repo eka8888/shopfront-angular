@@ -1,27 +1,14 @@
 <!-- HOME PAGE -->
-<section class="min-h-screen bg-white px-6 lg:px-20 py-12">
+<div class="mx-auto min-h-screen max-w-360 bg-white">
   <!-- HERO -->
+  <app-hero-section />
 
+  <!-- CATEGORIES -->
+  <app-categories-section />
 
-  <!-- PRODUCTS -->
-  <div class="mb-12">
-    <h2
-      class="text-3xl uppercase tracking-wide font-semibold text-[#2D2A32]"
-    >
-      Featured Products
-    </h2>
+  <!-- PROMO -->
+  <app-promo-section />
 
-    <div class="w-24 h-[2px] bg-[#2D2A32] mt-4"></div>
-  </div>
-
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10"
-  >
-    @for (product of products; track product.id) {
-      <app-product-card
-        [product]="product"
-        (addToCart)="handleAddToCart($event)"
-      />
-    }
-  </div>
-</section>
+  <!-- NEW-ARRIVALS -->
+  <app-new-arrivals-section />
+</div>
