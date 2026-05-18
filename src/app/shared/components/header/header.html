@@ -4,51 +4,43 @@
 >
   <!-- LOGO -->
   <div class="flex items-center gap-2 cursor-pointer">
-    <div
-      class="w-9 h-9 rounded-full border border-[#2D2A32] flex items-center justify-center"
-    >
+    <div class="w-9 h-9 rounded-full border border-[#2D2A32] flex items-center justify-center">
       <span class="text-sm font-semibold">M</span>
     </div>
 
-    <h1
-      class="text-[28px] font-semibold tracking-wide text-[#2D2A32]"
-    >
-      ShopFront
-    </h1>
+    <h1 class="text-[28px] font-semibold tracking-wide text-[#2D2A32]">ShopFront</h1>
   </div>
 
   <!-- NAVIGATION -->
-<nav class="hidden md:flex items-center gap-10">
+  <nav class="hidden md:flex items-center gap-10">
+    <a
+      routerLink="/"
+      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+    >
+      Home
+    </a>
 
-  <a
-    routerLink="/"
-    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-  >
-    Home
-  </a>
+    <a
+      routerLink="/shop"
+      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+    >
+      Shop
+    </a>
 
-  <a
-    routerLink="/shop"
-    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-  >
-    Shop
-  </a>
+    <a
+      routerLink="/about"
+      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+    >
+      About
+    </a>
 
-  <a
-    routerLink="/about"
-    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-  >
-    About
-  </a>
-
-  <a
-    routerLink="/contact"
-    class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-  >
-    Contact
-  </a>
-
-</nav>
+    <a
+      routerLink="/contact"
+      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+    >
+      Contact
+    </a>
+  </nav>
 
   <!-- RIGHT SIDE -->
   <div class="flex items-center gap-5">
