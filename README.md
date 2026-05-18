@@ -6,6 +6,7 @@
 - [zorro-amarillo](https://github.com/zorro-amarillo)
 - [s-arashu](https://github.com/s-arashu)
 - 
+
 ## Project Choice
 
 We selected **ShopFront** as our Angular Sprint project.

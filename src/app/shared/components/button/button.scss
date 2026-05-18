@@ -1,0 +1,26 @@
+@reference "tailwindcss";
+.btn {
+  @apply uppercase tracking-widest text-xs px-5 py-2
+        rounded-none transition-colors cursor-pointer
+        inline-block border;
+}
+
+.btn-dark {
+  @apply bg-gray-900 text-white border-gray-900
+        hover:bg-gray-700 hover:border-gray-700;
+}
+
+.btn-outline {
+  @apply bg-transparent text-gray-900 border-gray-900
+        hover:bg-gray-900 hover:text-white;
+}
+
+.btn-outline-light {
+  @apply bg-transparent text-white border-white
+        hover:bg-white hover:text-gray-900;
+}
+
+.btn-text {
+  @apply bg-transparent border-none underline
+        text-gray-900 hover:text-gray-500 px-0;
+}

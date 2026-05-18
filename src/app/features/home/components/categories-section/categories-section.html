@@ -1,0 +1,15 @@
+<section class="m-auto py-20">
+  <div class="flex justify-center gap-7.5">
+    <!-- CATEGORY-CARD -->
+    @for (category of categories(); track category.id) {
+      <a routerLink="/shop" class="flex flex-col gap-5.75">
+        <img [src]="category.image" [alt]="category.name" />
+        <h3
+          class="text-black-marlin font-semibold text-lg leading-[133%] tracking-[0.06em] uppercase"
+        >
+          {{ category.name }}
+        </h3>
+      </a>
+    }
+  </div>
+</section>
