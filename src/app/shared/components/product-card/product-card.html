@@ -25,16 +25,8 @@
       {{ product().description }}
     </p>
 
-    <button
-      type="button"
-      (click)="onAddToCart()"
-      class="mt-5 w-full h-[48px] border border-[#2D2A32] uppercase tracking-[2px] text-sm hover:bg-[#2D2A32] hover:text-white transition duration-300"
-    >
-      Add To Cart
-    </button>
-
-    <!-- <app-button variant="outline" [fullWidth]="true" (click)="onAddToCart()"
+    <app-button variant="outline" [fullWidth]="true" (click)="onAddToCart()" class="mt-5"
       >Add To Cart</app-button
-    > -->
+    >
   </div>
 </div>
