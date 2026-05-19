@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
 import { Button } from '../button/button';
 
@@ -13,6 +13,10 @@ export class ProductCard {
   product = input.required<Product>();
 
   addToCart = output<number>();
+
+  discountPrice=computed(()=>{
+    return this.product().price+20;
+  })
 
   ngOnInit(): void {
     console.log('Product card initialized');

@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, effect, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -9,8 +9,14 @@ import { Component, output } from '@angular/core';
 })
 export class SearchBar {
   search = output<string>();
-
+  searchValue = signal('');
+  ngOnInit(): void {
+    effect(() => {
+      console.log('Search changed:', this.searchValue());
+    });
+  }
   onSearch(value: string): void {
-    this.search.emit(value);
+    this.searchValue.set(value);
+    this.search.emit(this.searchValue());
   }
 }
