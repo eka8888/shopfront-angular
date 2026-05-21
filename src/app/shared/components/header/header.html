@@ -12,35 +12,17 @@
   </div>
 
   <!-- NAVIGATION -->
-  <nav class="hidden md:flex items-center gap-10">
+<nav class="hidden md:flex items-center gap-10">
+  @for (item of navItems; track item.path) {
     <a
-      routerLink="/"
+      [routerLink]="item.path"
+      routerLinkActive="text-black font-bold"
       class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
     >
-      Home
+      {{ item.label }}
     </a>
-
-    <a
-      routerLink="/shop"
-      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-    >
-      Shop
-    </a>
-
-    <a
-      routerLink="/about"
-      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-    >
-      About
-    </a>
-
-    <a
-      routerLink="/contact"
-      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-    >
-      Contact
-    </a>
-  </nav>
+  }
+</nav>
 
   <!-- RIGHT SIDE -->
   <div class="flex items-center gap-5">

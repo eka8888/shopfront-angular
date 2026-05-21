@@ -1,10 +1,12 @@
 <!-- PRODUCT CARD -->
+
+@let item = product();
 <div class="group bg-white cursor-pointer transition duration-300 w-[255px] h-full flex flex-col">
   <!-- IMAGE -->
   <div class="overflow-hidden bg-[#F6F6F6]">
     <img
-      [src]="product().image"
-      [alt]="product().name"
+      [src]="item.image"
+      [alt]="item.name"
       class="w-full h-[320px] object-cover group-hover:scale-105 transition duration-500"
     />
   </div>
@@ -12,17 +14,17 @@
   <!-- CONTENT -->
   <div class="pt-5 flex flex-col grow">
     <h3 class="text-[18px] uppercase tracking-wide font-medium text-[#2D2A32] line-clamp-1">
-      {{ product().name }}
+      {{ item.name }}
     </h3>
 
     <div class="flex items-center gap-3 mt-3">
-      <p class="text-[20px] font-semibold text-[#2D2A32]">{{ product().price }}$</p>
+      <p class="text-[20px] font-semibold text-[#2D2A32]">{{ item.price }}$</p>
 
-      <span class="text-gray-400 line-through text-sm"> {{ product().price + 20 }}$ </span>
+      <span class="text-gray-400 line-through text-sm"> {{ discountPrice() }}$ </span>
     </div>
 
     <p class="mt-6 text-dark-grey text-sm font-primary leading-[157%] grow">
-      {{ product().description }}
+      {{item.description }}
     </p>
 
     <app-button variant="outline" [fullWidth]="true" (click)="onAddToCart()" class="mt-5"
