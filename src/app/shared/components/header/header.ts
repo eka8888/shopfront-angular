@@ -7,10 +7,27 @@ import { Button } from '../button/button';
   selector: 'app-header',
   imports: [SearchBar, RouterLink,RouterLinkActive],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
   standalone: true,
 })
 export class Header {
+  navItems = [
+  {
+    label: 'Home',
+    path: '/',
+  },
+  {
+    label: 'Shop',
+    path: '/shop',
+  },
+  {
+    label: 'About',
+    path: '/about',
+  },
+  {
+    label: 'Contact',
+    path: '/contact',
+  },
+];
   handleSearch(value: string) {
     console.log(value);
   }
