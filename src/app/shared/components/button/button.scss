@@ -1,26 +1,38 @@
 @reference "tailwindcss";
 .btn {
-  @apply uppercase tracking-widest text-xs px-5 py-2
-        rounded-none transition-colors cursor-pointer
-        inline-block border;
+  @apply uppercase text-center cursor-pointer
+        transition-colors inline-block border
+        rounded-none font-semibold
+        px-[18px] py-[15px] leading-[150%];
+}
+
+.btn-light {
+  @apply text-[14px] leading-[143%]
+        text-[#826f66] bg-white border-white
+        hover:bg-transparent hover:text-white;
 }
 
 .btn-dark {
-  @apply bg-gray-900 text-white border-gray-900
-        hover:bg-gray-700 hover:border-gray-700;
+  @apply text-[12px] tracking-[0.08em] px-[16px]
+        text-white bg-[#3a3845] border-[#3a3845]
+        hover:bg-[#2a2835] hover:border-[#2a2835];
 }
 
 .btn-outline {
-  @apply bg-transparent text-gray-900 border-gray-900
-        hover:bg-gray-900 hover:text-white;
+  @apply text-[12px] tracking-[0.08em]
+        text-[#3a3845] border-[#3a3845] bg-transparent
+        hover:bg-[#3a3845] hover:text-white;
 }
 
 .btn-outline-light {
-  @apply bg-transparent text-white border-white
-        hover:bg-white hover:text-gray-900;
+  @apply text-[12px] tracking-[0.08em]
+        text-[#e5e5e5] bg-transparent border-white
+        hover:bg-white hover:text-[#3a3845];
 }
 
 .btn-text {
-  @apply bg-transparent border-none underline
-        text-gray-900 hover:text-gray-500 px-0;
+  @apply text-[14px] tracking-[0.06em] font-bold
+        leading-[143%] underline border-none
+        text-[#3a3845] bg-transparent px-0
+        hover:text-[#826f66];
 }
