@@ -1,0 +1,31 @@
+@reference "tailwindcss";
+
+.field {
+  @apply flex flex-col gap-1 w-full;
+}
+
+.field__label {
+  @apply text-sm font-semibold text-[#3a3845];
+}
+
+.field__required {
+  @apply text-red-500 ml-0.5;
+}
+
+.field__textarea {
+  @apply w-full px-[16px] py-[16px]
+        text-[14px] leading-[143%] font-normal
+        text-[#807f86] placeholder:text-[#807f86]
+        border border-[#3a3845]
+        outline-none transition-colors
+        focus:border-[#595667]
+        resize-none;
+}
+
+.field__textarea--error {
+  @apply border-red-500 focus:border-red-500;
+}
+
+.field__error {
+  @apply text-xs text-red-500;
+}

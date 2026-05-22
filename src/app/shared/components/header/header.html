@@ -12,17 +12,17 @@
   </div>
 
   <!-- NAVIGATION -->
-<nav class="hidden md:flex items-center gap-10">
-  @for (item of navItems; track item.path) {
-    <a
-      [routerLink]="item.path"
-      routerLinkActive="text-black font-bold"
-      class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
-    >
-      {{ item.label }}
-    </a>
-  }
-</nav>
+  <nav class="hidden md:flex items-center gap-10">
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="text-black font-bold"
+        class="text-[14px] uppercase tracking-wider text-[#2D2A32] hover:text-black transition"
+      >
+        {{ item.label }}
+      </a>
+    }
+  </nav>
 
   <!-- RIGHT SIDE -->
   <div class="flex items-center gap-5">

@@ -1,0 +1,21 @@
+<div class="field">
+  @if (label) {
+    <label class="field__label">
+      {{ label }}
+      @if (required) {
+        <span class="field__required">*</span>
+      }
+    </label>
+  }
+
+  <textarea
+    [placeholder]="placeholder"
+    [rows]="rows"
+    class="field__textarea"
+    [ngClass]="{ 'field__textarea--error': error }"
+  ></textarea>
+
+  @if (error) {
+    <span class="field__error">{{ error }}</span>
+  }
+</div>
