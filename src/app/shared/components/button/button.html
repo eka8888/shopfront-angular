@@ -1,6 +1,10 @@
 <button
   [type]="type"
-  [class]="'btn btn-' + variant + (fullWidth ? ' w-full block' : ' inline-block')"
+  [class]="'btn btn-' + variant"
+  [ngClass]="{
+    'w-full block': fullWidth,
+    'inline-block': !fullWidth,
+  }"
 >
   <ng-content />
 </button>

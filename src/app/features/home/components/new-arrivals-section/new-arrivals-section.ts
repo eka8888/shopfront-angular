@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ProductService } from '../../../../shared/services/product.service';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
