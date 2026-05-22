@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* colors */
+  --color-dark: #3a3845;
+  --color-dark-hover: #2a2835;
+  --color-placeholder: #807f86;
+  --color-icon: #595667;
+  --color-card-placeholder: #a6a6a8;
+  --color-accent: #826f66;
+  --color-light-text: #e5e5e5;
+
+  /* typography */
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+  --font-size-md: 16px;
+  --line-height-sm: 143%;
+  --line-height-md: 150%;
+
+  /* spacing */
+  --input-padding-x: 16px;
+  --input-padding-y: 10px;
+}

@@ -1,0 +1,17 @@
+@reference "tailwindcss";
+
+.field {
+  @apply flex flex-col gap-1 w-full;
+}
+
+.field__label {
+  @apply text-sm font-semibold text-[#3a3845];
+}
+
+.field__required {
+  @apply text-red-500 ml-0.5;
+}
+
+.field__error {
+  @apply text-xs text-red-500;
+}

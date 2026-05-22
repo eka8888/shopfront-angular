@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { SearchVariant } from '../../types/search.types';
+import { SearchVariant } from '../../types/form.enums';
 
 @Component({
   selector: 'app-search',
@@ -8,7 +8,7 @@ import { SearchVariant } from '../../types/search.types';
   styleUrl: './search.scss',
 })
 export class SearchComponent {
-  @Input() variant: SearchVariant = 'field';
+  @Input() variant: SearchVariant = SearchVariant.Field;
   @Input() placeholder: string = 'Search for product...';
 
   isOpen = signal(false);

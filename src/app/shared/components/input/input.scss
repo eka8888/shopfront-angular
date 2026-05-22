@@ -1,39 +1,28 @@
 @reference "tailwindcss";
-
-.field {
-  @apply flex flex-col gap-1 w-full;
-}
-
-.field__label {
-  @apply text-sm font-semibold text-[#3a3845];
-}
-
-.field__required {
-  @apply text-red-500 ml-0.5;
-}
+@use '../../styles/form-controls' as *;
 
 .field__input {
-  @apply w-full px-[16px] py-[10px]
-        text-[14px] leading-[143%] font-normal
-        text-[#807f86] placeholder:text-[#807f86]
-        border border-[#3a3845] bg-white
+  @apply w-full px-[--input-padding-x] py-[--input-padding-y]
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-placeholder] placeholder:text-[--color-placeholder]
+        border border-[--color-dark] bg-white
         outline-none transition-colors
-        focus:border-[#595667];
+        focus:border-[--color-icon];
 }
 
 .field__input--underline {
   @apply w-full px-0 py-[14px]
-        text-[16px] leading-[150%] font-normal
-        text-[#595667] placeholder:text-[#595667]
-        border-0 border-b border-[#3a3845]
+        text-[--font-size-md] leading-[--line-height-md] font-normal
+        text-[--color-icon] placeholder:text-[--color-icon]
+        border-0 border-b border-[--color-dark]
         bg-transparent text-center
         outline-none transition-colors;
 }
 
 .field__input--card {
   @apply w-full px-[10px] py-0 h-[42px]
-        text-[14px] leading-[143%] font-normal
-        text-[#a6a6a8] placeholder:text-[#a6a6a8]
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-card-placeholder] placeholder:text-[--color-card-placeholder]
         border border-white bg-transparent
         outline-none transition-colors
         focus:border-gray-400;
@@ -41,8 +30,4 @@
 
 .field__input--error {
   @apply border-red-500 focus:border-red-500;
-}
-
-.field__error {
-  @apply text-xs text-red-500;
 }

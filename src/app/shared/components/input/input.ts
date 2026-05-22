@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { InputType, InputVariant } from '../../types/input.types';
+import { InputType, InputVariant } from '../../types/form.enums';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -11,8 +11,8 @@ import { NgClass } from '@angular/common';
 export class InputComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
-  @Input() type: InputType = 'text';
+  @Input() type: InputType = InputType.Text;
   @Input() required: boolean = false;
   @Input() error: string = '';
-  @Input() variant: InputVariant = 'default';
+  @Input() variant: InputVariant = InputVariant.Default;
 }

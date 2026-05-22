@@ -1,6 +1,7 @@
 import { Component, computed, input, OnDestroy, OnInit, output } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
 import { Button } from '../button/button';
+import { ButtonVariant } from '../../types/form.enums';
 
 @Component({
   selector: 'app-product-card',
@@ -9,6 +10,8 @@ import { Button } from '../button/button';
   standalone: true,
 })
 export class ProductCard implements OnInit, OnDestroy {
+  readonly ButtonVariant = ButtonVariant;
+
   product = input.required<Product>();
 
   addToCart = output<number>();

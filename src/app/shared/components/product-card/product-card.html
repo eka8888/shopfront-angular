@@ -27,7 +27,11 @@
       {{ item.description }}
     </p>
 
-    <app-button variant="outline" [fullWidth]="true" (click)="onAddToCart()" class="mt-5"
+    <app-button
+      [variant]="ButtonVariant.Outline"
+      [fullWidth]="true"
+      (click)="onAddToCart()"
+      class="mt-5"
       >Add To Cart</app-button
     >
   </div>

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { ButtonType, ButtonVariant } from '../../types/button.types';
+import { ButtonType, ButtonVariant } from '../../types/form.enums';
 @Component({
   selector: 'app-button',
   imports: [NgClass],
@@ -8,7 +8,7 @@ import { ButtonType, ButtonVariant } from '../../types/button.types';
   styleUrl: './button.scss',
 })
 export class Button {
-  @Input() variant: ButtonVariant = 'outline';
-  @Input() type: ButtonType = 'button';
+  @Input() variant: ButtonVariant = ButtonVariant.Outline;
+  @Input() type: ButtonType = ButtonType.Button;
   @Input() fullWidth: boolean = false;
 }
