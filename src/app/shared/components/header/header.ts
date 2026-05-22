@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { SearchBar } from '../search-bar/search-bar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Button } from '../button/button';
@@ -31,5 +31,11 @@ export class Header {
   ];
   handleSearch(value: string) {
     console.log(value);
+  }
+
+  logout(): void {
+    this.authService.logout();
+
+    this.router.navigate(['/login']);
   }
 }
