@@ -1,4 +1,4 @@
-import { Component, effect, output, signal } from '@angular/core';
+import { Component,  OnInit,  output, signal } from '@angular/core';
 import { Button } from '../button/button';
 
 @Component({
@@ -7,19 +7,17 @@ import { Button } from '../button/button';
   templateUrl: './search-bar.html',
   standalone: true
 })
-export class SearchBar {
-  search = output<string>();
+export class SearchBar implements OnInit{
+  searchChange = output<string>();
 
   searchValue = signal('');
-  private searchEffect = effect(() => {
-    console.log('Search changed:', this.searchValue());
-  });
+
 
   ngOnInit(): void {
     console.log('Search bar initialized');
   }
   onSearch(value: string): void {
     this.searchValue.set(value);
-    this.search.emit(value);
+    this.searchChange.emit(value);
   }
 }

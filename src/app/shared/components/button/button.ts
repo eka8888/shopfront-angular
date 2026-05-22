@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 export class Button {
   @Input() variant: 'dark' | 'outline' | 'outline-light' | 'text' = 'outline';
   @Input() type: 'button' | 'submit' = 'button';
-  @Input() fullWidth: boolean = false;
+ fullWidth = false;
 }
