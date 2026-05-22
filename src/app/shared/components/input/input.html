@@ -1,0 +1,27 @@
+<div class="field">
+  @if (label) {
+    <label class="field__label">
+      {{ label }}
+      @if (required) {
+        <span class="field__required">*</span>
+      }
+    </label>
+  }
+
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [ngClass]="{
+      field__input: variant !== 'underline' && variant !== 'card',
+      'field__input--underline': variant === 'underline',
+      'field__input--card': variant === 'card',
+      'field__input--error': error,
+    }"
+  />
+
+  @if (error) {
+    <span class="field__error">
+      {{ error }}
+    </span>
+  }
+</div>

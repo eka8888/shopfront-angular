@@ -1,0 +1,16 @@
+@reference "tailwindcss";
+@use '../../styles/form-controls' as *;
+
+.field__textarea {
+  @apply w-full px-[--input-padding-x] py-[--input-padding-y]
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-placeholder] placeholder:text-[--color-placeholder]
+        border border-[--color-dark]
+        outline-none transition-colors
+        focus:border-[--color-icon]
+        resize-none;
+}
+
+.field__textarea--error {
+  @apply border-red-500 focus:border-red-500;
+}

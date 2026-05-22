@@ -1,0 +1,42 @@
+@reference "tailwindcss";
+
+.search-icon-wrap {
+  @apply relative;
+}
+
+.search-icon-btn {
+  @apply flex items-center justify-center
+        text-[--color-icon] hover:text-[--color-dark]
+        transition-colors cursor-pointer
+        bg-transparent border-none;
+}
+
+.search-dropdown {
+  @apply absolute right-0 top-8
+        w-64 bg-white border border-[--color-dark]
+        shadow-sm z-50;
+}
+
+.search-dropdown__input {
+  @apply w-full px-[10px] py-0 h-[48px]
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-placeholder] placeholder:text-[--color-placeholder]
+        outline-none border-none bg-transparent;
+}
+
+.search-field {
+  @apply flex items-center gap-2
+        border border-[--color-dark]
+        px-[10px] py-0 h-[48px] w-full;
+}
+
+.search-field__icon {
+  @apply text-[--color-icon] shrink-0;
+}
+
+.search-field__input {
+  @apply w-full
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-placeholder] placeholder:text-[--color-placeholder]
+        outline-none border-none bg-transparent;
+}

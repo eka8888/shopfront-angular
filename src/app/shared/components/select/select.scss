@@ -1,0 +1,18 @@
+@reference "tailwindcss";
+@use '../../styles/form-controls' as *;
+
+.field__select {
+  @apply w-full px-[--input-padding-x] py-[--input-padding-y]
+        text-[--font-size-sm] leading-[--line-height-sm] font-normal
+        text-[--color-placeholder]
+        border border-[--color-dark] bg-white
+        outline-none transition-colors
+        focus:border-[--color-icon]
+        cursor-pointer appearance-none bg-no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%233a3845' stroke-width='1.5' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+}
+
+.field__select--error {
+  @apply border-red-500 focus:border-red-500;
+}

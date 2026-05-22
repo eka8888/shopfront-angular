@@ -1,38 +1,64 @@
 @reference "tailwindcss";
+
 .btn {
   @apply uppercase text-center cursor-pointer
         transition-colors inline-block border
         rounded-none font-semibold
-        px-[18px] py-[15px] leading-[150%];
+        px-[18px] py-[15px]
+        leading-[--line-height-md];
 }
 
 .btn-light {
-  @apply text-[14px] leading-[143%]
-        text-[#826f66] bg-white border-white
-        hover:bg-transparent hover:text-white;
+  @apply text-[--font-size-sm] leading-[--line-height-sm]
+        text-[--color-accent] bg-white border-white
+        transition-colors;
+
+  &:hover {
+    background-color: transparent;
+    color: white;
+  }
 }
 
 .btn-dark {
-  @apply text-[12px] tracking-[0.08em] px-[16px]
-        text-white bg-[#3a3845] border-[#3a3845]
-        hover:bg-[#2a2835] hover:border-[#2a2835];
+  @apply text-[--font-size-xs] tracking-[0.08em] px-[16px]
+        text-white bg-[--color-dark] border-[--color-dark]
+        transition-colors;
+
+  &:hover {
+    background-color: var(--color-dark-hover);
+    border-color: var(--color-dark-hover);
+  }
 }
 
 .btn-outline {
-  @apply text-[12px] tracking-[0.08em]
-        text-[#3a3845] border-[#3a3845] bg-transparent
-        hover:bg-[#3a3845] hover:text-white;
+  @apply text-[--font-size-xs] tracking-[0.08em]
+        text-[--color-dark] border-[--color-dark] bg-transparent
+        transition-colors;
+
+  &:hover {
+    background-color: var(--color-dark);
+    color: white;
+  }
 }
 
 .btn-outline-light {
-  @apply text-[12px] tracking-[0.08em]
-        text-[#e5e5e5] bg-transparent border-white
-        hover:bg-white hover:text-[#3a3845];
+  @apply text-[--font-size-xs] tracking-[0.08em]
+        text-[--color-light-text] bg-transparent border-white
+        transition-colors;
+
+  &:hover {
+    background-color: white;
+    color: var(--color-dark);
+  }
 }
 
 .btn-text {
-  @apply text-[14px] tracking-[0.06em] font-bold
-        leading-[143%] underline border-none
-        text-[#3a3845] bg-transparent px-0
-        hover:text-[#826f66];
+  @apply text-[--font-size-sm] tracking-[0.06em] font-bold
+        leading-[--line-height-sm] underline border-none
+        text-[--color-dark] bg-transparent px-0
+        transition-colors;
+
+  &:hover {
+    color: var(--color-accent);
+  }
 }
