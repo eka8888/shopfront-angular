@@ -25,43 +25,25 @@
   </nav>
 
   <!-- RIGHT SIDE -->
-<!-- RIGHT SIDE -->
-<div class="flex items-center gap-5">
-  <!-- SEARCH -->
-  <app-search-bar (searchChange)="handleSearch($event)" />
+  <!-- RIGHT SIDE -->
+  <div class="flex items-center gap-5">
+    <!-- SEARCH -->
+    <app-search-bar (searchChange)="handleSearch($event)" />
 
-  @if (!isAuthenticated()) {
+    @if (!isAuthenticated()) {
+      <a
+        routerLink="/login"
+        class="border border-[#2D2A32] px-5 py-2 text-sm uppercase tracking-widest hover:bg-[#2D2A32] hover:text-white transition duration-300"
+      >
+        Login
+      </a>
+    } @else {
+      <a routerLink="/profile" class="text-sm uppercase tracking-widest"> Profile </a>
 
-    <a
-      routerLink="/login"
-      class="border border-[#2D2A32] px-5 py-2 text-sm uppercase tracking-widest hover:bg-[#2D2A32] hover:text-white transition duration-300"
-    >
-      Login
-    </a>
+      <app-button [variant]="ButtonVariant.Outline" (click)="logout()"> Logout </app-button>
+    }
 
-  } @else {
-
-    <a
-      routerLink="/profile"
-      class="text-sm uppercase tracking-widest"
-    >
-      Profile
-    </a>
-
-    <app-button
-      type="button"
-      (click)="logout()"
-    >
-      Logout
-    </app-button>
-
-  }
-
-  <!-- CART -->
-  <app-button
-    type="button"
-  >
-    Cart
-  </app-button>
-</div>
+    <!-- CART -->
+    <app-button [variant]="ButtonVariant.Outline"> Cart </app-button>
+  </div>
 </header>
