@@ -22,11 +22,12 @@
 .btn-dark {
   @apply text-[--font-size-xs] tracking-[0.08em] px-[16px]
         text-white bg-[--color-dark] border-[--color-dark]
-        transition-colors;
+        transition-colors flex items-center justify-center gap-[2%];
 
   &:hover {
-    background-color: var(--color-dark-hover);
-    border-color: var(--color-dark-hover);
+    background-color: var(--color-light-text);
+    border-color: var(--color-light-text);
+    color: var(--color-dark);
   }
 }
 

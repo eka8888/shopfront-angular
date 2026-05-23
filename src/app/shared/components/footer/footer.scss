@@ -1,0 +1,30 @@
+@reference "tailwindcss";
+
+.footer-link {
+  @apply font-normal text-sm leading-[157%] text-center
+        text-[var(--color-light-text)]
+        relative inline-block pb-1 cursor-pointer
+        after:absolute after:content-[''] after:bottom-0
+        after:left-1/2 after:-translate-x-1/2
+        after:h-[1px] after:bg-white after:w-0
+        hover:after:w-full after:transition-all
+        after:duration-300 after:ease-in-out;
+}
+
+.footer-bottom-text {
+  @apply font-normal text-base leading-[138%] text-center
+        text-[var(--color-card-placeholder)] pl-5;
+}
+
+.footer-divider {
+  @apply relative after:absolute pe-3
+        after:content-[''] after:w-[1px]
+        after:bg-[var(--color-divider-and-footer-link)] after:h-full
+        after:top-0 after:left-full pl-5;
+}
+
+.footer-bottom-link {
+  @apply underline text-[var(--color-placeholder)]
+        cursor-pointer hover:text-[var(--color-divider-and-footer-link)]
+        hover:no-underline transition-all pl-5;
+}
