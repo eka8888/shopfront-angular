@@ -11,9 +11,13 @@
   <textarea
     [placeholder]="placeholder"
     [rows]="rows"
+    [disabled]="isDisabled"
     class="field__textarea"
     [ngClass]="{ 'field__textarea--error': error }"
-  ></textarea>
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+    >{{ value }}</textarea
+  >
 
   @if (error) {
     <span class="field__error">{{ error }}</span>

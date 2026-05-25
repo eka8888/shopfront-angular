@@ -11,12 +11,16 @@
   <input
     [type]="type"
     [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="isDisabled"
     [ngClass]="{
       field__input: variant !== 'underline' && variant !== 'card',
       'field__input--underline': variant === 'underline',
       'field__input--card': variant === 'card',
       'field__input--error': error,
     }"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
   />
 
   @if (error) {
