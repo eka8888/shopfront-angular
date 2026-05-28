@@ -9,10 +9,7 @@ export class Navigation {
       label: 'Home',
       path: '/home',
     },
-    {
-      label: 'Shop',
-      path: '/shop',
-    },
+
     {
       label: 'About',
       path: '/about',

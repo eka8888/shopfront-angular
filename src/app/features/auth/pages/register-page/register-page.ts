@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register-page',
   imports: [],
-  templateUrl: './register-page.html',
-  styleUrl: './register-page.scss',
+  templateUrl: './register-page.html'
+
 })
 export class RegisterPage {
     private router = inject(Router);

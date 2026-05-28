@@ -5,8 +5,8 @@ import { Auth } from '../../../../core/services/auth';
 @Component({
   selector: 'app-profile-page',
   imports: [],
-  templateUrl: './profile-page.html',
-  styleUrl: './profile-page.scss',
+  templateUrl: './profile-page.html'
+
 })
 export class ProfilePage {
     private authService = inject(Auth);
