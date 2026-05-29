@@ -9,7 +9,7 @@ import { SearchVariant } from '../../types/form.enums';
 })
 export class SearchComponent {
   @Input() variant: SearchVariant = SearchVariant.Field;
-  @Input() placeholder: string = 'Search for product...';
+  @Input() placeholder = 'Search for product...';
 
   isOpen = signal(false);
 
