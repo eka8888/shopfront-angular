@@ -1,5 +1,5 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputType, InputVariant } from '../../types/form.enums';
 import { NgClass } from '@angular/common';
 
@@ -17,18 +17,20 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
+  @Input() label = '';
+  @Input() placeholder = '';
   @Input() type: InputType = InputType.Text;
-  @Input() required: boolean = false;
-  @Input() error: string = '';
+  @Input() required = false;
+  @Input() error = '';
   @Input() variant: InputVariant = InputVariant.Default;
 
-  value: string = '';
-  isDisabled: boolean = false;
+  value = '';
+  isDisabled = false;
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     this.value = value ?? '';
