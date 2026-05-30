@@ -1,16 +1,31 @@
-<section class="min-h-screen flex flex-col items-center justify-center">
-  <h1 class="text-7xl font-bold mb-4">
-    404
-  </h1>
+<main class="flex items-center justify-center min-h-[calc(100vh-80px)] px-6 py-20 text-center">
+  <div class="flex flex-col items-center">
+    <p class="text-[120px] font-medium leading-none tracking-[-4px] text-gray-200 mb-2">404</p>
 
-  <p class="text-xl text-gray-500 mb-8">
-    Page not found
-  </p>
+    <div class="w-10 h-px bg-gray-300 mb-8"></div>
 
-  <a
-    routerLink="/home"
-    class="px-6 py-3 border border-black uppercase tracking-wider"
-  >
-    Go Home
-  </a>
-</section>
+    <h1 class="text-lg font-medium tracking-widest uppercase text-gray-900 mb-3">Page not found</h1>
+
+    <p class="text-sm text-gray-400 leading-relaxed max-w-sm mb-10">
+      The page you are looking for might have been removed, had its name changed, or is temporarily
+      unavailable.
+    </p>
+
+    <app-button [variant]="ButtonVariant.Outline" routerLink="/">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M19 12H5M5 12l7-7M5 12l7 7" />
+      </svg>
+      Back home
+    </app-button>
+  </div>
+</main>

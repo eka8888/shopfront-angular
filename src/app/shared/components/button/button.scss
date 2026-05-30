@@ -34,7 +34,7 @@
 .btn-outline {
   @apply text-[--font-size-xs] tracking-[0.08em]
         text-[--color-dark] border-[--color-dark] bg-transparent
-        transition-colors;
+        transition-colors flex items-center justify-center gap-2;
 
   &:hover {
     background-color: var(--color-dark);
