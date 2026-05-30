@@ -1,9 +1,10 @@
 import { Component,  OnInit,  output, signal } from '@angular/core';
 import { Button } from '../button/button';
+import { InputComponent } from "../input/input";
 
 @Component({
   selector: 'app-search-bar',
-  imports: [Button],
+  imports: [Button, InputComponent],
   templateUrl: './search-bar.html',
   standalone: true
 })

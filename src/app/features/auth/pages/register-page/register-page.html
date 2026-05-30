@@ -4,31 +4,32 @@
       Register
     </h1>
 
-    <div class="flex flex-col gap-5">
-      <input
-        type="text"
+    <form
+      class="flex flex-col gap-5"
+      (ngSubmit)="register()"
+    >
+      <app-input
+        [type]="InputType.Text"
         placeholder="Full name"
-        class="border border-gray-300 p-3 outline-none"
       />
 
-      <input
-        type="email"
+      <app-input
+        [type]="InputType.Email"
         placeholder="Email"
-        class="border border-gray-300 p-3 outline-none"
       />
 
-      <input
-        type="password"
+      <app-input
+        [type]="InputType.Password"
         placeholder="Password"
-        class="border border-gray-300 p-3 outline-none"
       />
 
-      <button
-        (click)="register()"
-        class="bg-black text-white py-3 uppercase tracking-widest hover:opacity-90 transition"
+      <app-button
+        [type]="ButtonType.Submit"
+        [fullWidth]="true"
+  
       >
         Register
-      </button>
-    </div>
+      </app-button>
+    </form>
   </div>
 </div>

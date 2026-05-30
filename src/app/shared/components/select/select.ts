@@ -16,17 +16,22 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class SelectComponent implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() required: boolean = false;
-  @Input() error: string = '';
+  @Input() label = '';
+  @Input() placeholder = '';
+  @Input() required = false;
+  @Input() error = '';
   @Input() options: { value: string; label: string }[] = [];
 
-  value: string = '';
-  isDisabled: boolean = false;
+  value = '';
+  isDisabled = false;
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  onChange: (value: string) => void = () => {
+    // intentionally empty
+  };
+
+  onTouched: () => void = () => {
+    // intentionally empty
+  };
 
   writeValue(value: string): void {
     this.value = value ?? '';

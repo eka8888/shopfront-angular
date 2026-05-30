@@ -16,17 +16,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class Textarea implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() required: boolean = false;
-  @Input() error: string = '';
-  @Input() rows: number = 5;
+  @Input() label = '';
+  @Input() placeholder = '';
+  @Input() required = false;
+  @Input() error = '';
+  @Input() rows = 5;
 
-  value: string = '';
-  isDisabled: boolean = false;
+  value = '';
+  isDisabled = false;
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  onChange: (value: string) => void = () => {
+    // intentionally empty
+  };
+
+  onTouched: () => void = () => {
+    // intentionally empty
+  };
 
   writeValue(value: string): void {
     this.value = value ?? '';
