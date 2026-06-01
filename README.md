@@ -4,8 +4,8 @@
 
 - [eka8888](https://github.com/eka8888)
 - [zorro-amarillo](https://github.com/zorro-amarillo)
-- [s-arashu](https://github.com/s-arashu)
-- 
+- [S-Arashu](https://github.com/s-arashu)
+-
 
 ## Project Choice
 
