@@ -17,5 +17,9 @@ export class ProductService {
     }),
   );
 
-  readonly newArrivals = computed(() => this.products().filter((product) => product.isNew));
+  readonly newArrivals = computed(() =>
+    this.products()
+      .filter((product) => product.isNew)
+      .slice(0, 4),
+  );
 }
