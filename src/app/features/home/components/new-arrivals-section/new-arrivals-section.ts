@@ -8,7 +8,6 @@ import { CartService } from '../../../../shared/services/cart.service';
   selector: 'app-new-arrivals-section',
   imports: [ProductCard],
   templateUrl: './new-arrivals-section.html',
-  styleUrl: './new-arrivals-section.scss',
 })
 export class NewArrivalsSection {
   private productService = inject(ProductService);
