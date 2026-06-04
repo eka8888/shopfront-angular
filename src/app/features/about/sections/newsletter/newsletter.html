@@ -1,0 +1,48 @@
+<section class="flex flex-col items-center gap-6">
+  <p
+    class="font-[var(--font-family)] font-semibold text-base leading-[138%] text-center text-[var(--color-icon)]"
+  >
+    Sign up for emails
+  </p>
+  <h2
+    class="font-[var(--second-family)] font-bold text-4xl leading-[89%] tracking-[0.04em] uppercase text-center text-[var(--color-dark)]"
+  >
+    For news, collections & more
+  </h2>
+
+  @if (state === SubmitState.Success) {
+    <p class="text-green-600 text-sm">Thank you for subscribing!</p>
+  } @else {
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col items-center gap-4 w-[32%]"
+    >
+      <div class="w-full">
+        <app-input
+          formControlName="email"
+          [variant]="InputVariant.Underline"
+          [type]="InputType.Email"
+          placeholder="Enter your email address"
+        />
+        @if (emailControl.invalid && emailControl.touched) {
+          <p class="text-red-500 text-xs text-center mt-1">Please enter a valid email</p>
+        }
+      </div>
+
+      <div class="pb-28 pt-4">
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [type]="ButtonType.Submit"
+          [disabled]="state === SubmitState.Loading"
+        >
+          {{ state === SubmitState.Loading ? 'Sending...' : 'Sign up' }}
+        </app-button>
+      </div>
+    </form>
+  }
+
+  @if (state === SubmitState.Error) {
+    <p class="text-red-500 text-sm">Something went wrong. Please try again.</p>
+  }
+</section>

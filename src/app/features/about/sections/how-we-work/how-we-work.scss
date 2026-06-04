@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.main-title {
+  @apply font-[var(--second-family)] font-bold text-[28px] leading-[114%] tracking-[0.04em] uppercase text-[var(--color-dark)] pb-7;
+}
