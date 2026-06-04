@@ -8,7 +8,7 @@ import productsData from '../data/products.json';
   providedIn: 'root',
 })
 export class ProductService {
-  products = signal<Product[]>(
+  readonly products = signal<Product[]>(
     productsData.map((product) => {
       return {
         ...product,
@@ -17,11 +17,5 @@ export class ProductService {
     }),
   );
 
-  getProducts() {
-    return this.products;
-  }
-
-  getNewArrivals() {
-    return computed(() => this.products().filter((product) => product.isNew));
-  }
+  readonly newArrivals = computed(() => this.products().filter((product) => product.isNew));
 }
