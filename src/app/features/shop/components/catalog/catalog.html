@@ -1,0 +1,5 @@
+<div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-7.5 gap-y-10">
+  @for (product of catalog(); track product.id) {
+    <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
+  }
+</div>

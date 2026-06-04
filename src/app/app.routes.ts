@@ -1,10 +1,7 @@
 import { Routes } from '@angular/router';
 
-
-
-
 export const routes: Routes = [
-    {
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
@@ -12,31 +9,24 @@ export const routes: Routes = [
 
   {
     path: '',
-    loadChildren: () =>
-      import('./features/auth/pages/auth.routes').then(
-        (m) => m.AUTH_ROUTES
-      ),
+    loadChildren: () => import('./features/auth/pages/auth.routes').then((m) => m.AUTH_ROUTES),
   },
-      {
+  {
     path: 'home',
-    loadChildren: () =>
-      import('./features/home/home.routes').then(
-        (m) => m.HOME_ROUTES
-      ),
+    loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
   },
-    {
+  {
+    path: 'shop',
+    loadChildren: () => import('./features/shop/pages/shop.routes').then((m) => m.SHOP_ROUTES),
+  },
+  {
     path: 'contact',
     loadComponent: () =>
-      import('./features/contact/pages/contact-page/contact-page').then(
-        (m) => m.ContactPage
-      ),
+      import('./features/contact/pages/contact-page/contact-page').then((m) => m.ContactPage),
   },
 
   {
     path: '**',
-    loadComponent: () =>
-      import('./shared/components/not-found/not-found').then(
-        (m) => m.NotFound
-      ),
+    loadComponent: () => import('./shared/components/not-found/not-found').then((m) => m.NotFound),
   },
 ];
