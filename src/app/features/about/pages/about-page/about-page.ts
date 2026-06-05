@@ -8,6 +8,5 @@ import { Newsletter } from '../../sections/newsletter/newsletter';
   selector: 'app-about',
   imports: [TimelineSection, HowWeWork, TeamSection, Newsletter],
   templateUrl: './about-page.html',
-  styleUrl: './about-page.scss',
 })
 export class AboutPage {}

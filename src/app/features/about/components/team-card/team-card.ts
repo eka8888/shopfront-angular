@@ -5,7 +5,6 @@ import { Component, input } from '@angular/core';
   selector: 'app-team-card',
   imports: [NgOptimizedImage],
   templateUrl: './team-card.html',
-  styleUrl: './team-card.scss',
 })
 export class TeamCard {
   image = input.required<string>();

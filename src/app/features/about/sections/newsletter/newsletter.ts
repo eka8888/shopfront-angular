@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { collection, addDoc } from 'firebase/firestore';
-import { firestore } from '../../../../firebase.config';
+import { EmailSubscriptionService } from '../../../../shared/services/email-subscription.service';
 import { InputComponent } from '../../../../shared/components/input/input';
 import {
   ButtonType,
@@ -16,10 +15,9 @@ import { Button } from '../../../../shared/components/button/button';
   selector: 'app-newsletter',
   imports: [InputComponent, Button, ReactiveFormsModule],
   templateUrl: './newsletter.html',
-  styleUrl: './newsletter.scss',
 })
 export class Newsletter {
-  private firestore = firestore;
+  private emailService = inject(EmailSubscriptionService);
 
   readonly SubmitState = SubmitState;
   readonly InputVariant = InputVariant;
@@ -46,10 +44,7 @@ export class Newsletter {
     this.state = SubmitState.Loading;
 
     try {
-      await addDoc(collection(this.firestore, 'subscribers'), {
-        email: this.emailControl.value,
-        subscribedAt: new Date(),
-      });
+      await this.emailService.subscribe(this.emailControl.value!);
       this.state = SubmitState.Success;
       this.form.reset();
     } catch {
