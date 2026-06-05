@@ -10,7 +10,6 @@ import { NewArrivalsSection } from '../../components/new-arrivals-section/new-ar
   selector: 'app-home-page',
   imports: [HeroSection, CategoriesSection, PromoSection, NewArrivalsSection],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.scss',
   standalone: true,
 })
 export class HomePage {}
