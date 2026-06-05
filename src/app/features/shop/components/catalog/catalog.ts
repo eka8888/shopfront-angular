@@ -13,7 +13,7 @@ export class Catalog {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
 
-  catalog = this.productService.getProducts();
+  catalog = this.productService.products;
 
   handleAddToCart(productId: number) {
     this.cartService.addToCart(productId);
