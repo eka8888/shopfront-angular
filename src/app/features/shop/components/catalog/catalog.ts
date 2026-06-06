@@ -5,15 +5,15 @@ import { ProductCard } from '../../../../shared/components/product-card/product-
 import { CartService } from '../../../../shared/services/cart.service';
 
 @Component({
-  selector: 'app-new-arrivals-section',
+  selector: 'app-catalog',
   imports: [ProductCard],
-  templateUrl: './new-arrivals-section.html',
+  templateUrl: './catalog.html',
 })
-export class NewArrivalsSection {
+export class Catalog {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
 
-  newArrivals = this.productService.newArrivals;
+  catalog = this.productService.products;
 
   handleAddToCart(productId: number) {
     this.cartService.addToCart(productId);
