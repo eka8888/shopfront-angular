@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+.card-wrapper {
+  @apply flex flex-col bg-[var(--color-bg)] flex-2 justify-center gap-[10%];
+}
+
+.card-title {
+  @apply font-[var(--second-family)] font-bold text-[28px] leading-[114%] tracking-[0.04em] uppercase text-center text-[var(--color-dark)];
+}
+
+.card-desc {
+  @apply font-[var(--font-family)] font-normal text-base leading-normal text-center text-[var(--color-icon)] max-w-[435px] mx-auto;
+}
