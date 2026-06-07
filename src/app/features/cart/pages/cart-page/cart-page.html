@@ -38,7 +38,7 @@
           class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 py-5 border-b border-black font-primary text-sm text-black-marlin font-semibold leading-[143%] tracking-[0.06em]"
         >
           <div class="flex justify-center items-center">
-            <button (click)="onRemoveFromCart(item.id)" class="cursor-pointer hover:opacity-70">
+            <button (click)="onRemoveFromCart(item.id)" class="cursor-pointer hover:opacity-70 transition-opacity">
               <img src="icons/cart/delete-btn.svg" alt="delete button" />
             </button>
           </div>
@@ -60,7 +60,7 @@
                   'cursor-pointer': item.quantity > 1,
                   'hover:opacity-70': item.quantity > 1,
                 }"
-                class="w-3 h-3"
+                class="w-3 h-3 transition-opacity"
               >
                 @if (item.quantity === 1) {
                   <img src="icons/cart/minus-btn-disabled.svg" alt="minus button" />
@@ -71,7 +71,7 @@
               <span>{{ item.quantity }}</span>
               <button
                 (click)="onIncreaseQuantity(item.id)"
-                class="cursor-pointer w-3 h-3 hover:opacity-70"
+                class="cursor-pointer w-3 h-3 hover:opacity-70 transition-opacity"
               >
                 <img src="icons/cart/plus-btn.svg" alt="plus button" />
               </button>
