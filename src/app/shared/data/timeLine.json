@@ -1,0 +1,20 @@
+[
+  {
+    "year": 1910,
+    "description": "Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices.",
+    "image": "images/about/timeLine-1.png",
+    "alt": "About Moon"
+  },
+  {
+    "year": 1990,
+    "description": "Maecenas sem eros, rutrum vitae risus eget, vulputate aliquam nisi. dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit ",
+    "image": "images/about/timeLine-2.png",
+    "alt": "About Moon"
+  },
+  {
+    "year": 2010,
+    "description": "Rutrum vitae risus eget, vulputate aliquam nisi ex gravida neque tempus. sit aliquam sit nullam neque ultrices.",
+    "image": "images/about/timeLine-3.png",
+    "alt": "About Moon"
+  }
+]

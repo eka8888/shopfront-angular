@@ -1,0 +1,9 @@
+@reference "tailwindcss";
+
+.title {
+  @apply font-[var(--font-family)] font-semibold text-lg leading-[133%] text-[var(--color-dark)];
+}
+
+.desc {
+  @apply font-[var(--font-family)] font-normal text-base leading-normal text-[var(--color-icon)];
+}
