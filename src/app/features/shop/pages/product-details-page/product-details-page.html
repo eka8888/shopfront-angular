@@ -33,9 +33,26 @@
       <h2 class="my-5 font-primary font-semibold text-base leading-5.5 text-black-marlin">
         Details
       </h2>
-      <p class="font-primary font-normal text-sm leading-5.5 text-dark-grey">
+      <p class="mb-12 font-primary font-normal text-sm leading-5.5 text-dark-grey">
         {{ product?.description }}
       </p>
+
+      <!-- CART BUTTON -->
+      @if (quantity < 1) {
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [fullWidth]="true"
+          (click)="onAddToCart()"
+          >Add To Cart</app-button
+        >
+      } @else {
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [fullWidth]="true"
+          (click)="onRemoveFromCart()"
+          >Remove From Cart</app-button
+        >
+      }
 
       <!-- QUANTITY -->
       @if (quantity > 0) {
@@ -44,7 +61,7 @@
           [itemQuantity]="quantity"
           (increase)="onIncreaseQuantity($event)"
           (decrease)="onDecreaseQuantity($event)"
-          class="flex justify-center items-center w-32.5 mt-12"
+          class="flex justify-center items-center w-32.5 mt-6"
         />
       }
     </div>
