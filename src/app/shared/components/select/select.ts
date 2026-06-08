@@ -16,17 +16,19 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class SelectComponent implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() required: boolean = false;
-  @Input() error: string = '';
+  @Input() label = '';
+  @Input() placeholder = '';
+  @Input() required = false;
+  @Input() error = '';
   @Input() options: { value: string; label: string }[] = [];
 
-  value: string = '';
-  isDisabled: boolean = false;
+  value = '';
+  isDisabled = false;
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched: () => void = () => {};
 
   writeValue(value: string): void {
     this.value = value ?? '';

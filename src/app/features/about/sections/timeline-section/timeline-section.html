@@ -1,0 +1,23 @@
+<section class="pb-16">
+  @for (time of timeLine(); track time.year) {
+    @if ($odd) {
+      <div class="flex justify-between">
+        <img [ngSrc]="time.image" [alt]="time.alt" width="555" height="348" />
+        <app-timeline-text
+          [year]="time.year"
+          [description]="time.description"
+          class="card-wrapper"
+        ></app-timeline-text>
+      </div>
+    } @else {
+      <div class="flex justify-between">
+        <app-timeline-text
+          [year]="time.year"
+          [description]="time.description"
+          class="card-wrapper"
+        ></app-timeline-text>
+        <img [ngSrc]="time.image" [alt]="time.alt" width="555" height="348" />
+      </div>
+    }
+  }
+</section>

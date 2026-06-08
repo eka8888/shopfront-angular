@@ -8,13 +8,12 @@ import { CartService } from '../../../../shared/services/cart.service';
   selector: 'app-new-arrivals-section',
   imports: [ProductCard],
   templateUrl: './new-arrivals-section.html',
-  styleUrl: './new-arrivals-section.scss',
 })
 export class NewArrivalsSection {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
 
-  newArrivals = this.productService.getNewArrivals();
+  newArrivals = this.productService.newArrivals;
 
   handleAddToCart(productId: number) {
     this.cartService.addToCart(productId);

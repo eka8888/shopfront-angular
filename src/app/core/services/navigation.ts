@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Navigation {
-   navItems = signal([
+  navItems = signal([
     {
       label: 'Home',
       path: '/home',
@@ -20,6 +20,6 @@ export class Navigation {
     {
       label: 'Contact',
       path: '/contact',
-    }
+    },
   ]);
 }

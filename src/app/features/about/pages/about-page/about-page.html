@@ -1,0 +1,28 @@
+<section class="min-h-56 flex flex-col items-center justify-center gap-[24px]">
+  <h1
+    class="font-[var(--second-family)] font-bold text-4xl leading-none uppercase text-[var(--color-dark)]"
+  >
+    About Moon
+  </h1>
+  <p
+    class="font-[var(--font-family)] font-normal text-base leading-normal text-center text-[var(--color-icon)] w-full max-w-[436px]"
+  >
+    Moon's handmade ceramic products have been around since 1650, let's explore our journey
+  </p>
+</section>
+<app-timeline-section></app-timeline-section>
+@defer (on viewport) {
+  <app-how-we-work class="fade-in"></app-how-we-work>
+} @placeholder {
+  <div></div>
+}
+@defer (on viewport) {
+  <app-team-section class="fade-in"></app-team-section>
+} @placeholder {
+  <div></div>
+}
+@defer (on viewport) {
+  <app-newsletter></app-newsletter>
+} @placeholder {
+  <div></div>
+}

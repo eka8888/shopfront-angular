@@ -1,0 +1,26 @@
+[
+  {
+    "image": "images/about/team-1.png",
+    "alt": "Meet Our Team",
+    "name": "Bernie Patterson",
+    "position": "CEO & Founder"
+  },
+  {
+    "image": "images/about/team-2.png",
+    "alt": "Meet Our Team",
+    "name": "Ophelia Vase",
+    "position": "Creative Director"
+  },
+  {
+    "image": "images/about/team-3.png",
+    "alt": "Meet Our Team",
+    "name": "Corbin Hossain",
+    "position": "Artist"
+  },
+  {
+    "image": "images/about/team-4.png",
+    "alt": "Meet Our Team",
+    "name": "Seren Bowl",
+    "position": "Marketing"
+  }
+]

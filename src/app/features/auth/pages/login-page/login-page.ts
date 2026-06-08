@@ -6,8 +6,8 @@ import { Button } from "../../../../shared/components/button/button";
 @Component({
   selector: 'app-login-page',
   imports: [Button],
-  templateUrl: './login-page.html',
-  styleUrl: './login-page.scss',
+  templateUrl: './login-page.html'
+
 })
 export class LoginPage {
     private authService = inject(Auth);

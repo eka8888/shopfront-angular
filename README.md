@@ -4,8 +4,8 @@
 
 - [eka8888](https://github.com/eka8888)
 - [zorro-amarillo](https://github.com/zorro-amarillo)
-- [s-arashu](https://github.com/s-arashu)
-- 
+- [S-Arashu](https://github.com/s-arashu)
+-
 
 ## Project Choice
 
@@ -14,7 +14,7 @@ We selected **ShopFront** as our Angular Sprint project.
 ## Project Description
 
 ShopFront is an online store application built with Angular.
-
+## Live Demo 🚀 [Open ShopFront Application](https://shopfront-angular-2tbm-git-dev-eka8888s-projects.vercel.app/home)
 The application will include:
 
 - authentication

@@ -1,6 +1,6 @@
 <div class="field">
   @if (label) {
-    <label class="field__label">
+    <label class="field__label" for="select-field">
       {{ label }}
       @if (required) {
         <span class="field__required">*</span>
@@ -9,6 +9,7 @@
   }
 
   <select
+    id="select-field"
     [value]="value"
     [disabled]="isDisabled"
     class="field__select"

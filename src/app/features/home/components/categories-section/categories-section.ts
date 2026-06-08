@@ -7,7 +7,6 @@ import { CategoryService } from '../../../../shared/services/category.service';
   selector: 'app-categories-section',
   imports: [RouterLink],
   templateUrl: './categories-section.html',
-  styleUrl: './categories-section.scss',
 })
 export class CategoriesSection {
   private categoryService = inject(CategoryService);

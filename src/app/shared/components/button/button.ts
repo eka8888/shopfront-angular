@@ -10,5 +10,6 @@ import { ButtonType, ButtonVariant } from '../../types/form.enums';
 export class Button {
   @Input() variant: ButtonVariant = ButtonVariant.Outline;
   @Input() type: ButtonType = ButtonType.Button;
-  @Input() fullWidth: boolean = false;
+  @Input() fullWidth = false;
+  @Input() disabled = false;
 }
