@@ -22,4 +22,8 @@ export class ProductService {
       .filter((product) => product.isNew)
       .slice(0, 4),
   );
+
+  getProductById(id: number) {
+    return this.products().find(((product) => product.id === id));
+  }
 }

@@ -1,36 +1,18 @@
-
 <!-- HEADER -->
 <header class="w-full border-b border-[#E5E5E5] bg-white">
-
-  <div
-    class="max-w-[1440px] mx-auto h-[82px] px-6 lg:px-14 flex items-center justify-between"
-  >
-
+  <div class="max-w-[1440px] mx-auto h-[82px] px-6 lg:px-14 flex items-center justify-between">
     <!-- LOGO -->
-    <div
-      class="flex items-center gap-3 cursor-pointer shrink-0"
-      routerLink="/home"
-    >
-      <div
-        class="w-11 h-11 rounded-full border border-[#2D2A32] flex items-center justify-center"
-      >
-        <span class="text-sm font-medium text-[#2D2A32]">
-          S
-        </span>
+    <div class="flex items-center gap-3 cursor-pointer shrink-0" routerLink="/home">
+      <div class="w-11 h-11 rounded-full border border-[#2D2A32] flex items-center justify-center">
+        <span class="text-sm font-medium text-[#2D2A32]"> S </span>
       </div>
 
-      <h1
-        class="text-[38px] font-medium tracking-[-1px] text-[#2D2A32]"
-      >
-        ShopFront
-      </h1>
+      <h1 class="text-[38px] font-medium tracking-[-1px] text-[#2D2A32]">ShopFront</h1>
     </div>
 
     <!-- NAVIGATION -->
     <nav class="hidden md:flex items-center gap-12">
-
       @for (item of navItems; track item.path) {
-
         <a
           [routerLink]="item.path"
           routerLinkActive="text-black"
@@ -38,30 +20,22 @@
         >
           {{ item.label }}
         </a>
-
       }
-
     </nav>
 
     <!-- RIGHT SIDE -->
     <div class="flex items-center gap-4">
-
       <!-- SEARCH -->
-      <app-search-bar
-        (searchChange)="handleSearch($event)"
-      />
+      <app-search-bar (searchChange)="handleSearch($event)" />
 
       @if (!isAuthenticated()) {
-
         <a
           routerLink="/login"
           class="h-[46px] px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:bg-[#2D2A32] hover:text-white transition duration-300"
         >
           Login
         </a>
-
       } @else {
-
         <a
           routerLink="/profile"
           class="text-[13px] uppercase tracking-[2px] text-[#2D2A32] hover:text-black transition"
@@ -69,20 +43,23 @@
           Profile
         </a>
 
-        <app-button
-       
-          (click)="logout()"
-        >
-          Logout
-        </app-button>
-
+        <app-button (click)="logout()"> Logout </app-button>
       }
 
       <!-- CART -->
-      <app-button>
-        Cart
-      </app-button>
-
+      <a
+        routerLink="/cart"
+        class="hover:opacity-70 transition-opacity"
+        routerLinkActive
+        #rla="routerLinkActive"
+      >
+        <img
+          [src]="rla.isActive
+            ? 'icons/header/cart-icon-active.svg'
+            : 'icons/header/cart-icon.svg'"
+          alt="cart"
+        />
+      </a>
     </div>
-
   </div>
+</header>

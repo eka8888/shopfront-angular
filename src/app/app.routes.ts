@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/shop/pages/shop.routes').then((m) => m.SHOP_ROUTES),
   },
   {
+    path: 'cart',
+    loadComponent: () =>
+      import('./features/cart/pages/cart-page/cart-page').then((m) => m.CartPage),
+  },
+  {
     path: 'contact',
     loadComponent: () =>
       import('./features/contact/pages/contact-page/contact-page').then((m) => m.ContactPage),
