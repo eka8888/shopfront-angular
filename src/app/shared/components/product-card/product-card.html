@@ -1,7 +1,7 @@
 <!-- PRODUCT CARD -->
 
 @let item = product();
-<div class="group bg-white cursor-pointer transition duration-300 w-[255px] h-full flex flex-col">
+<a class="group bg-white cursor-pointer transition duration-300 w-[255px] h-full flex flex-col" [routerLink]="['/shop', item.id]">
   <!-- IMAGE -->
   <div class="overflow-hidden bg-[#F6F6F6]">
     <img
@@ -30,9 +30,9 @@
     <app-button
       [variant]="ButtonVariant.Outline"
       [fullWidth]="true"
-      (click)="onAddToCart()"
+      (click)="onAddToCart($event)"
       class="mt-5"
       >Add To Cart</app-button
     >
   </div>
-</div>
+</a>

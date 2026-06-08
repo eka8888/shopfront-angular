@@ -21,7 +21,12 @@ export const routes: Routes = [
   },
   {
     path: 'shop',
-    loadChildren: () => import('./features/shop/pages/shop.routes').then((m) => m.SHOP_ROUTES),
+    loadChildren: () => import('./features/shop/shop.routes').then((m) => m.SHOP_ROUTES),
+  },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./features/cart/pages/cart-page/cart-page').then((m) => m.CartPage),
   },
   {
     path: 'contact',

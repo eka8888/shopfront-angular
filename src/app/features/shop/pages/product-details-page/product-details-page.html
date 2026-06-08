@@ -1,0 +1,69 @@
+@let product = currentProduct();
+@let quantity = currentQuantity();
+
+<section class="flex justify-between mx-auto min-h-screen max-w-277.5 pt-12.5 pb-15 bg-white">
+  <!-- IMAGES -->
+  <div class="w-133.75">
+    <img [src]="imagePath" alt="product image" />
+  </div>
+
+  <!-- DETAILS -->
+  <div class="w-128.75">
+    <!-- NAME -->
+    <h1
+      class="mb-5 font-primary font-semibold text-xl leading-7 tracking-[0.06em] uppercase text-black-marlin"
+    >
+      {{ product?.name }}
+    </h1>
+
+    <!-- PRICE -->
+    <div class="flex gap-4">
+      <div class="font-primary font-normal text-2xl leading-8 tracking-[0.06em] text-black-marlin">
+        {{ product?.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+      </div>
+      <div
+        class="font-primary font-normal text-2xl leading-8 tracking-[0.06em] line-through text-light-grey"
+      >
+        {{ oldPrice() | currency: 'USD' : 'symbol' : '1.0-0' }}
+      </div>
+    </div>
+
+    <!-- DETAILS -->
+    <div>
+      <h2 class="my-5 font-primary font-semibold text-base leading-5.5 text-black-marlin">
+        Details
+      </h2>
+      <p class="mb-12 font-primary font-normal text-sm leading-5.5 text-dark-grey">
+        {{ product?.description }}
+      </p>
+
+      <!-- CART BUTTON -->
+      @if (quantity < 1) {
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [fullWidth]="true"
+          (click)="onAddToCart()"
+          >Add To Cart</app-button
+        >
+      } @else {
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [fullWidth]="true"
+          (click)="onRemoveFromCart()"
+          >Remove From Cart</app-button
+        >
+      }
+
+      <!-- QUANTITY -->
+      @if (quantity > 0) {
+        <app-quantity-selector
+          [itemId]="productId"
+          [itemQuantity]="quantity"
+          (increase)="onIncreaseQuantity($event)"
+          (decrease)="onDecreaseQuantity($event)"
+          class="flex justify-center items-center w-32.5 mt-6"
+        />
+      }
+    </div>
+  </div>
+</section>
