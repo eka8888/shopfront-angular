@@ -33,7 +33,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/contact/pages/contact-page/contact-page').then((m) => m.ContactPage),
   },
-
   {
     path: '**',
     loadComponent: () => import('./shared/components/not-found/not-found').then((m) => m.NotFound),
