@@ -4,7 +4,7 @@ import { computed, effect, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Auth {
-    private loggedIn = signal(localStorage.getItem('isLoggedIn') === 'true');
+  private loggedIn = signal(localStorage.getItem('isLoggedIn') === 'true');
 
   isAuthenticated = computed(() => this.loggedIn());
 

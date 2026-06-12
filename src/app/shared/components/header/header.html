@@ -7,7 +7,7 @@
         <span class="text-sm font-medium text-[#2D2A32]"> S </span>
       </div>
 
-      <h1 class="text-[38px] font-medium tracking-[-1px] text-[#2D2A32]">ShopFront</h1>
+      <h1 class="text-[38px] font-medium tracking-[-1px] text-[#2D2A32]">{{appName}}</h1>
     </div>
 
     <!-- NAVIGATION -->
@@ -29,12 +29,19 @@
       <app-search-bar (searchChange)="handleSearch($event)" />
 
       @if (!isAuthenticated()) {
-        <a
-          routerLink="/login"
-          class="h-[46px] px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:bg-[#2D2A32] hover:text-white transition duration-300"
-        >
-          Login
-        </a>
+  <a
+    routerLink="/login"
+    class="h-[46px] px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:bg-[#2D2A32] hover:text-white transition duration-300"
+  >
+    Login
+  </a>
+
+  <a
+    routerLink="/register"
+    class="h-[46px] px-7 border border-[#2D2A32] bg-[#2D2A32] text-white flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:opacity-80 transition duration-300"
+  >
+    Register
+  </a>
       } @else {
         <a
           routerLink="/profile"

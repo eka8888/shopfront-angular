@@ -1,34 +1,178 @@
-<div class="min-h-screen flex items-center justify-center bg-[#F6F6F6]">
-  <div class="bg-white p-10 w-[400px] shadow-md">
-    <h1 class="text-3xl font-semibold mb-8 text-center">
-      Register
+<div class="bg-[#FAFAFA] min-h-screen py-20">
+  <div
+    class="max-w-[950px] mx-auto bg-white border border-[#E5E5E5] p-12"
+  >
+    <h1 class="text-[36px] font-medium mb-10">
+      Create Account
     </h1>
 
-    <div class="flex flex-col gap-5">
-      <input
-        type="text"
-        placeholder="Full name"
-        class="border border-gray-300 p-3 outline-none"
-      />
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+    >
+      <div class="grid grid-cols-2 gap-6">
 
-      <input
-        type="email"
-        placeholder="Email"
-        class="border border-gray-300 p-3 outline-none"
-      />
+        <!-- First Name -->
+        <app-input
+          formControlName="firstName"
+          label="First Name"
+          placeholder="John"
+          [required]="true"
+          [error]="
+            registerForm.controls.firstName.touched &&
+            registerForm.controls.firstName.hasError('required')
+              ? 'First name is required'
+              : ''
+          "
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        class="border border-gray-300 p-3 outline-none"
-      />
+        <!-- Last Name -->
+        <app-input
+          formControlName="lastName"
+          label="Last Name"
+          placeholder="Doe"
+          [required]="true"
+          [error]="
+            registerForm.controls.lastName.touched &&
+            registerForm.controls.lastName.hasError('required')
+              ? 'Last name is required'
+              : ''
+          "
+        />
 
-      <button
-        (click)="register()"
-        class="bg-black text-white py-3 uppercase tracking-widest hover:opacity-90 transition"
-      >
-        Register
-      </button>
-    </div>
+        <!-- Email -->
+        <app-input
+          formControlName="email"
+          [type]="InputType.Email"
+          label="Email"
+          placeholder="example@email.com"
+          [required]="true"
+          [error]="
+            registerForm.controls.email.touched &&
+            registerForm.controls.email.hasError('required')
+              ? 'Email is required'
+              : registerForm.controls.email.touched &&
+                  registerForm.controls.email.hasError('email')
+                ? 'Invalid email address'
+                : ''
+          "
+        />
+
+        <!-- Password -->
+        <app-input
+          formControlName="password"
+          [type]="InputType.Password"
+          label="Password"
+          placeholder="Password"
+          [required]="true"
+          [error]="
+            registerForm.controls.password.touched &&
+            registerForm.controls.password.hasError('required')
+              ? 'Password is required'
+              : registerForm.controls.password.touched &&
+                  registerForm.controls.password.hasError('minlength')
+                ? 'Password must be at least 8 characters'
+                : registerForm.controls.password.touched &&
+                    registerForm.controls.password.hasError('passwordStrength')
+                  ? 'Password must contain letters and numbers'
+                  : ''
+          "
+        />
+
+        <!-- Date Of Birth -->
+        <app-input
+          formControlName="dateOfBirth"
+          label="Date Of Birth"
+          placeholder="YYYY-MM-DD"
+          [required]="true"
+          [error]="
+            registerForm.controls.dateOfBirth.touched &&
+            registerForm.controls.dateOfBirth.hasError('required')
+              ? 'Date of birth is required'
+              : ''
+          "
+        />
+
+        <!-- Country -->
+        <app-select
+          formControlName="country"
+          label="Country"
+          placeholder="Select Country"
+          [required]="true"
+          [options]="countries"
+          [error]="
+            registerForm.controls.country.touched &&
+            registerForm.controls.country.hasError('required')
+              ? 'Country is required'
+              : ''
+          "
+        />
+
+        <!-- Street -->
+        <app-input
+          formControlName="street"
+          label="Street Address"
+          placeholder="Address"
+          [required]="true"
+          [error]="
+            registerForm.controls.street.touched &&
+            registerForm.controls.street.hasError('required')
+              ? 'Street address is required'
+              : ''
+          "
+        />
+
+        <!-- City -->
+        <app-input
+          formControlName="city"
+          label="City"
+          placeholder="City"
+          [required]="true"
+          [error]="
+            registerForm.controls.city.touched &&
+            registerForm.controls.city.hasError('required')
+              ? 'City is required'
+              : ''
+          "
+        />
+
+        <!-- Postal Code -->
+        <app-input
+          formControlName="postalCode"
+          label="Postal Code"
+          placeholder="Postal Code"
+          [required]="true"
+          [error]="
+            registerForm.controls.postalCode.touched &&
+            registerForm.controls.postalCode.hasError('required')
+              ? 'Postal code is required'
+              : ''
+          "
+        />
+
+      </div>
+
+      <div class="mt-10">
+        <app-button
+          [type]="ButtonType.Submit"
+          [fullWidth]="true"
+        >
+          CREATE ACCOUNT
+        </app-button>
+      </div>
+
+      <div class="text-center mt-6">
+        <span class="text-sm text-[#6B6B6B]">
+          Already have an account?
+        </span>
+
+        <a
+          routerLink="/login"
+          class="ml-2 uppercase tracking-[2px] text-sm font-medium"
+        >
+          Login
+        </a>
+      </div>
+    </form>
   </div>
 </div>
