@@ -1,0 +1,44 @@
+@reference "tailwindcss";
+
+.modal {
+  @apply relative bg-white w-full max-w-[440px] px-12 py-10 flex flex-col gap-6;
+}
+
+.modal__close {
+  @apply absolute top-5 right-5
+        text-[var(--color-icon)]
+        hover:text-[var(--color-dark)]
+        transition-colors cursor-pointer
+        bg-transparent border-none;
+}
+
+.modal__label {
+  @apply font-[var(--font-family)] font-semibold
+        text-[var(--font-size-sm)] leading-[var(--line-height-sm)]
+        tracking-[0.06em] uppercase
+        text-[var(--color-icon)];
+}
+
+.modal__title {
+  @apply font-[var(--second-family)] font-bold
+        text-4xl leading-none tracking-[0.04em] uppercase
+        text-[var(--color-dark)];
+}
+
+.modal__form {
+  @apply flex flex-col gap-5;
+}
+
+.modal__message {
+  @apply font-[var(--font-family)] font-normal
+        text-[var(--font-size-sm)] leading-[var(--line-height-sm)]
+        text-center;
+}
+
+.modal__message--error {
+  @apply text-red-500;
+}
+
+.modal__message--success {
+  @apply text-green-600;
+}

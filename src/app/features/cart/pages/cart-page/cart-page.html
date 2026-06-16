@@ -74,14 +74,49 @@
       }
     </div>
 
-    <!-- TOTAL -->
-    <div
-      class="max-w-135 px-10 py-12.5 ml-auto bg-black-marlin text-white font-primary font-semibold text-xl leading-[140%]"
-    >
-      <h3 class="mb-10">Cart totals</h3>
-      <div class="flex justify-between text-base">
-        <div>Total</div>
-        <div>{{ total() | currency: 'USD' }}</div>
+    <div class="flex">
+      <!-- PROMO CODE BUTTON -->
+      <div class="pb-10 flex gap-3.5 flex-col">
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [type]="ButtonType.Button"
+          (click)="modalVisible.set(true)"
+        >
+          Apply Promo Code
+        </app-button>
+        @if (isDiscountApplied()) {
+          <app-button [variant]="ButtonVariant.Outline" (click)="onResetDiscount()">
+            Remove Promo Code
+          </app-button>
+        }
+      </div>
+
+      <!-- PROMO CODE MODAL -->
+      @if (modalVisible()) {
+        <app-promo-code
+          [isOpen]="modalVisible()"
+          (closed)="modalVisible.set(false)"
+          (totalChanged)="onTotalChanged($event)"
+        />
+      }
+
+      <!-- TOTAL -->
+      <div
+        class="max-w-135 px-10 py-12.5 ml-auto bg-black-marlin text-white font-primary font-semibold text-xl leading-[140%] flex-2"
+      >
+        <h3 class="mb-10">Cart totals</h3>
+
+        @if (discount() > 0) {
+          <div class="flex justify-between text-base mb-3 text-light-brown">
+            <div>Discount</div>
+            <div>- {{ discountAmount() | currency: 'USD' }}</div>
+          </div>
+        }
+
+        <div class="flex justify-between text-base">
+          <div>Total</div>
+          <div>{{ totalForPromo() | currency: 'USD' }}</div>
+        </div>
       </div>
     </div>
   }

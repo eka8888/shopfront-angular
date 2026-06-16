@@ -7,6 +7,8 @@ import { ProductService } from './product.service';
 })
 export class CartService {
   private productService = inject(ProductService);
+  discountPercent = signal<number>(0);
+  isDiscountApplied = signal<boolean>(false);
 
   readonly cartItems = signal<CartItem[]>([]);
 
@@ -30,16 +32,40 @@ export class CartService {
 
   constructor() {
     const savedCart = localStorage.getItem('shopfrontCart');
+    const savedDiscount = localStorage.getItem('savedDiscount');
+    const savedIsDiscountApplied = localStorage.getItem('savedIsDiscountApplied');
 
     if (savedCart) {
       this.cartItems.set(JSON.parse(savedCart));
     }
 
+    if (savedDiscount) {
+      this.discountPercent.set(JSON.parse(savedDiscount));
+    }
+
+    if (savedIsDiscountApplied) {
+      this.isDiscountApplied.set(JSON.parse(savedIsDiscountApplied));
+    }
+
     effect(() => {
       const itemsToSave = this.cartItems();
+      const discountToSave = this.discountPercent();
+      const isDiscountAppliedToSave = this.isDiscountApplied();
 
       localStorage.setItem('shopfrontCart', JSON.stringify(itemsToSave));
+      localStorage.setItem('savedDiscount', JSON.stringify(discountToSave));
+      localStorage.setItem('savedIsDiscountApplied', JSON.stringify(isDiscountAppliedToSave));
     });
+  }
+
+  applyDiscount(percent: number) {
+    this.discountPercent.set(percent);
+    this.isDiscountApplied.set(true);
+  }
+
+  resetDiscount() {
+    this.discountPercent.set(0);
+    this.isDiscountApplied.set(false);
   }
 
   addToCart(productId: number): void {

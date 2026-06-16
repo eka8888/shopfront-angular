@@ -1,0 +1,51 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+  tabindex="0"
+  role="button"
+  aria-label="Close modal"
+  (click)="onOverlayClick($event)"
+  (keydown)="onOverlayKeydown($event)"
+>
+  <div class="modal">
+    <button class="modal__close" type="button" (click)="close()" aria-label="Close">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1 1L15 15M15 1L1 15"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <p class="modal__label">Promo Code</p>
+    <h2 class="modal__title">Enter your code</h2>
+
+    <form [formGroup]="form" (ngSubmit)="applyPromoCode()" class="modal__form">
+      <app-input formControlName="code" [type]="InputType.Text" placeholder="e.g. XMAS40" />
+
+      @if (state === SubmitState.Error) {
+        <p class="modal__message modal__message--error">Invalid promo code. Please try again.</p>
+      }
+
+      @if (state === SubmitState.Success) {
+        <p class="modal__message modal__message--success">Discount applied successfully!</p>
+      }
+
+      <app-button
+        [variant]="ButtonVariant.Outline"
+        [type]="ButtonType.Submit"
+        [fullWidth]="true"
+        [disabled]="isDiscountApplied()"
+      >
+        {{ isDiscountApplied() ? 'Applied' : 'Apply Code' }}
+      </app-button>
+    </form>
+  </div>
+</div>
