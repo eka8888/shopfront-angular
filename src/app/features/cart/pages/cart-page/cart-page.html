@@ -76,14 +76,17 @@
 
     <div class="flex">
       <!-- PROMO CODE BUTTON -->
-      <div class="pb-10 flex gap-3.5 flex-col">
-        <app-button
-          [variant]="ButtonVariant.Outline"
-          [type]="ButtonType.Button"
-          (click)="modalVisible.set(true)"
-        >
-          Apply Promo Code
-        </app-button>
+      <div class="pb-10">
+        @if (!isDiscountApplied()) {
+          <app-button
+            [variant]="ButtonVariant.Outline"
+            [type]="ButtonType.Button"
+            (click)="modalVisible.set(true)"
+          >
+            Apply Promo Code
+          </app-button>
+        }
+
         @if (isDiscountApplied()) {
           <app-button [variant]="ButtonVariant.Outline" (click)="onResetDiscount()">
             Remove Promo Code
