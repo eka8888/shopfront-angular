@@ -1,9 +1,9 @@
 <div
-  class="border border-[var(--color-light-text)] px-[165px] py-0 w-full max-w-[1440px] h-[404px] shadow-[0_1px_4px_0_rgba(25,33,61,0.08)] bg-[var(--color-dark)]"
+  class="border border-light-text px-[165px] py-0 w-full max-w-[1440px] h-[404px] shadow-[0_1px_4px_0_rgba(25,33,61,0.08)] bg-black-marlin"
 >
   <div class="flex">
     <div
-      class="pt-[50px] px-20 pb-[100px] px-20 py-0 flex flex-col flex-1 gap-y-6 gap-x-[10%] relative after:absolute after:content-[''] after:w-[1px] after:bg-[var(--color-divider-and-footer-link)] after:h-full after:top-0 after:right-0"
+      class="pt-[50px] px-20 pb-[100px] px-20 py-0 flex flex-col flex-1 gap-y-6 gap-x-[10%] relative after:absolute after:content-[''] after:w-[1px] after:bg-divider-and-footer-link after:h-full after:top-0 after:right-0"
     >
       <svg
         width="145"
@@ -82,9 +82,7 @@
           fill="var(--color-divider-and-footer-link)"
         />
       </svg>
-      <p
-        class="font-[var(--font-family)] font-normal text-sm leading-[157%] text-[var(--color-light-text)]"
-      >
+      <p class="font-primary font-normal text-sm leading-[157%] text-light-text">
         Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam mauris sed ma
       </p>
       <app-button [variant]="ButtonVariant.Dark" [fullWidth]="true" class="w-[67%] block"
@@ -117,7 +115,7 @@
       @for (title of titles; track title; let i = $index) {
         <div class="flex flex-col items-start gap-[7%]">
           <h3
-            class="font-[var(--font-family)] font-semibold text-base leading-[138%] tracking-[0.06em] uppercase text-white pb-[10%]"
+            class="font-primary font-semibold text-base leading-[138%] tracking-[0.06em] uppercase text-white pb-[10%]"
           >
             {{ title }}
           </h3>
@@ -131,7 +129,7 @@
     </div>
   </div>
   <div
-    class="flex relative after:absolute after:content-[''] after:w-full after:bg-[var(--color-divider-and-footer-link)] after:h-[1px] after:top-0 after:right-0 pt-5 m-auto justify-center"
+    class="flex relative after:absolute after:content-[''] after:w-full after:bg-divider-and-footer-link after:h-[1px] after:top-0 after:right-0 pt-5 m-auto justify-center"
   >
     <p class="footer-bottom-text footer-divider">Copyright © 2023 Moon</p>
     <p class="footer-bottom-text footer-divider">All Rights Reserved</p>
