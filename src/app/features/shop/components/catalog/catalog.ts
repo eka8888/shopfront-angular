@@ -4,7 +4,7 @@ import { ProductService } from '../../../../shared/services/product.service';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { CartService } from '../../../../shared/services/cart.service';
 import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
-import { Sorting } from '../../../../shared/types/sorting.enums';
+import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
 import { SortingSelector } from '../sorting-selector/sorting-selector';
 
 @Component({
@@ -16,7 +16,7 @@ export class Catalog {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
 
-  selectedSort = signal<Sorting>(Sorting.NameAsc);
+  selectedSort = signal<Sorting>(DEFAULT_SORTING);
 
   catalog = this.productService.products;
 

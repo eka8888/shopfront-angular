@@ -9,7 +9,7 @@ import {
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { SelectComponent } from '../../../../shared/components/select/select';
-import { Sorting } from '../../../../shared/types/sorting.enums';
+import { DEFAULT_SORTING, Sorting, isSorting } from '../../../../shared/types/sorting.enums';
 
 @Component({
   selector: 'app-sorting-selector',
@@ -31,19 +31,19 @@ export class SortingSelector implements OnInit {
   ];
 
   sortingForm = this.formBuilder.group({
-    sortBy: [Sorting.NameAsc],
+    sortBy: [DEFAULT_SORTING],
   });
 
   ngOnInit(): void {
-    const sortingForm = this.sortingForm.get('sortBy');
-    const defaultValue = sortingForm?.value;
+    const sortByControl = this.sortingForm.get('sortBy');
+    const defaultValue = sortByControl?.value;
 
-    if (defaultValue) {
+    if (defaultValue && isSorting(defaultValue)) {
       this.sortSelect.emit(defaultValue);
     }
 
-    const subscription = sortingForm?.valueChanges.subscribe((value) => {
-      if (value) {
+    const subscription = sortByControl?.valueChanges.subscribe((value) => {
+      if (value && isSorting(value)) {
         this.sortSelect.emit(value);
       }
     });
