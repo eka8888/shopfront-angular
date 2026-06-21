@@ -1,65 +1,64 @@
-@reference "tailwindcss";
+@reference "../../../../tailwind.css";
 
 .btn {
   @apply uppercase text-center cursor-pointer
         transition-colors inline-block border
         rounded-none font-semibold
         px-[18px] py-[15px]
-        leading-[--line-height-md];
+        leading-[150%];
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    @apply opacity-50 cursor-not-allowed pointer-events-none bg-bg-disabled border border-border-disabled text-text-disabled;
+  }
 }
 
 .btn-light {
-  @apply text-[--font-size-sm] leading-[--line-height-sm]
-        text-[--color-accent] bg-white border-white
+  @apply text-size-sm
+        text-dark-brown bg-white border-white
         transition-colors;
 
   &:hover {
-    background-color: transparent;
-    color: white;
+    @apply bg-transparent text-white;
   }
 }
 
 .btn-dark {
-  @apply text-[--font-size-xs] tracking-[0.08em] px-[16px]
-        text-white bg-[--color-dark] border-[--color-dark]
+  @apply text-size-xs tracking-[0.08em] px-[16px]
+        text-white bg-black-marlin border-black-marlin
         transition-colors flex items-center justify-center gap-[2%];
 
   &:hover {
-    background-color: var(--color-light-text);
-    border-color: var(--color-light-text);
-    color: var(--color-dark);
+    @apply bg-light-text border-light-text text-black-marlin;
   }
 }
 
 .btn-outline {
-  @apply text-[--font-size-xs] tracking-[0.08em]
-        text-[--color-dark] border-[--color-dark] bg-transparent
+  @apply text-size-xs tracking-[0.08em]
+        text-black-marlin border-black-marlin bg-transparent
         transition-colors flex items-center justify-center gap-2;
 
   &:hover {
-    background-color: var(--color-dark);
-    color: white;
+    @apply bg-black-marlin text-white;
   }
 }
 
 .btn-outline-light {
-  @apply text-[--font-size-xs] tracking-[0.08em]
-        text-[--color-light-text] bg-transparent border-white
+  @apply text-size-xs tracking-[0.08em]
+        text-light-text bg-transparent border-white
         transition-colors;
 
   &:hover {
-    background-color: white;
-    color: var(--color-dark);
+    @apply bg-white text-black-marlin;
   }
 }
 
 .btn-text {
-  @apply text-[--font-size-sm] tracking-[0.06em] font-bold
-        leading-[--line-height-sm] underline border-none
-        text-[--color-dark] bg-transparent px-0
+  @apply text-size-sm tracking-[0.06em] font-bold underline border-none
+        text-black-marlin bg-transparent px-0
         transition-colors;
 
   &:hover {
-    color: var(--color-accent);
+    @apply text-dark-brown;
   }
 }
