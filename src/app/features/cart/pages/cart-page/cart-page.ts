@@ -24,12 +24,12 @@ export class CartPage {
   heading = this.cartService.cartHeading;
   total = this.cartService.cartTotal;
 
-  discount = this.cartService.discountPercent;
+  discount = this.cartService.discount;
   isDiscountApplied = this.cartService.isDiscountApplied;
 
-  totalForPromo = computed(() => this.total() * (1 - this.cartService.discountPercent() / 100));
+  totalForPromo = computed(() => this.total() * (1 - this.cartService.discount() / 100));
 
-  discountAmount = computed(() => this.total() * (this.cartService.discountPercent() / 100));
+  discountAmount = computed(() => this.total() * (this.cartService.discount() / 100));
 
   onTotalChanged(percent: number) {
     this.cartService.applyDiscount(percent);

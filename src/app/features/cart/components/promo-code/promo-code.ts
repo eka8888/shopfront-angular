@@ -1,5 +1,13 @@
-import { Component, input, output, HostListener, inject } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  input,
+  output,
+  HostListener,
+  inject,
+  AfterViewInit,
+  viewChild,
+} from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   SubmitState,
   InputVariant,
@@ -18,10 +26,16 @@ import { CartService } from '../../../../shared/services/cart.service';
   templateUrl: './promo-code.html',
   styleUrl: './promo-code.scss',
 })
-export class PromoCode {
+export class PromoCode implements AfterViewInit {
   isOpen = input<boolean>(false);
   closed = output<void>();
   totalChanged = output<number>();
+
+  promoRef = viewChild<InputComponent>('promoInput');
+
+  ngAfterViewInit() {
+    this.promoRef()?.focus();
+  }
 
   private promoCodeService = inject(PromoCodeService);
   private cartService = inject(CartService);
@@ -38,7 +52,7 @@ export class PromoCode {
   state: SubmitState = SubmitState.Idle;
 
   form = new FormGroup({
-    code: new FormControl(''),
+    code: new FormControl('', [Validators.required]),
   });
 
   close() {
@@ -48,13 +62,6 @@ export class PromoCode {
   onOverlayClick(event: MouseEvent) {
     if (event.target === event.currentTarget) {
       this.close();
-    }
-  }
-
-  onOverlayKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.close();
-      event.preventDefault();
     }
   }
 
@@ -70,7 +77,7 @@ export class PromoCode {
     if (this.isDiscountApplied()) return;
     const code = this.form.controls.code.value;
 
-    if (!code) {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -85,7 +92,6 @@ export class PromoCode {
     try {
       this.totalChanged.emit(promo.discount);
       this.state = SubmitState.Success;
-      this.isDiscountApplied.set(true);
       this.form.reset();
     } catch {
       this.state = SubmitState.Error;

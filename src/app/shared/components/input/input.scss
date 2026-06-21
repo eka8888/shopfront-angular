@@ -1,28 +1,28 @@
 @use '../../styles/form-controls' as *;
-@reference "tailwindcss";
+@reference "../../../../tailwind.css";
 
 .field__input {
-  @apply w-full px-[var(--input-padding-x)] py-[var(--input-padding-y)]
-        text-[var(--font-size-sm)] leading-[var(--line-height-sm)] font-normal
-        text-[var(--color-placeholder)] placeholder:text-[var(--color-placeholder)]
-        border border-[var(--color-dark)] bg-white
+  @apply w-full px-4 py-2.5
+        text-size-sm font-normal
+        text-dark-grey placeholder:text-dark-grey
+        border border-black-marlin bg-white
         outline-none transition-colors
-        focus:border-[var(--color-icon)];
+        focus:border-zambezi;
 }
 
 .field__input--underline {
   @apply w-full px-0 py-[14px]
-        text-[var(--font-size-md)] leading-[var(--line-height-md)] font-normal
-        text-[var(--color-icon)] placeholder:text-[var(--color-icon)]
-        border-0 border-b border-[var(--color-dark)]
+        text-size-md font-normal
+        text-zambezi placeholder:text-zambezi
+        border-0 border-b border-black-marlin
         bg-transparent text-center
         outline-none transition-colors;
 }
 
 .field__input--card {
   @apply w-full px-[10px] py-0 h-[42px]
-        text-[var(--font-size-sm)] leading-[var(--line-height-sm)] font-normal
-        text-[var(--color-card-placeholder)] placeholder:text-[var(--color-card-placeholder)]
+        text-size-sm font-normal
+        text-card-placeholder placeholder:text-card-placeholder
         border border-white bg-transparent
         outline-none transition-colors
         focus:border-gray-400;

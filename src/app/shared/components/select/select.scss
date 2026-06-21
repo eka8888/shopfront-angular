@@ -1,13 +1,13 @@
 @use '../../styles/form-controls' as *;
-@reference "tailwindcss";
+@reference "../../../../tailwind.css";
 
 .field__select {
-  @apply w-full px-[var(--input-padding-x)] py-[var(--input-padding-y)]
-        text-[var(--font-size-sm)] leading-[var(--line-height-sm)] font-normal
-        text-[var(--color-placeholder)]
-        border border-[var(--color-dark)] bg-white
+  @apply w-full px-4 py-2.5
+        text-size-sm font-normal
+        text-dark-grey
+        border border-black-marlin bg-white
         outline-none transition-colors
-        focus:border-[var(--color-icon)]
+        focus:border-zambezi
         cursor-pointer appearance-none bg-no-repeat;
 
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%233a3845' stroke-width='1.5' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
