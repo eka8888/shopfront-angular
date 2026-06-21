@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  output,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { SelectComponent } from '../../../../shared/components/select/select';
@@ -8,6 +15,7 @@ import { Sorting } from '../../../../shared/types/sorting.enums';
   selector: 'app-sorting-selector',
   imports: [ReactiveFormsModule, SelectComponent],
   templateUrl: './sorting-selector.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortingSelector implements OnInit {
   private formBuilder = inject(FormBuilder);
