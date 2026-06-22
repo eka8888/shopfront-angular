@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 import { CartService } from '../../../../shared/services/cart.service';
 import { QuantitySelector } from '../../../../shared/components/quantity-selector/quantity-selector';
+import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [CurrencyPipe, RouterLink, QuantitySelector],
+  imports: [CurrencyPipe, NothingFound, QuantitySelector],
   templateUrl: './cart-page.html',
 })
 export class CartPage {
