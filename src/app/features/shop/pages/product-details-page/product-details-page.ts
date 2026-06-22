@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { ButtonVariant } from '../../../../shared/types/form.enums';
   selector: 'app-product-details-page',
   imports: [CurrencyPipe, QuantitySelector, Button],
   templateUrl: './product-details-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailsPage {
   private route = inject(ActivatedRoute);
