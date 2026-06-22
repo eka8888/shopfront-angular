@@ -1,16 +1,10 @@
 <!-- SEARCH BAR -->
 <div class="hidden lg:flex items-center border border-gray-300 h-[44px]">
   <input
-    #searchInput
     type="text"
     placeholder="Search products..."
+    [value]="searchValue()"
+    (input)="onSearch($event)"
     class="h-full w-[220px] px-4 outline-none text-sm"
   />
-
-  <app-button
-    (click)="onSearch(searchInput.value)"
-
-  >
-    Search
-  </app-button>
 </div>
