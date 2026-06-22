@@ -8,6 +8,9 @@ import { ProductService } from './product.service';
 export class CartService {
   private productService = inject(ProductService);
 
+  discount = signal<number>(0);
+  isDiscountApplied = computed(() => this.discount() > 0);
+
   readonly cartItems = signal<CartItem[]>([]);
 
   readonly cartHeading = computed(() => {
@@ -30,9 +33,14 @@ export class CartService {
 
   constructor() {
     const savedCart = localStorage.getItem('shopfrontCart');
+    const savedDiscount = localStorage.getItem('savedDiscount');
 
     if (savedCart) {
       this.cartItems.set(JSON.parse(savedCart));
+    }
+
+    if (savedDiscount) {
+      this.discount.set(JSON.parse(savedDiscount));
     }
 
     effect(() => {
@@ -40,6 +48,24 @@ export class CartService {
 
       localStorage.setItem('shopfrontCart', JSON.stringify(itemsToSave));
     });
+
+    effect(() => {
+      const discountToSave = this.discount();
+
+      localStorage.setItem('savedDiscount', JSON.stringify(discountToSave));
+    });
+  }
+
+  applyDiscount(percent: number) {
+    if (percent >= 1 && percent <= 100) {
+      this.discount.set(percent);
+    } else {
+      console.error('Invalid discount');
+      return;
+    }
+  }
+  resetDiscount() {
+    this.discount.set(0);
   }
 
   addToCart(productId: number): void {

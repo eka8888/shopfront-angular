@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, ElementRef, Input, forwardRef, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputType, InputVariant } from '../../types/form.enums';
 import { NgClass } from '@angular/common';
@@ -26,6 +26,12 @@ export class InputComponent implements ControlValueAccessor {
 
   value = '';
   isDisabled = false;
+
+  inputRef = viewChild<ElementRef<HTMLInputElement>>('inputField');
+
+  focus() {
+    this.inputRef()?.nativeElement.focus();
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange: (value: string) => void = () => {};

@@ -1,3 +1,9 @@
+<!-- SORTING -->
+<div class="max-w-56.25 ml-auto">
+  <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
+</div>
+
+<!-- CATALOG -->
 @if (updatedCatalog().length === 0) {
   <app-nothing-found message="Nothing found" btnText="Go to Shop" btnLink="/shop" />
 } @else {

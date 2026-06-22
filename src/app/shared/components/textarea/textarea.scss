@@ -1,14 +1,13 @@
-
 @use '../../styles/form-controls' as *;
-@reference "tailwindcss";
+@reference "../../../../tailwind.css";
 
 .field__textarea {
-  @apply w-full px-[--input-padding-x] py-[--input-padding-y]
-        text-[--font-size-sm] leading-[--line-height-sm] font-normal
-        text-[--color-placeholder] placeholder:text-[--color-placeholder]
-        border border-[--color-dark]
+  @apply w-full px-4 py-2.5
+        text-size-sm font-normal
+        text-dark-grey placeholder:text-dark-grey
+        border border-black-marlin
         outline-none transition-colors
-        focus:border-[--color-icon]
+        focus:border-zambezi
         resize-none;
 }
 
