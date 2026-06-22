@@ -1,14 +1,16 @@
-<!-- SORTING -->
-<div class="max-w-56.25 ml-auto">
-  <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
-</div>
+@let sortedProducts = updatedCatalog() | productsSort: selectedSort();
 
-<!-- CATALOG -->
-@if (updatedCatalog().length === 0) {
+@if (sortedProducts.length === 0) {
   <app-nothing-found message="Nothing found" btnText="Go to Shop" btnLink="/shop" />
 } @else {
+  <!-- SORTING -->
+  <div class="max-w-56.25 ml-auto mb-7.5">
+    <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
+  </div>
+
+  <!-- CATALOG -->
   <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-7.5 gap-y-10">
-    @for (product of updatedCatalog(); track product.id) {
+    @for (product of sortedProducts; track product.id) {
       <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
     }
   </div>
