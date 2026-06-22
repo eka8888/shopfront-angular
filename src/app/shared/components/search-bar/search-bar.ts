@@ -1,23 +1,22 @@
-import { Component,  OnInit,  output, signal } from '@angular/core';
-import { Button } from '../button/button';
+import { Component, OnInit, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [Button],
+  imports: [],
   templateUrl: './search-bar.html',
-  standalone: true
+  standalone: true,
 })
-export class SearchBar implements OnInit{
+export class SearchBar implements OnInit {
+  searchValue = input<string>();
   searchChange = output<string>();
-
-  searchValue = signal('');
-
 
   ngOnInit(): void {
     console.log('Search bar initialized');
   }
-  onSearch(value: string): void {
-    this.searchValue.set(value);
+
+  onSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+
     this.searchChange.emit(value);
   }
 }

@@ -1,16 +1,16 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 import { CartService } from '../../../../shared/services/cart.service';
 import { QuantitySelector } from '../../../../shared/components/quantity-selector/quantity-selector';
 import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant, ButtonType } from '../../../../shared/types/form.enums';
 import { PromoCode } from '../../components/promo-code/promo-code';
+import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [CurrencyPipe, RouterLink, QuantitySelector, Button, PromoCode],
+  imports: [CurrencyPipe, NothingFound, QuantitySelector, Button, PromoCode],
   templateUrl: './cart-page.html',
 })
 export class CartPage {

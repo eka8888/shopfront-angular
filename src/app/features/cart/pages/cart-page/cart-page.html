@@ -6,15 +6,7 @@
 
   <!-- CART-ITEMS -->
   @if (items().length === 0) {
-    <div class="text-center py-20">
-      <p class="text-black-marlin font-primary text-lg">Your cart is empty</p>
-      <a
-        routerLink="/shop"
-        class="inline-block mt-7 px-6 py-3 bg-black-marlin text-white cursor-pointer uppercase hover:opacity-70 transition"
-      >
-        Go to Shop
-      </a>
-    </div>
+    <app-nothing-found message="Your cart is empty" btnText="Go to Shop" btnLink="/shop" />
   } @else {
     <!-- TITLE -->
     <div
