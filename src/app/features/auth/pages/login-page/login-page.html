@@ -1,28 +1,72 @@
-<div class="min-h-screen flex items-center justify-center bg-[#F6F6F6]">
-  <div class="bg-white p-10 w-[400px] shadow-md">
-    <h1 class="text-3xl font-semibold mb-8 text-center">
+<div class="bg-[#FAFAFA] min-h-screen py-20">
+  <div
+    class="max-w-[600px] mx-auto bg-white border border-[#E5E5E5] p-12"
+  >
+    <h1 class="text-[36px] font-medium mb-10">
       Login
     </h1>
 
-    <div class="flex flex-col gap-5">
-      <input
-        type="email"
-        placeholder="Email"
-        class="border border-gray-300 p-3 outline-none"
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+      class="space-y-6"
+    >
+      <app-input
+        formControlName="email"
+        [type]="InputType.Email"
+        label="Email"
+        placeholder="example@email.com"
+        [required]="true"
+        [error]="
+          loginForm.controls.email.touched &&
+          loginForm.controls.email.hasError('required')
+            ? 'Email is required'
+            : loginForm.controls.email.touched &&
+                loginForm.controls.email.hasError('email')
+              ? 'Invalid email'
+              : ''
+        "
       />
 
-      <input
-        type="password"
-        placeholder="Password"
-        class="border border-gray-300 p-3 outline-none"
+      <app-input
+        formControlName="password"
+        [type]="InputType.Password"
+        label="Password"
+        placeholder="Enter password"
+        [required]="true"
+        [error]="
+          loginForm.controls.password.touched &&
+          loginForm.controls.password.hasError('required')
+            ? 'Password is required'
+            : ''
+        "
       />
+
+      @if (loginError) {
+        <p class="text-red-500 text-sm">
+          {{ loginError }}
+        </p>
+      }
 
       <app-button
-        (click)="login()"
-
+        [type]="ButtonType.Submit"
+        [fullWidth]="true"
       >
-        Login
+        LOGIN
       </app-button>
-    </div>
+
+      <div class="border-t pt-6 text-center">
+        <span class="text-sm text-[#6B6B6B]">
+          Don't have an account?
+        </span>
+
+        <a
+          routerLink="/register"
+          class="block mt-2 uppercase tracking-[2px] text-sm font-medium"
+        >
+          Create Account
+        </a>
+      </div>
+    </form>
   </div>
 </div>

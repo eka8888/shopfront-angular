@@ -1,14 +1,123 @@
-<div class="min-h-screen flex items-center justify-center">
-  <div class="text-center">
-    <h1 class="text-4xl font-semibold mb-6">
-      Welcome to your profile 👋
-    </h1>
-
-    <button
-      (click)="logout()"
-      class="bg-black text-white px-6 py-3 uppercase tracking-widest"
+<div class="bg-[#FAFAFA] min-h-screen py-20">
+  <div
+    class="max-w-[1000px] mx-auto bg-white border border-[#E5E5E5] p-12"
+  >
+    <form
+      [formGroup]="profileForm"
+      (ngSubmit)="saveProfile()"
     >
-      Logout
-    </button>
+      <h1 class="text-[36px] font-medium mb-10">
+        My Profile
+      </h1>
+
+      <h2 class="text-xl font-medium mb-6">
+        Personal Information
+      </h2>
+
+      <div class="grid grid-cols-2 gap-6">
+
+        <app-input
+          formControlName="firstName"
+          label="First Name"
+          [required]="true"
+        />
+
+        <app-input
+          formControlName="lastName"
+          label="Last Name"
+          [required]="true"
+        />
+
+      </div>
+
+      <div class="mt-6">
+        <app-input
+          formControlName="email"
+          [type]="InputType.Email"
+          label="Email"
+          [required]="true"
+        />
+      </div>
+
+      <div class="mt-6">
+        <app-input
+          formControlName="dateOfBirth"
+          label="Date Of Birth"
+          [required]="true"
+        />
+      </div>
+
+      <div class="border-t my-10"></div>
+
+      <h2 class="text-xl font-medium mb-6">
+        Addresses
+      </h2>
+
+      <div class="grid grid-cols-2 gap-6">
+
+        @for (address of addresses; track address.street) {
+
+          <div class="border border-[#E5E5E5] p-6">
+            <h3 class="font-medium mb-4">
+              {{ address.type }}
+            </h3>
+
+           <p>
+  {{ address.street | address: address.city : address.country }}
+</p>
+          </div>
+
+        }
+
+      </div>
+
+      <div class="border-t my-10"></div>
+
+      <h2 class="text-xl font-medium mb-6">
+        Change Password
+      </h2>
+
+      <div class="grid grid-cols-2 gap-6">
+
+        <app-input
+          label="Current Password"
+          [type]="InputType.Password"
+          placeholder="Current password"
+        />
+
+        <div></div>
+
+        <app-input
+          label="New Password"
+          [type]="InputType.Password"
+          placeholder="New password"
+        />
+
+        <app-input
+          label="Confirm Password"
+          [type]="InputType.Password"
+          placeholder="Confirm password"
+        />
+
+      </div>
+
+      <div class="mt-10 flex flex-col gap-4">
+
+        <app-button
+          [type]="ButtonType.Submit"
+          [fullWidth]="true"
+        >
+          SAVE CHANGES
+        </app-button>
+
+        <app-button
+          [fullWidth]="true"
+          (click)="logout()"
+        >
+          LOGOUT
+        </app-button>
+
+      </div>
+    </form>
   </div>
 </div>

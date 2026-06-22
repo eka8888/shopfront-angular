@@ -1,9 +1,9 @@
-@reference "tailwindcss";
+@reference "../../../../../tailwind.css";
 
 .title {
-  @apply font-[var(--font-family)] font-semibold text-lg leading-[133%] text-[var(--color-dark)];
+  @apply font-primary font-semibold text-lg leading-[133%] text-black-marlin;
 }
 
 .desc {
-  @apply font-[var(--font-family)] font-normal text-base leading-normal text-[var(--color-icon)];
+  @apply font-primary font-normal text-base leading-normal text-zambezi;
 }
