@@ -1,20 +1,26 @@
 [
   {
-    "year": 1910,
-    "description": "Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices.",
-    "image": "images/about/timeLine-1.png",
-    "alt": "About Moon"
+    "year": 1,
+    "description": "Set up the feature-based project architecture (core, shared, features, layout), built the first reusable components\u00a0—\u00a0Header, SearchBar, ProductCard\u00a0—\u00a0and got parent-child communication working with input() and output().",
+    "image": "images/about/sprint-1.png",
+    "alt": "Sprint 1\u00a0—\u00a0Project Setup & Component Basics"
   },
   {
-    "year": 1990,
-    "description": "Maecenas sem eros, rutrum vitae risus eget, vulputate aliquam nisi. dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit ",
-    "image": "images/about/timeLine-2.png",
-    "alt": "About Moon"
+    "year": 2,
+    "description": "Added routing with lazy loading, built the Shop, Cart, and Auth pages, and started using Angular Signals\u00a0—\u00a0signal(), computed(), and effect()\u00a0—\u00a0to manage state reactively across the app.",
+    "image": "images/about/sprint-2.png",
+    "alt": "Sprint 2\u00a0—\u00a0Routing & Signals"
   },
   {
-    "year": 2010,
-    "description": "Rutrum vitae risus eget, vulputate aliquam nisi ex gravida neque tempus. sit aliquam sit nullam neque ultrices.",
-    "image": "images/about/timeLine-3.png",
-    "alt": "About Moon"
+    "year": 3,
+    "description": "Replaced template inputs with Reactive Forms across Login, Register, and Profile, wrote a custom password validator, and learned ControlValueAccessor the hard way\u00a0—\u00a0by forgetting it once.",
+    "image": "images/about/sprint-3.png",
+    "alt": "Sprint 3\u00a0—\u00a0Directives, Pipes & Forms"
+  },
+  {
+    "year": 4,
+    "description": "Coming soon — this sprint is still in progress. Check back for the update once it wraps up!",
+    "image": "images/about/sprint-4.png",
+    "alt": "Sprint 4\u00a0—\u00a0Coming soon"
   }
 ]

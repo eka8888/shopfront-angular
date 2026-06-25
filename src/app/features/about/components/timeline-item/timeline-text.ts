@@ -7,6 +7,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './timeline-text.scss',
 })
 export class TimelineText {
-  year = input.required<number>();
+  sprint = input.required<number>();
   description = input.required<string>();
 }

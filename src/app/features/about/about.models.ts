@@ -10,4 +10,6 @@ export interface TeamMember {
   alt: string;
   name: string;
   position: string;
+  bio: string;
+  github: string;
 }

@@ -11,4 +11,6 @@ export class TeamCard {
   alt = input.required<string>();
   name = input.required<string>();
   position = input.required<string>();
+  bio = input.required<string>();
+  github = input.required<string>();
 }

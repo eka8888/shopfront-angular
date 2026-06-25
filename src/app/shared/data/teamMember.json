@@ -1,26 +1,26 @@
 [
   {
     "image": "images/about/team-1.png",
-    "alt": "Meet Our Team",
-    "name": "Bernie Patterson",
-    "position": "CEO & Founder"
+    "alt": "Ekaterina — Team Lead",
+    "name": "Ekaterina",
+    "position": "Team Lead",
+    "bio": "Set up the project architecture from day one and kept the team moving with lazy-loaded routing, signal-based auth, and a CI pipeline that actually catches problems before they reach main.",
+    "github": "https://github.com/eka8888"
   },
   {
     "image": "images/about/team-2.png",
-    "alt": "Meet Our Team",
-    "name": "Ophelia Vase",
-    "position": "Creative Director"
+    "alt": "Zorro Amarillo — Frontend Developer",
+    "name": "Zorro Amarillo",
+    "position": "Frontend Developer",
+    "bio": "Built the Shop and Cart experience end to end — from the product grid to localStorage-synced cart state — and brought a sharp eye for detail to every code review.",
+    "github": "https://github.com/zorro-amarillo"
   },
   {
     "image": "images/about/team-3.png",
-    "alt": "Meet Our Team",
-    "name": "Corbin Hossain",
-    "position": "Artist"
-  },
-  {
-    "image": "images/about/team-4.png",
-    "alt": "Meet Our Team",
-    "name": "Seren Bowl",
-    "position": "Marketing"
+    "alt": "S-Arashu — Frontend Developer",
+    "name": "S-Arashu",
+    "position": "Frontend Developer",
+    "bio": "Crafted the shared component library — buttons, inputs, and the footer — learning Tailwind, ControlValueAccessor, and a healthy respect for ESLint along the way.",
+    "github": "https://github.com/s-arashu"
   }
 ]

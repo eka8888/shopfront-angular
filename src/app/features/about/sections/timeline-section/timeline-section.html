@@ -4,7 +4,7 @@
       <div class="flex justify-between">
         <img [ngSrc]="time.image" [alt]="time.alt" width="555" height="348" />
         <app-timeline-text
-          [year]="time.year"
+          [sprint]="time.year"
           [description]="time.description"
           class="card-wrapper"
         ></app-timeline-text>
@@ -12,7 +12,7 @@
     } @else {
       <div class="flex justify-between">
         <app-timeline-text
-          [year]="time.year"
+          [sprint]="time.year"
           [description]="time.description"
           class="card-wrapper"
         ></app-timeline-text>

@@ -1,11 +1,28 @@
-<div>
-  <img [ngSrc]="image()" [alt]="alt()" width="255" height="321" class="pb-5" />
+<div class="flex flex-col items-center text-center max-w-[280px] min-h-28">
+  <img
+    [ngSrc]="image()"
+    [alt]="alt()"
+    width="255"
+    height="321"
+    class="mb-2.5 rounded-full object-cover w-[160px] h-[160px]"
+  />
   <p
-    class="font-primary font-semibold text-sm leading-[143%] tracking-[0.06em] uppercase text-center text-black-marlin"
+    class="font-primary font-semibold text-sm leading-[143%] tracking-[0.06em] uppercase text-black-marlin"
   >
     {{ name() }}
   </p>
-  <p class="font-primary font-normal text-sm leading-[157%] text-center text-dark-grey">
+  <p class="font-primary font-normal text-sm leading-[157%] text-zambezi pb-3">
     {{ position() }}
   </p>
+  <p class="font-primary font-normal text-sm leading-[157%] text-dark-grey pb-4 grow-2">
+    {{ bio() }}
+  </p>
+  <a
+    [href]="github()"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="font-primary font-semibold text-xs uppercase tracking-[0.06em] text-black-marlin underline underline-offset-4 hover:text-zambezi transition-colors m-auto"
+  >
+    View GitHub
+  </a>
 </div>
