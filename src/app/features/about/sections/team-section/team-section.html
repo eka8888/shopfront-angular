@@ -16,14 +16,9 @@
 
 @defer (on viewport(trigger)) {
   <div class="flex flex-wrap justify-center gap-12 pb-24 gap-1.5">
-    @for (member of memberSignal(); track member.name) {
+    @for (fields of memberSignal(); track fields.name) {
       <app-team-card
-        [image]="member.image"
-        [alt]="member.alt"
-        [name]="member.name"
-        [position]="member.position"
-        [bio]="member.bio"
-        [github]="member.github"
+        [member]="fields"
         class="member-card min-h-28 flex"
         [style.animation-delay]="$index * 0.5 + 's'"
       ></app-team-card>
