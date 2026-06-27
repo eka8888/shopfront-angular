@@ -7,6 +7,7 @@ import { Auth } from '../../../core/services/auth';
 import { ButtonVariant } from '../../types/form.enums';
 import { APP_CONFIG } from '../../../core/config/app-config.token';
 import { SearchService } from '../../services/search.service';
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-header',
   imports: [SearchBar, RouterLink, RouterLinkActive, Button],
@@ -22,6 +23,7 @@ export class Header {
   private router = inject(Router);
   private appConfig = inject(APP_CONFIG);
   private searchService = inject(SearchService);
+  private cartService = inject(CartService);
 
   appName = this.appConfig.appName;
 
@@ -29,6 +31,7 @@ export class Header {
   isAuthenticated = computed(() => this.authService.isAuthenticated());
 
   searchBarValue = this.searchService.searchInput;
+  cartBadge = this.cartService.itemsQuantity;
 
   handleSearch(value: string) {
     this.searchService.searchProducts(value);

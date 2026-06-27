@@ -7,10 +7,11 @@ import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant, ButtonType } from '../../../../shared/types/form.enums';
 import { PromoCode } from '../../components/promo-code/promo-code';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
+import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [CurrencyPipe, NothingFound, QuantitySelector, Button, PromoCode],
+  imports: [CurrencyPipe, PluralsPipe, NothingFound, QuantitySelector, Button, PromoCode],
   templateUrl: './cart-page.html',
 })
 export class CartPage {
@@ -21,7 +22,7 @@ export class CartPage {
   readonly ButtonType = ButtonType;
 
   items = this.cartService.cartItems;
-  heading = this.cartService.cartHeading;
+  itemsQuantity = this.cartService.itemsQuantity;
   total = this.cartService.cartTotal;
 
   discount = this.cartService.discount;
