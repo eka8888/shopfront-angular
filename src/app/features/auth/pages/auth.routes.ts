@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../../core/guards/auth-guard';
+import { guestGuard } from '../../../core/guards/guest-guard';
 
 
 export const AUTH_ROUTES: Routes = [
@@ -9,6 +10,7 @@ export const AUTH_ROUTES: Routes = [
       import('./login-page/login-page').then(
         (m) => m.LoginPage
       ),
+        canActivate: [guestGuard],
   },
 
   {
@@ -17,6 +19,7 @@ export const AUTH_ROUTES: Routes = [
       import('./register-page/register-page').then(
         (m) => m.RegisterPage
       ),
+        canActivate: [guestGuard],
   },
 
   {
