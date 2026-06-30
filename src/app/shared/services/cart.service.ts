@@ -136,4 +136,9 @@ export class CartService {
       });
     });
   }
+
+  clearCart() {
+    this.cartItems.set([]);
+    this.discount.set(0);
+  }
 }

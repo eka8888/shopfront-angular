@@ -1,0 +1,36 @@
+@reference "../../../../../tailwind.css";
+
+.modal {
+  @apply relative bg-white w-full max-w-[440px] px-12 py-10 flex flex-col gap-6;
+}
+
+.modal__close {
+  @apply absolute top-5 right-5
+        text-zambezi
+        hover:text-black-marlin
+        transition-colors cursor-pointer
+        bg-transparent border-none;
+}
+
+.modal__label {
+  @apply font-primary font-semibold
+        text-size-sm
+        tracking-[0.06em] uppercase
+        text-zambezi;
+}
+
+.modal__title {
+  @apply font-secondary font-bold
+        text-4xl leading-none tracking-[0.04em] uppercase
+        text-black-marlin;
+}
+
+.modal__message {
+  @apply font-primary font-normal
+        text-size-sm
+        text-zambezi;
+}
+
+.modal__actions {
+  @apply flex gap-4;
+}
