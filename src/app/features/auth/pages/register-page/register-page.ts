@@ -47,16 +47,16 @@ export class RegisterPage {
   readonly ButtonType = ButtonType;
   readonly InputType = InputType;
 
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
-  private appConfig = inject(APP_CONFIG);
-  private authService = inject(Auth);
-  private destroyRef = inject(DestroyRef);
-
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly  appConfig = inject(APP_CONFIG);
+  private readonly authService = inject(Auth);
+  private readonly destroyRef = inject(DestroyRef);
+readonly minPasswordLength = this.appConfig.minPasswordLength;
   registerError = '';
   isLoading = false;
 
-  countries = [
+  readonly countries = [
     { value: 'georgia', label: 'Georgia' },
     { value: 'usa', label: 'USA' },
     { value: 'germany', label: 'Germany' },

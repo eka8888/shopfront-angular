@@ -39,11 +39,11 @@ export class ProfilePage implements OnInit {
   readonly ButtonType = ButtonType;
   readonly InputType = InputType;
 
-  private authService = inject(Auth);
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
-  private cdr = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
+  private readonly authService = inject(Auth);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   customerVersion = 0;
   saveSuccess = '';

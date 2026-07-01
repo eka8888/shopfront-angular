@@ -13,7 +13,11 @@ describe('QuantitySelector', () => {
 
     fixture = TestBed.createComponent(QuantitySelector);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.componentRef.setInput('itemId', 1);
+    fixture.componentRef.setInput('itemQuantity', 2);
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {

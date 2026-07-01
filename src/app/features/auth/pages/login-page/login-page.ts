@@ -25,11 +25,11 @@ export class LoginPage {
   readonly ButtonType = ButtonType;
   readonly InputType = InputType;
 
-  private authService = inject(Auth);
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
-  private destroyRef = inject(DestroyRef);
-  private cdr = inject(ChangeDetectorRef);
+  private readonly authService = inject(Auth);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loginError = '';
 

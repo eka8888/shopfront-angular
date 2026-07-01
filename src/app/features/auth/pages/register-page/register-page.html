@@ -66,7 +66,7 @@
               ? 'Password is required'
               : registerForm.controls.password.touched &&
                   registerForm.controls.password.hasError('minlength')
-                ? 'Password must be at least 8 characters'
+                ? 'Password must be at least'+minPasswordLength+' characters'
                 : registerForm.controls.password.touched &&
                     registerForm.controls.password.hasError('passwordStrength')
                   ? 'Password must contain letters and numbers'
