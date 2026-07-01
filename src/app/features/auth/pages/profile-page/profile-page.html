@@ -1,33 +1,56 @@
 <div class="bg-[#FAFAFA] min-h-screen py-20">
-  <div
-    class="max-w-[1000px] mx-auto bg-white border border-[#E5E5E5] p-12"
-  >
-    <form
-      [formGroup]="profileForm"
-      (ngSubmit)="saveProfile()"
-    >
-      <h1 class="text-[36px] font-medium mb-10">
-        My Profile
-      </h1>
+  <div class="max-w-[1000px] mx-auto bg-white border border-[#E5E5E5] p-12">
+    <h1 class="text-[36px] font-medium mb-10">
+      My Profile
+    </h1>
 
+    @if (isLoading) {
+      <p class="text-sm text-[#6B6B6B] mb-6">
+        Loading...
+      </p>
+    }
+
+    @if (profileError) {
+      <p class="text-red-500 text-sm mb-6">
+        {{ profileError }}
+      </p>
+    }
+
+    @if (saveSuccess) {
+      <p class="text-green-600 text-sm mb-6">
+        {{ saveSuccess }}
+      </p>
+    }
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
       <h2 class="text-xl font-medium mb-6">
         Personal Information
       </h2>
 
       <div class="grid grid-cols-2 gap-6">
-
         <app-input
           formControlName="firstName"
           label="First Name"
           [required]="true"
+          [error]="
+            profileForm.controls.firstName.touched &&
+            profileForm.controls.firstName.hasError('required')
+              ? 'First name is required'
+              : ''
+          "
         />
 
         <app-input
           formControlName="lastName"
           label="Last Name"
           [required]="true"
+          [error]="
+            profileForm.controls.lastName.touched &&
+            profileForm.controls.lastName.hasError('required')
+              ? 'Last name is required'
+              : ''
+          "
         />
-
       </div>
 
       <div class="mt-6">
@@ -36,6 +59,15 @@
           [type]="InputType.Email"
           label="Email"
           [required]="true"
+          [error]="
+            profileForm.controls.email.touched &&
+            profileForm.controls.email.hasError('required')
+              ? 'Email is required'
+              : profileForm.controls.email.touched &&
+                  profileForm.controls.email.hasError('email')
+                ? 'Invalid email'
+                : ''
+          "
         />
       </div>
 
@@ -43,81 +75,274 @@
         <app-input
           formControlName="dateOfBirth"
           label="Date Of Birth"
+          placeholder="YYYY-MM-DD"
           [required]="true"
+          [error]="
+            profileForm.controls.dateOfBirth.touched &&
+            profileForm.controls.dateOfBirth.hasError('required')
+              ? 'Date of birth is required'
+              : profileForm.controls.dateOfBirth.touched &&
+                  profileForm.controls.dateOfBirth.hasError('invalidDate')
+                ? 'Invalid date'
+                : profileForm.controls.dateOfBirth.touched &&
+                    profileForm.controls.dateOfBirth.hasError('futureDate')
+                  ? 'Date of birth cannot be in the future'
+                  : ''
+          "
         />
       </div>
 
-      <div class="border-t my-10"></div>
-
-      <h2 class="text-xl font-medium mb-6">
-        Addresses
-      </h2>
-
-      <div class="grid grid-cols-2 gap-6">
-
-        @for (address of addresses; track address.street) {
-
-          <div class="border border-[#E5E5E5] p-6">
-            <h3 class="font-medium mb-4">
-              {{ address.type }}
-            </h3>
-
-           <p>
-  {{ address.street | address: address.city : address.country }}
-</p>
-          </div>
-
-        }
-
+      <div class="mt-8">
+        <app-button [type]="ButtonType.Submit">
+          SAVE PROFILE
+        </app-button>
       </div>
+    </form>
 
-      <div class="border-t my-10"></div>
+    <div class="border-t my-10"></div>
 
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
       <h2 class="text-xl font-medium mb-6">
         Change Password
       </h2>
 
-      <div class="grid grid-cols-2 gap-6">
-
+      <div class="grid grid-cols-1 gap-6">
         <app-input
+          formControlName="currentPassword"
+          [type]="InputType.Password"
           label="Current Password"
-          [type]="InputType.Password"
-          placeholder="Current password"
+          [required]="true"
+          [error]="
+            passwordForm.controls.currentPassword.touched &&
+            passwordForm.controls.currentPassword.hasError('required')
+              ? 'Current password is required'
+              : ''
+          "
         />
 
-        <div></div>
-
         <app-input
+          formControlName="newPassword"
+          [type]="InputType.Password"
           label="New Password"
-          [type]="InputType.Password"
-          placeholder="New password"
+          [required]="true"
+          [error]="
+            passwordForm.controls.newPassword.touched &&
+            passwordForm.controls.newPassword.hasError('required')
+              ? 'New password is required'
+              : passwordForm.controls.newPassword.touched &&
+                  passwordForm.controls.newPassword.hasError('minlength')
+                ? 'Password must be at least 8 characters'
+                : passwordForm.controls.newPassword.touched &&
+                    passwordForm.controls.newPassword.hasError('passwordStrength')
+                  ? 'Password must contain letters and numbers'
+                  : ''
+          "
         />
 
         <app-input
-          label="Confirm Password"
+          formControlName="confirmPassword"
           [type]="InputType.Password"
-          placeholder="Confirm password"
+          label="Confirm New Password"
+          [required]="true"
+          [error]="
+            passwordForm.controls.confirmPassword.touched &&
+            passwordForm.controls.confirmPassword.hasError('required')
+              ? 'Please confirm your new password'
+              : ''
+          "
         />
-
       </div>
 
-      <div class="mt-10 flex flex-col gap-4">
+      @if (passwordSuccess) {
+        <p class="text-green-600 text-sm mt-6">
+          {{ passwordSuccess }}
+        </p>
+      }
 
-        <app-button
-          [type]="ButtonType.Submit"
-          [fullWidth]="true"
-        >
-          SAVE CHANGES
+      @if (passwordError) {
+        <p class="text-red-500 text-sm mt-6">
+          {{ passwordError }}
+        </p>
+      }
+
+      <div class="mt-8">
+        <app-button [type]="ButtonType.Submit">
+          CHANGE PASSWORD
         </app-button>
-
-        <app-button
-          [fullWidth]="true"
-          (click)="logout()"
-        >
-          LOGOUT
-        </app-button>
-
       </div>
     </form>
+
+    <div class="border-t my-10"></div>
+
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-medium">
+        Addresses
+      </h2>
+
+      @if (!showAddressForm) {
+        <app-button
+          [type]="ButtonType.Button"
+          (click)="openAddressForm()"
+        >
+          ADD NEW ADDRESS
+        </app-button>
+      }
+    </div>
+
+    @if (showAddressForm) {
+      <form [formGroup]="addressForm" (ngSubmit)="saveAddress()" class="mb-8">
+        <div class="grid grid-cols-2 gap-6">
+          <app-input
+            formControlName="streetName"
+            label="Street"
+            [required]="true"
+            [error]="
+              addressForm.controls.streetName.touched &&
+              addressForm.controls.streetName.hasError('required')
+                ? 'Street is required'
+                : ''
+            "
+          />
+
+          <app-input
+            formControlName="city"
+            label="City"
+            [required]="true"
+            [error]="
+              addressForm.controls.city.touched &&
+              addressForm.controls.city.hasError('required')
+                ? 'City is required'
+                : ''
+            "
+          />
+
+          <app-select
+            formControlName="country"
+            label="Country"
+            [required]="true"
+            [options]="countries"
+            [error]="
+              addressForm.controls.country.touched &&
+              addressForm.controls.country.hasError('required')
+                ? 'Country is required'
+                : ''
+            "
+          />
+
+          <app-input
+            formControlName="postalCode"
+            label="Postal Code"
+            [required]="true"
+            [error]="
+              addressForm.controls.postalCode.touched &&
+              addressForm.controls.postalCode.hasError('required')
+                ? 'Postal code is required'
+                : addressForm.controls.postalCode.touched &&
+                    addressForm.controls.postalCode.hasError('invalidPostalCode')
+                  ? 'Invalid postal code for selected country'
+                  : ''
+            "
+          />
+        </div>
+
+        <div class="mt-6 flex gap-4">
+          <app-button [type]="ButtonType.Submit">
+            {{ editingAddressId ? 'UPDATE ADDRESS' : 'ADD ADDRESS' }}
+          </app-button>
+
+          <app-button
+            [type]="ButtonType.Button"
+            (click)="cancelAddressEdit()"
+          >
+            CANCEL
+          </app-button>
+        </div>
+      </form>
+    }
+
+    @if (addresses.length === 0) {
+      <p class="text-sm text-[#6B6B6B]">
+        No addresses added yet.
+      </p>
+    }
+
+    <div class="grid grid-cols-2 gap-6">
+      @for (address of addresses; track address.id) {
+        <div class="border border-[#E5E5E5] p-6">
+          <h3 class="font-medium mb-4">
+            Address
+          </h3>
+
+          <p>
+            {{
+              (address.streetName ?? '')
+                | address: (address.city ?? '') : (address.country ?? '')
+            }}
+          </p>
+
+          @if (address.postalCode) {
+            <p class="text-sm text-[#6B6B6B] mt-2">
+              Postal Code: {{ address.postalCode }}
+            </p>
+          }
+
+          @if (address.id === defaultShippingAddressId) {
+            <p class="text-green-600 text-sm mt-2">
+              Default shipping address
+            </p>
+          }
+
+          @if (address.id === defaultBillingAddressId) {
+            <p class="text-green-600 text-sm mt-2">
+              Default billing address
+            </p>
+          }
+
+          <div class="mt-6 flex flex-col gap-3 items-start">
+            <app-button
+              [type]="ButtonType.Button"
+              (click)="editAddress(address)"
+            >
+              EDIT
+            </app-button>
+
+            <app-button
+              [type]="ButtonType.Button"
+              (click)="deleteAddress(address.id)"
+            >
+              DELETE
+            </app-button>
+
+            @if (address.id !== defaultShippingAddressId) {
+              <app-button
+                [type]="ButtonType.Button"
+                (click)="setDefaultShipping(address.id)"
+              >
+                SET DEFAULT SHIPPING
+              </app-button>
+            }
+
+            @if (address.id !== defaultBillingAddressId) {
+              <app-button
+                [type]="ButtonType.Button"
+                (click)="setDefaultBilling(address.id)"
+              >
+                SET DEFAULT BILLING
+              </app-button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="border-t my-10"></div>
+
+    <app-button
+      [type]="ButtonType.Button"
+      [fullWidth]="true"
+      (click)="logout()"
+    >
+      LOGOUT
+    </app-button>
   </div>
 </div>
