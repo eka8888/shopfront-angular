@@ -34,22 +34,7 @@ export class Catalog implements OnInit, OnDestroy {
 
   catalog = this.productService.products;
   textToSearch = this.searchService.searchInput;
-
-  searchResults = computed(() => {
-    const textInput = this.textToSearch()?.trim().toLowerCase();
-    const catalog = this.catalog();
-
-    if (textInput) {
-      return catalog.filter((product) => {
-        return (
-          product.name.toLowerCase().includes(textInput) ||
-          product.description.toLowerCase().includes(textInput)
-        );
-      });
-    }
-
-    return catalog;
-  });
+  searchResults = this.searchService.searchResults;
 
   formattedPriceRange = computed(() => {
     return priceRange.map((price) => {
