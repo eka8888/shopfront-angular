@@ -8,7 +8,7 @@ import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { SortingSelector } from '../sorting-selector/sorting-selector';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
-import { priceRange } from '../../../../shared/constants/price-range';
+import { PRICE_RANGES } from '../../../../shared/constants/price-range';
 
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
 import { FilteringService } from '../../../../shared/services/filtering.service';
@@ -33,7 +33,7 @@ export class Catalog implements OnInit, OnDestroy {
   filteredResults = this.filteringService.filteredResults;
 
   formattedPriceRange = computed(() => {
-    return priceRange.map((price) => {
+    return PRICE_RANGES.map((price) => {
       return {
         ...price,
         label: price.max ? `$${price.min} - $${price.max}` : `> $${price.min}`,
@@ -74,12 +74,13 @@ export class Catalog implements OnInit, OnDestroy {
 
   addFilters() {
     const categoryFilters = this.filteringForm.value.categoryList;
+    const priceFilters = this.filteringForm.value.priceRange;
 
-    this.filteringService.updateSearchAndFilters(categoryFilters);
+    this.filteringService.updateSearchAndFilters(categoryFilters, priceFilters);
   }
 
   resetSearchAndFilters() {
-    this.filteringForm.get('categoryList')?.reset();
+    this.filteringForm.reset();
     this.searchService.clearSearch();
 
     this.addFilters();
