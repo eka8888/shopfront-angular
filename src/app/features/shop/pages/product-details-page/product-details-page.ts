@@ -42,7 +42,7 @@ export class ProductDetailsPage {
   constructor() {
     effect(() => {
       if (!this.currentProduct()) {
-        this.router.navigate(['/404']);
+        this.router.navigate(['/404'], {replaceUrl: true});
       }
     });
   }
