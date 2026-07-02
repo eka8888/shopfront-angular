@@ -83,10 +83,15 @@
         />
       </svg>
       <p class="font-primary font-normal text-sm leading-[157%] text-light-text">
-        Lorem ipsum dolor sit amet consectetur adipiscing elit aliquam mauris sed ma
+        ShopFront — an Angular sprint project exploring signals, reactive forms, and routing, built
+        by a three-person team.
       </p>
-      <app-button [variant]="ButtonVariant.Dark" [fullWidth]="true" class="w-[67%] block"
-        >Get started
+      <app-button
+        [variant]="ButtonVariant.Dark"
+        [fullWidth]="true"
+        class="w-[67%] block"
+        routerLink="/about"
+        >Know more
         <svg
           width="11"
           height="11"
@@ -111,7 +116,7 @@
         </svg>
       </app-button>
     </div>
-    <div class="flex flex-2 pt-[60px] px-20 pb-[70px] gap-[10%]">
+    <div class="flex flex-2 pt-[60px] px-20 pb-[70px] gap-[10%] justify-center">
       @for (title of titles; track title; let i = $index) {
         <div class="flex flex-col items-start gap-[7%]">
           <h3
@@ -119,10 +124,16 @@
           >
             {{ title }}
           </h3>
-          @for (item of sections[i]; track item) {
-            <a routerLink="/" class="footer-link">
-              {{ item }}
-            </a>
+          @for (item of sections[i]; track item.label) {
+            @if (item.external) {
+              <a [href]="item.path" target="_blank" rel="noopener noreferrer" class="footer-link">
+                {{ item.label }}
+              </a>
+            } @else {
+              <a [routerLink]="item.path" class="footer-link">
+                {{ item.label }}
+              </a>
+            }
           }
         </div>
       }
@@ -131,9 +142,7 @@
   <div
     class="flex relative after:absolute after:content-[''] after:w-full after:bg-divider-and-footer-link after:h-[1px] after:top-0 after:right-0 pt-5 m-auto justify-center"
   >
-    <p class="footer-bottom-text footer-divider">Copyright © 2023 Moon</p>
-    <p class="footer-bottom-text footer-divider">All Rights Reserved</p>
-    <a routerLink="/" class="footer-bottom-link footer-divider">Terms and Conditions</a>
-    <a routerLink="/" class="footer-bottom-link">Privacy Policy</a>
+    <p class="footer-bottom-text footer-divider">Copyright © 2026 ShopFront</p>
+    <p class="footer-bottom-text">Built with Angular & RS School</p>
   </div>
 </div>

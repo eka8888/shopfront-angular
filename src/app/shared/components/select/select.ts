@@ -4,6 +4,7 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-select',
+    standalone: true,
   templateUrl: './select.html',
   styleUrl: './select.scss',
   imports: [NgClass],
