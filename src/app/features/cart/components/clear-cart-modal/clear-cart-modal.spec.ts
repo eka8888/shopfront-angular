@@ -39,13 +39,13 @@ describe('ClearCartModal', () => {
     expect(confirmedSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit "closed" when clicking on the overlay itself', () => {
+  it('should emit "closed" when clicking on the backdrop', () => {
     const closedSpy = vi.fn();
     component.closed.subscribe(closedSpy);
     fixture.detectChanges();
 
-    const overlay = fixture.nativeElement.querySelector('div') as HTMLElement;
-    overlay.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const backdrop = fixture.nativeElement.querySelector('.modal__backdrop') as HTMLElement;
+    backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
     expect(closedSpy).toHaveBeenCalledTimes(1);
   });

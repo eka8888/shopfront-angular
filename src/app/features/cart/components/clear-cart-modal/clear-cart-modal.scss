@@ -1,7 +1,14 @@
 @reference "../../../../../tailwind.css";
 
+.modal__backdrop {
+  @apply absolute inset-0 z-0
+        bg-black/50
+        border-none cursor-default
+        appearance-none p-0;
+}
+
 .modal {
-  @apply relative bg-white w-full max-w-[440px] px-12 py-10 flex flex-col gap-6;
+  @apply relative z-10 bg-white w-full max-w-[440px] px-12 py-10 flex flex-col gap-6;
 }
 
 .modal__close {

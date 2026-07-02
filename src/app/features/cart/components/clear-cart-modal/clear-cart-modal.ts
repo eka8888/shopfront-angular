@@ -24,12 +24,6 @@ export class ClearCartModal {
     this.confirmed.emit();
   }
 
-  onOverlayClick(event: MouseEvent) {
-    if (event.target === event.currentTarget) {
-      this.close();
-    }
-  }
-
   @HostListener('document:keydown.escape')
   onEscape() {
     if (this.isOpen()) {
