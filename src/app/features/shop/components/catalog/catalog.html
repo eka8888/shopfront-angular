@@ -1,17 +1,73 @@
-@let sortedProducts = updatedCatalog() | productsSort: selectedSort();
+@let sortedProducts = filteredResults() | productsSort: selectedSort();
 
-@if (sortedProducts.length === 0) {
-  <app-nothing-found message="Nothing found" btnText="Go to Shop" btnLink="/shop" />
-} @else {
-  <!-- SORTING -->
-  <div class="max-w-56.25 ml-auto mb-7.5">
-    <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
+<div class="flex gap-6">
+  <div class="flex flex-col pr-5">
+    <!-- ITEMS QUANTITY -->
+    <div
+      class="w-64.5 pb-7.5 mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid"
+    >
+      Showing {{ sortedProducts.length }} items
+    </div>
+
+    <!-- FILTERING -->
+    <form [formGroup]="filteringForm">
+      <!-- BY CATEGORY -->
+      <fieldset class="filter-fieldset" [formGroupName]="'categoryList'">
+        <legend class="font-primary font-semibold text-sm leading-5.5 text-black-marlin mb-5.5">
+          Category
+        </legend>
+        @for (category of categories(); track category.id) {
+          <label [for]="'category' + category.id" class="checkbox-label">
+            <input
+              type="checkbox"
+              [value]="category.name"
+              [id]="'category' + category.id"
+              [formControlName]="category.name"
+            />
+            {{ category.name }}</label
+          >
+        }
+      </fieldset>
+
+      <!-- BY PRICE -->
+      <fieldset class="filter-fieldset" [formGroupName]="'priceRange'">
+        <legend class="font-primary font-semibold text-sm leading-5.5 text-black-marlin mb-5.5">
+          Price Range
+        </legend>
+        @for (price of formattedPriceRange(); track price.min) {
+          <label [for]="'price' + price.min" class="checkbox-label">
+            <input
+              type="checkbox"
+              [value]="price.min"
+              [id]="'price' + price.min"
+              [formControlName]="price.min.toString()"
+            />
+            {{ price.label }}
+          </label>
+        }
+      </fieldset>
+    </form>
   </div>
 
-  <!-- CATALOG -->
-  <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-7.5 gap-y-10">
-    @for (product of sortedProducts; track product.id) {
-      <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
-    }
-  </div>
-}
+  @if (sortedProducts.length === 0) {
+    <app-nothing-found
+      message="Nothing found"
+      btnText="Reset all filters"
+      (btnClick)="resetAllFilters()"
+    />
+  } @else {
+    <div class="flex flex-col w-full max-w-206.25">
+      <!-- SORTING -->
+      <div class="max-w-63.75 ml-auto mb-7.5">
+        <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
+      </div>
+
+      <!-- CATALOG -->
+      <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-5 gap-y-10">
+        @for (product of sortedProducts; track product.id) {
+          <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
+        }
+      </div>
+    </div>
+  }
+</div>

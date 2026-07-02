@@ -52,7 +52,7 @@
     "name": "Warrick White Vase 20",
     "price": 68,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
-    "categoryId": 1,
+    "categoryId": 2,
     "isNew": false
   },
   {
@@ -68,7 +68,7 @@
     "name": "Tall Cream Ceramic Vase",
     "price": 79,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit.",
-    "categoryId": 1,
+    "categoryId": 2,
     "isNew": false
   },
   {
