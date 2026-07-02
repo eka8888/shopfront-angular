@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component,  computed,  inject } from '@angular/core';
 import { SearchBar } from '../search-bar/search-bar';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Button } from '../button/button';
