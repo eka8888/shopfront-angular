@@ -11,10 +11,7 @@ import { NothingFound } from '../../../../shared/components/nothing-found/nothin
 import { priceRange } from '../../../../shared/constants/price-range';
 
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
-import { Category } from '../../../../shared/interfaces/category.interface';
-import { Product } from '../../../../shared/interfaces/product.interface';
-
-import categories from '../../../../shared/data/categories.json';
+import { FilteringService } from '../../../../shared/services/filtering.service';
 
 @Component({
   selector: 'app-catalog',
@@ -26,15 +23,14 @@ export class Catalog implements OnInit, OnDestroy {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
   private searchService = inject(SearchService);
+  private filteringService = inject(FilteringService);
   private formBuilder = inject(FormBuilder);
 
   selectedSort = signal<Sorting>(DEFAULT_SORTING);
-  categories = signal<Category[]>(categories);
-  filteredResults = signal<Product[]>([]);
 
-  catalog = this.productService.products;
   textToSearch = this.searchService.searchInput;
-  searchResults = this.searchService.searchResults;
+  categories = this.filteringService.categories;
+  filteredResults = this.filteringService.filteredResults;
 
   formattedPriceRange = computed(() => {
     return priceRange.map((price) => {
@@ -64,7 +60,7 @@ export class Catalog implements OnInit, OnDestroy {
   constructor() {
     effect(() => {
       this.textToSearch();
-      this.updateAllFilters();
+      this.addFilters();
     });
   }
 
@@ -76,51 +72,25 @@ export class Catalog implements OnInit, OnDestroy {
     this.selectedSort.set(sortOption);
   }
 
-  updateAllFilters() {
-    let filteredCatalog = this.searchResults();
-
+  addFilters() {
     const categoryFilters = this.filteringForm.value.categoryList;
 
-    if (categoryFilters) {
-      const filters = categoryFilters as Record<string, boolean>;
-
-      const selectedCategories = Object.keys(filters).filter((key) => filters[key]);
-
-      if (selectedCategories.length > 0) {
-        const categoryIds = selectedCategories.map((categoryName) => {
-          const existedCategory = this.categories().find(
-            (category) => category.name === categoryName,
-          );
-
-          if (existedCategory) {
-            return existedCategory.id;
-          }
-
-          return undefined;
-        });
-
-        filteredCatalog = filteredCatalog.filter((product) =>
-          categoryIds.includes(product.categoryId),
-        );
-      }
-    }
-
-    this.filteredResults.set(filteredCatalog);
+    this.filteringService.updateSearchAndFilters(categoryFilters);
   }
 
-  resetAllFilters() {
+  resetSearchAndFilters() {
     this.filteringForm.get('categoryList')?.reset();
     this.searchService.clearSearch();
 
-    this.updateAllFilters();
+    this.addFilters();
   }
 
   ngOnInit(): void {
     this.filteringForm.valueChanges.subscribe(() => {
-      this.updateAllFilters();
+      this.addFilters();
     });
 
-    this.updateAllFilters();
+    this.addFilters();
   }
 
   ngOnDestroy() {
