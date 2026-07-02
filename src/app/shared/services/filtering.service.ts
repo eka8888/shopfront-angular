@@ -20,6 +20,15 @@ export class FilteringService {
   updateSearchAndFilters(categoryFilters: Record<string, boolean | null> | undefined) {
     let filteredCatalog = this.searchResults();
 
+    filteredCatalog = this.filterByCategory(filteredCatalog, categoryFilters);
+
+    this.filteredResults.set(filteredCatalog);
+  }
+
+  private filterByCategory(
+    products: Product[],
+    categoryFilters: Record<string, boolean | null> | undefined,
+  ) {
     if (categoryFilters) {
       const selectedCategories = Object.keys(categoryFilters).filter((key) => categoryFilters[key]);
 
@@ -36,12 +45,10 @@ export class FilteringService {
           return undefined;
         });
 
-        filteredCatalog = filteredCatalog.filter((product) =>
-          categoryIds.includes(product.categoryId),
-        );
+        return products.filter((product) => categoryIds.includes(product.categoryId));
       }
     }
 
-    this.filteredResults.set(filteredCatalog);
+    return products;
   }
 }
