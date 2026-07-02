@@ -7,6 +7,7 @@ import { Auth } from '../../../core/services/auth';
 import { ButtonVariant } from '../../types/form.enums';
 import { APP_CONFIG } from '../../../core/config/app-config.token';
 import { SearchService } from '../../services/search.service';
+
 @Component({
   selector: 'app-header',
   imports: [SearchBar, RouterLink, RouterLinkActive, Button],
@@ -23,20 +24,17 @@ export class Header {
   private appConfig = inject(APP_CONFIG);
   private searchService = inject(SearchService);
 
-  appName = this.appConfig.appName;
+  readonly appName = this.appConfig.appName;
+  readonly navItems = this.navigationService.navItems();
+  readonly isAuthenticated = computed(() => this.authService.isAuthenticated());
+  readonly searchBarValue = this.searchService.searchInput;
 
-  navItems = this.navigationService.navItems();
-  isAuthenticated = computed(() => this.authService.isAuthenticated());
-
-  searchBarValue = this.searchService.searchInput;
-
-  handleSearch(value: string) {
+  handleSearch(value: string): void {
     this.searchService.searchProducts(value);
   }
 
   logout(): void {
     this.authService.logout();
-
     this.router.navigate(['/login']);
   }
 }
