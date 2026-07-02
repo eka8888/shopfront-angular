@@ -4,13 +4,31 @@
     Cart ({{ itemsQuantity() | plurals: 'item' : 'items' }})
   </h2>
 
+  @if (items().length > 0) {
+    <app-button
+      [variant]="ButtonVariant.Dark"
+      [type]="ButtonType.Button"
+      (click)="clearCartModalVisible.set(true)"
+    >
+      Clear Cart
+    </app-button>
+  }
+
+  @if (clearCartModalVisible()) {
+    <app-clear-cart-modal
+      [isOpen]="clearCartModalVisible()"
+      (closed)="clearCartModalVisible.set(false)"
+      (confirmed)="onClearCart()"
+    />
+  }
+
   <!-- CART-ITEMS -->
   @if (items().length === 0) {
     <app-nothing-found message="Your cart is empty" btnText="Go to Shop" btnLink="/shop" />
   } @else {
     <!-- TITLE -->
     <div
-      class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em]"
+      class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em] mt-3.5"
     >
       <div class="flex justify-center">
         <img src="icons/cart/trash-icon.svg" alt="trash icon" class="w-4.75 h-5" />

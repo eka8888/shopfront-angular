@@ -13,10 +13,20 @@ import { RouterLink } from '@angular/router';
 export class FooterComponent {
   readonly ButtonVariant = ButtonVariant;
 
-  titles = ['About us', 'Services', 'Portfolio'];
+  titles = ['About us', 'Services'];
   sections = [
-    ['Mission', 'Our team', 'Awards', 'Testimonials', 'Privacy policy'],
-    ['Web design', 'Web development', 'Mobile design', 'UI/UX design', 'Branding design'],
-    ['Corporate websites', 'E-commerce', 'Mobile apps', 'Landing pages', 'UI/UX projects'],
+    [
+      { label: 'All Products', path: '/shop' },
+      { label: 'Cart', path: '/cart' },
+    ],
+    [
+      { label: 'About Us', path: '/about' },
+      {
+        label: 'GitHub Repo',
+        path: 'https://github.com/eka8888/shopfront-angular',
+        external: true,
+      },
+      { label: 'RS School', path: 'https://rs.school/', external: true },
+    ],
   ];
 }

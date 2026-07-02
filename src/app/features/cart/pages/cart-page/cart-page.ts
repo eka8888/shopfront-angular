@@ -6,17 +6,19 @@ import { QuantitySelector } from '../../../../shared/components/quantity-selecto
 import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant, ButtonType } from '../../../../shared/types/form.enums';
 import { PromoCode } from '../../components/promo-code/promo-code';
+import { ClearCartModal } from '../../components/clear-cart-modal/clear-cart-modal';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
 import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [CurrencyPipe, PluralsPipe, NothingFound, QuantitySelector, Button, PromoCode],
+  imports: [CurrencyPipe, PluralsPipe, NothingFound, QuantitySelector, Button, PromoCode, ClearCartModal],
   templateUrl: './cart-page.html',
 })
 export class CartPage {
   private cartService = inject(CartService);
   modalVisible = signal(false);
+  clearCartModalVisible = signal(false);
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonType = ButtonType;
@@ -50,5 +52,10 @@ export class CartPage {
 
   onDecreaseQuantity(id: number) {
     this.cartService.decreaseQuantity(id);
+  }
+
+  onClearCart() {
+    this.cartService.clearCart();
+    this.clearCartModalVisible.set(false);
   }
 }

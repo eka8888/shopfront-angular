@@ -11,8 +11,6 @@
       (ngSubmit)="register()"
     >
       <div class="grid grid-cols-2 gap-6">
-
-        <!-- First Name -->
         <app-input
           formControlName="firstName"
           label="First Name"
@@ -26,7 +24,6 @@
           "
         />
 
-        <!-- Last Name -->
         <app-input
           formControlName="lastName"
           label="Last Name"
@@ -40,7 +37,6 @@
           "
         />
 
-        <!-- Email -->
         <app-input
           formControlName="email"
           [type]="InputType.Email"
@@ -58,7 +54,6 @@
           "
         />
 
-        <!-- Password -->
         <app-input
           formControlName="password"
           [type]="InputType.Password"
@@ -71,7 +66,7 @@
               ? 'Password is required'
               : registerForm.controls.password.touched &&
                   registerForm.controls.password.hasError('minlength')
-                ? 'Password must be at least 8 characters'
+                ? 'Password must be at least'+minPasswordLength+' characters'
                 : registerForm.controls.password.touched &&
                     registerForm.controls.password.hasError('passwordStrength')
                   ? 'Password must contain letters and numbers'
@@ -79,7 +74,6 @@
           "
         />
 
-        <!-- Date Of Birth -->
         <app-input
           formControlName="dateOfBirth"
           label="Date Of Birth"
@@ -89,11 +83,22 @@
             registerForm.controls.dateOfBirth.touched &&
             registerForm.controls.dateOfBirth.hasError('required')
               ? 'Date of birth is required'
-              : ''
+              : registerForm.controls.dateOfBirth.touched &&
+                  registerForm.controls.dateOfBirth.hasError('invalidDate')
+                ? 'Invalid date'
+                : registerForm.controls.dateOfBirth.touched &&
+                    registerForm.controls.dateOfBirth.hasError('futureDate')
+                  ? 'Date of birth cannot be in the future'
+                  : ''
           "
         />
 
-        <!-- Country -->
+        <div class="col-span-2 mt-4">
+          <h2 class="text-xl font-medium">
+            Shipping Address
+          </h2>
+        </div>
+
         <app-select
           formControlName="country"
           label="Country"
@@ -108,7 +113,6 @@
           "
         />
 
-        <!-- Street -->
         <app-input
           formControlName="street"
           label="Street Address"
@@ -122,7 +126,6 @@
           "
         />
 
-        <!-- City -->
         <app-input
           formControlName="city"
           label="City"
@@ -136,7 +139,6 @@
           "
         />
 
-        <!-- Postal Code -->
         <app-input
           formControlName="postalCode"
           label="Postal Code"
@@ -146,11 +148,100 @@
             registerForm.controls.postalCode.touched &&
             registerForm.controls.postalCode.hasError('required')
               ? 'Postal code is required'
-              : ''
+              : registerForm.controls.postalCode.touched &&
+                  registerForm.controls.postalCode.hasError('invalidPostalCode')
+                ? 'Invalid postal code for selected country'
+                : ''
           "
         />
 
+        <div class="col-span-2 mt-6">
+          <label class="flex items-center gap-3 text-sm text-[#333333]">
+            <input
+              type="checkbox"
+              formControlName="useSameAddressForBilling"
+            />
+
+            Use the same address for billing
+          </label>
+        </div>
+
+        @if (!useSameAddressForBilling) {
+          <div class="col-span-2 mt-4">
+            <h2 class="text-xl font-medium">
+              Billing Address
+            </h2>
+          </div>
+
+          <app-select
+            formControlName="billingCountry"
+            label="Billing Country"
+            placeholder="Select Country"
+            [required]="true"
+            [options]="countries"
+            [error]="
+              registerForm.controls.billingCountry.touched &&
+              registerForm.controls.billingCountry.hasError('required')
+                ? 'Billing country is required'
+                : ''
+            "
+          />
+
+          <app-input
+            formControlName="billingStreet"
+            label="Billing Street"
+            placeholder="Billing address"
+            [required]="true"
+            [error]="
+              registerForm.controls.billingStreet.touched &&
+              registerForm.controls.billingStreet.hasError('required')
+                ? 'Billing street is required'
+                : ''
+            "
+          />
+
+          <app-input
+            formControlName="billingCity"
+            label="Billing City"
+            placeholder="Billing city"
+            [required]="true"
+            [error]="
+              registerForm.controls.billingCity.touched &&
+              registerForm.controls.billingCity.hasError('required')
+                ? 'Billing city is required'
+                : ''
+            "
+          />
+
+          <app-input
+            formControlName="billingPostalCode"
+            label="Billing Postal Code"
+            placeholder="Billing postal code"
+            [required]="true"
+            [error]="
+              registerForm.controls.billingPostalCode.touched &&
+              registerForm.controls.billingPostalCode.hasError('required')
+                ? 'Billing postal code is required'
+                : registerForm.controls.billingPostalCode.touched &&
+                    registerForm.controls.billingPostalCode.hasError('invalidPostalCode')
+                  ? 'Invalid billing postal code for selected country'
+                  : ''
+            "
+          />
+        }
       </div>
+
+      @if (registerError) {
+        <p class="text-red-500 text-sm mt-6">
+          {{ registerError }}
+        </p>
+      }
+
+      @if (isLoading) {
+        <p class="text-sm text-[#6B6B6B] mt-6">
+          Creating account...
+        </p>
+      }
 
       <div class="mt-10">
         <app-button
