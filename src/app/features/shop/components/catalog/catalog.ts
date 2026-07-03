@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal, OnDestroy, OnInit, effect } from '@angular/core';
+import { Component, computed, inject, signal, OnDestroy, OnInit, effect, DestroyRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
-import { ProductService } from '../../../../shared/services/product.service';
 import { SearchService } from '../../../../shared/services/search.service';
 import { CartService } from '../../../../shared/services/cart.service';
 import { FilteringService } from '../../../../shared/services/filtering.service';
@@ -16,16 +16,24 @@ import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums
 
 @Component({
   selector: 'app-catalog',
-  imports: [ProductCard, ProductsSortPipe, SortingSelector, NothingFound, ReactiveFormsModule, PluralsPipe],
+  imports: [
+    ProductCard,
+    ProductsSortPipe,
+    SortingSelector,
+    NothingFound,
+    ReactiveFormsModule,
+    PluralsPipe,
+  ],
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
 export class Catalog implements OnInit, OnDestroy {
-  private productService = inject(ProductService);
   private cartService = inject(CartService);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
   private formBuilder = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
 
   selectedSort = signal<Sorting>(DEFAULT_SORTING);
 
@@ -87,12 +95,32 @@ export class Catalog implements OnInit, OnDestroy {
     this.addFilters();
   }
 
+  setCategory(category: string) {
+    this.resetSearchAndFilters();
+
+    const formControl = this.filteringForm.get(['categoryList', category]);
+    formControl?.setValue(true);
+  }
+
   ngOnInit(): void {
-    this.filteringForm.valueChanges.subscribe(() => {
+    const querySubscription = this.route.queryParams.subscribe((params) => {
+      const { category } = params;
+
+      if (category && typeof category === 'string') {
+        this.setCategory(category);
+      }
+    });
+
+    const formSubscription = this.filteringForm.valueChanges.subscribe(() => {
       this.addFilters();
     });
 
     this.addFilters();
+
+    this.destroyRef.onDestroy(() => {
+      querySubscription.unsubscribe();
+      formSubscription.unsubscribe();
+    });
   }
 
   ngOnDestroy() {
