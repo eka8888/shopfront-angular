@@ -2,8 +2,8 @@
   <h1 class="sr-only">Shopping Cart</h1>
 
   <div class="mt-12.5 mb-10 flex items-center justify-between">
-    <h2 class="text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
-      Cart ({{ heading() }})
+    <h2 class="mt-12.5 mb-10 text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
+      Cart ({{ itemsQuantity() | plurals: 'item' : 'items' }})
     </h2>
 
     @if (items().length > 0) {

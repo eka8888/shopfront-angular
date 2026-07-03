@@ -56,14 +56,25 @@
       <!-- CART -->
       <a
         routerLink="/cart"
-        class="hover:opacity-70 transition-opacity"
+        class="relative hover:opacity-70 transition-opacity"
         routerLinkActive
         #rla="routerLinkActive"
+        [attr.aria-label]="'Cart, ' + cartBadge() + ' items'"
       >
         <img
           [src]="rla.isActive ? 'icons/header/cart-icon-active.svg' : 'icons/header/cart-icon.svg'"
-          alt="cart"
+          alt=""
         />
+
+        <!-- CART BADGE -->
+        @if (cartBadge()) {
+          <div
+            class="absolute -top-3.5 -right-3.5 flex justify-center items-center min-w-5 min-h-5 bg-light-brown text-white rounded-full text-[10px] p-0.5"
+            aria-hidden="true"
+          >
+            {{ cartBadge() }}
+          </div>
+        }
       </a>
     </div>
   </div>

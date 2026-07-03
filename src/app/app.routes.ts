@@ -34,7 +34,11 @@ export const routes: Routes = [
       import('./features/contact/pages/contact-page/contact-page').then((m) => m.ContactPage),
   },
   {
-    path: '**',
+    path: '404',
     loadComponent: () => import('./shared/components/not-found/not-found').then((m) => m.NotFound),
+  },
+  {
+    path: '**',
+    redirectTo: '/404',
   },
 ];
