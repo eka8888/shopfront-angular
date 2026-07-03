@@ -6,7 +6,7 @@
     <div
       class="w-64.5 pb-7.5 mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid"
     >
-      Showing {{ sortedProducts.length }} items
+      Showing {{ sortedProducts.length | plurals: 'item' : 'items'}}
     </div>
 
     <!-- FILTERING -->

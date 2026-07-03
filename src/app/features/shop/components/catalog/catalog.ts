@@ -4,18 +4,19 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product.service';
 import { SearchService } from '../../../../shared/services/search.service';
 import { CartService } from '../../../../shared/services/cart.service';
+import { FilteringService } from '../../../../shared/services/filtering.service';
 import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
+import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { SortingSelector } from '../sorting-selector/sorting-selector';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
 import { PRICE_RANGES } from '../../../../shared/constants/price-range';
 
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
-import { FilteringService } from '../../../../shared/services/filtering.service';
 
 @Component({
   selector: 'app-catalog',
-  imports: [ProductCard, ProductsSortPipe, SortingSelector, NothingFound, ReactiveFormsModule],
+  imports: [ProductCard, ProductsSortPipe, SortingSelector, NothingFound, ReactiveFormsModule, PluralsPipe],
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
