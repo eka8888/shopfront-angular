@@ -13,7 +13,13 @@ describe('TeamCard', () => {
 
     fixture = TestBed.createComponent(TeamCard);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.componentRef.setInput('image', 'test.jpg');
+    fixture.componentRef.setInput('alt', 'Test image');
+    fixture.componentRef.setInput('name', 'John Doe');
+    fixture.componentRef.setInput('position', 'Frontend Developer');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {

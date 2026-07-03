@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { NothingFound } from './nothing-found';
 
@@ -9,11 +10,16 @@ describe('NothingFound', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NothingFound],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NothingFound);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.componentRef.setInput('btnText', 'Go Home');
+    fixture.componentRef.setInput('btnLink', '/');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -13,7 +13,11 @@ describe('TimelineItem', () => {
 
     fixture = TestBed.createComponent(TimelineText);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.componentRef.setInput('year', 2024);
+    fixture.componentRef.setInput('description', 'Test description');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
