@@ -1,18 +1,21 @@
 <section class="max-w-277.5 mx-auto pb-20">
   <h1 class="sr-only">Shopping Cart</h1>
-  <h2 class="mt-12.5 mb-10 text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
-    Cart ({{ heading() }})
-  </h2>
 
-  @if (items().length > 0) {
-    <app-button
-      [variant]="ButtonVariant.Dark"
-      [type]="ButtonType.Button"
-      (click)="clearCartModalVisible.set(true)"
-    >
-      Clear Cart
-    </app-button>
-  }
+  <div class="mt-12.5 mb-10 flex items-center justify-between">
+    <h2 class="text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
+      Cart ({{ heading() }})
+    </h2>
+
+    @if (items().length > 0) {
+      <app-button
+        [variant]="ButtonVariant.Text"
+        [type]="ButtonType.Button"
+        (click)="clearCartModalVisible.set(true)"
+      >
+        Clear Cart
+      </app-button>
+    }
+  </div>
 
   @if (clearCartModalVisible()) {
     <app-clear-cart-modal
@@ -28,7 +31,7 @@
   } @else {
     <!-- TITLE -->
     <div
-      class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em] mt-3.5"
+      class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em]"
     >
       <div class="flex justify-center">
         <img src="icons/cart/trash-icon.svg" alt="trash icon" class="w-4.75 h-5" />
@@ -63,8 +66,17 @@
           <div class="flex justify-center items-center uppercase">{{ item.name }}</div>
 
           <!-- CURRENT PRICE -->
-          <div class="flex justify-center items-center">
-            {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+          <div class="flex flex-col justify-center items-center gap-0.5">
+            @if (isDiscountApplied()) {
+              <span class="line-through text-zambezi text-xs font-normal">
+                {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+              <span class="text-light-brown">
+                {{ discountedPrice(item.price) | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+            } @else {
+              {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+            }
           </div>
 
           <!-- QUANTITY SELECTOR -->
@@ -77,8 +89,17 @@
           />
 
           <!-- SUBTOTAL -->
-          <div class="flex justify-center items-center text-light-brown">
-            {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+          <div class="flex flex-col justify-center items-center gap-0.5 text-light-brown">
+            @if (isDiscountApplied()) {
+              <span class="line-through text-zambezi text-xs font-normal">
+                {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+              <span>
+                {{ discountedSubtotal(item) | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+            } @else {
+              {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+            }
           </div>
         </div>
       }

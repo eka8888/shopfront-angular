@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import { CartService } from '../../../../shared/services/cart.service';
+import { CartItem } from '../../../../shared/interfaces/cart-item.interface';
 import { QuantitySelector } from '../../../../shared/components/quantity-selector/quantity-selector';
 import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant, ButtonType } from '../../../../shared/types/form.enums';
@@ -56,5 +57,13 @@ export class CartPage {
   onClearCart() {
     this.cartService.clearCart();
     this.clearCartModalVisible.set(false);
+  }
+
+  discountedPrice(price: number): number {
+    return price * (1 - this.discount() / 100);
+  }
+
+  discountedSubtotal(item: CartItem): number {
+    return this.discountedPrice(item.price) * item.quantity;
   }
 }
