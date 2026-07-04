@@ -1,13 +1,17 @@
-@let sortedProducts = filteredResults() | productsSort: selectedSort();
+@let products = productsAtPage() | productsSort: selectedSort();
+@let page = currentPage();
+@let allPages = totalPages();
 
 <div class="flex gap-6">
   <div class="flex flex-col pr-5">
     <!-- ITEMS QUANTITY -->
-    <div
-      class="w-64.5 pb-7.5 mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid"
-    >
-      Showing {{ sortedProducts.length | plurals: 'item' : 'items'}}
-    </div>
+    @if (filteredResults().length === 0) {
+      <div class="items-counter">0 items found</div>
+    } @else {
+      <div class="items-counter">
+        Showing {{ products.length }} of {{ filteredResults().length | plurals: 'item' : 'items' }}
+      </div>
+    }
 
     <!-- FILTERING -->
     <form [formGroup]="filteringForm">
@@ -49,7 +53,7 @@
     </form>
   </div>
 
-  @if (sortedProducts.length === 0) {
+  @if (products.length === 0) {
     <app-nothing-found
       message="Nothing found"
       btnText="Reset all filters"
@@ -63,10 +67,63 @@
       </div>
 
       <!-- CATALOG -->
-      <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-5 gap-y-10">
-        @for (product of sortedProducts; track product.id) {
+      <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-5 gap-y-10 mb-7.5">
+        @for (product of products; track product.id) {
           <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
         }
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="flex justify-end gap-2 items-center">
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [type]="ButtonType.Button"
+          [disabled]="page === 1"
+          (click)="showPrevPage()"
+        >
+          <svg
+            width="8"
+            height="13"
+            viewBox="0 0 8 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6.67308 0.75L0.75 6.25L6.67308 11.75"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </app-button>
+        <div
+          class="flex items-center font-primary font-normal text-sm leading-5.5 text-black-marlin border-y border-black-marlin px-4 h-11"
+        >
+          Page {{ page }} of {{ allPages }}
+        </div>
+        <app-button
+          [variant]="ButtonVariant.Outline"
+          [type]="ButtonType.Button"
+          [disabled]="page === allPages"
+          (click)="showNextPage()"
+        >
+          <svg
+            width="8"
+            height="13"
+            viewBox="0 0 8 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.749774 11.75L6.67285 6.25L0.749775 0.75"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </app-button>
       </div>
     </div>
   }
