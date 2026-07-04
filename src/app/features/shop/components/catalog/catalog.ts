@@ -1,4 +1,13 @@
-import { Component, computed, inject, signal, OnDestroy, OnInit, effect, DestroyRef } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  OnDestroy,
+  OnInit,
+  effect,
+  DestroyRef,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,8 +20,11 @@ import { ProductCard } from '../../../../shared/components/product-card/product-
 import { SortingSelector } from '../sorting-selector/sorting-selector';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
 import { PRICE_RANGES } from '../../../../shared/constants/price-range';
+import { Button } from '../../../../shared/components/button/button';
 
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
+import { ButtonVariant } from '../../../../shared/types/form.enums';
+import { ButtonType } from '../../../../shared/types/form.enums';
 
 @Component({
   selector: 'app-catalog',
@@ -23,11 +35,15 @@ import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums
     NothingFound,
     ReactiveFormsModule,
     PluralsPipe,
+    Button,
   ],
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
 export class Catalog implements OnInit, OnDestroy {
+  readonly ButtonVariant = ButtonVariant;
+  readonly ButtonType = ButtonType;
+
   private cartService = inject(CartService);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
@@ -36,6 +52,8 @@ export class Catalog implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
 
   selectedSort = signal<Sorting>(DEFAULT_SORTING);
+  itemsPerPage = signal<number>(12);
+  currentPage = signal<number>(1);
 
   textToSearch = this.searchService.searchInput;
   categories = this.filteringService.categories;
@@ -48,6 +66,17 @@ export class Catalog implements OnInit, OnDestroy {
         label: price.max ? `$${price.min} - $${price.max}` : `> $${price.min}`,
       };
     });
+  });
+
+  totalPages = computed(() => {
+    return Math.ceil(this.filteredResults().length / this.itemsPerPage());
+  });
+
+  productsAtPage = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.itemsPerPage();
+    const endIndex = startIndex + this.itemsPerPage();
+
+    return this.filteredResults().slice(startIndex, endIndex);
   });
 
   filteringForm = this.formBuilder.group({
@@ -82,6 +111,8 @@ export class Catalog implements OnInit, OnDestroy {
   }
 
   addFilters() {
+    this.currentPage.set(1);
+
     const categoryFilters = this.filteringForm.value.categoryList;
     const priceFilters = this.filteringForm.value.priceRange;
 
@@ -100,6 +131,22 @@ export class Catalog implements OnInit, OnDestroy {
 
     const formControl = this.filteringForm.get(['categoryList', category]);
     formControl?.setValue(true);
+  }
+
+  showNextPage() {
+    const page = this.currentPage();
+
+    if (page < this.totalPages()) {
+      this.currentPage.set(page + 1);
+    }
+  }
+
+  showPrevPage() {
+    const page = this.currentPage();
+
+    if (page > 1) {
+      this.currentPage.set(page - 1);
+    }
   }
 
   ngOnInit(): void {

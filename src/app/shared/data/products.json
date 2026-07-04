@@ -4,7 +4,7 @@
     "name": "Porcelain Dinner Plate",
     "price": 49,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
-    "categoryId": 1,
+    "categoryId": 3,
     "isNew": true
   },
     {
@@ -20,7 +20,7 @@
     "name": "Porcelain Dinner Plate",
     "price": 53,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
-    "categoryId": 1,
+    "categoryId": 4,
     "isNew": true
   },
   {
@@ -44,7 +44,7 @@
     "name": "Porcelain Dinner Plate",
     "price": 49,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
-    "categoryId": 1,
+    "categoryId": 3,
     "isNew": false
   },
   {
@@ -60,7 +60,7 @@
     "name": "Marin White Dinner Plate",
     "price": 49,
     "description": "Lorem ipsum dolor sit amet conse.",
-    "categoryId": 1,
+    "categoryId": 4,
     "isNew": false
   },
   {
@@ -84,11 +84,107 @@
     "name": "Porcelain Dinner Plate",
     "price": 49,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
-    "categoryId": 1,
+    "categoryId": 3,
     "isNew": false
   },
     {
     "id": 12,
+    "name": "Ophelia Matte Natural  Vase",
+    "price": 149,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
+    "categoryId": 2,
+    "isNew": false
+  },
+  {
+    "id": 13,
+    "name": "Porcelain Dinner Plate",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 3,
+    "isNew": true
+  },
+    {
+    "id": 14,
+    "name": "Ophelia Matte Natural  Vase",
+    "price": 149,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
+    "categoryId": 2,
+    "isNew": true
+  },
+  {
+    "id": 15,
+    "name": "Porcelain Dinner Plate",
+    "price": 53,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 4,
+    "isNew": true
+  },
+  {
+    "id": 16,
+    "name": "Luana Bowl",
+    "price": 38,
+    "description": "Lorem ipsum dolor sit amet conse.",
+    "categoryId": 1,
+    "isNew": true
+  },
+  {
+    "id": 17,
+    "name": "Small Ecru Ceramic Compote",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit.",
+    "categoryId": 1,
+    "isNew": false
+  },
+  {
+    "id": 18,
+    "name": "Porcelain Dinner Plate",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
+    "categoryId": 3,
+    "isNew": false
+  },
+  {
+    "id": 19,
+    "name": "Warrick White Vase 20",
+    "price": 68,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 2,
+    "isNew": false
+  },
+  {
+    "id": 20,
+    "name": "Marin White Dinner Plate",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse.",
+    "categoryId": 4,
+    "isNew": false
+  },
+  {
+    "id": 21,
+    "name": "Tall Cream Ceramic Vase",
+    "price": 79,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit.",
+    "categoryId": 2,
+    "isNew": false
+  },
+  {
+    "id": 22,
+    "name": "Luana Bowl",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 1,
+    "isNew": false
+  },
+  {
+    "id": 23,
+    "name": "Porcelain Dinner Plate",
+    "price": 49,
+    "description": "Lorem ipsum dolor sit amet conse bolli tetur adipiscing elit tortor eu.",
+    "categoryId": 3,
+    "isNew": false
+  },
+    {
+    "id": 24,
     "name": "Ophelia Matte Natural  Vase",
     "price": 149,
     "description": "Lorem ipsum dolor sit amet conse bolli tetur.",
