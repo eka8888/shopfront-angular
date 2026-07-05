@@ -13,12 +13,10 @@ export class CartService {
 
   readonly cartItems = signal<CartItem[]>([]);
 
-  readonly cartHeading = computed(() => {
+  readonly itemsQuantity = computed(() => {
     const totalItems = this.cartItems().reduce((sum, item) => sum + item.quantity, 0);
 
-    const heading = totalItems === 1 ? `${totalItems} item` : `${totalItems} items`;
-
-    return heading;
+    return totalItems;
   });
 
   readonly cartTotal = computed(() => {
@@ -135,5 +133,10 @@ export class CartService {
         return item;
       });
     });
+  }
+
+  clearCart() {
+    this.cartItems.set([]);
+    this.discount.set(0);
   }
 }
