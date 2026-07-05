@@ -7,11 +7,11 @@ import { NgClass } from '@angular/common';
   templateUrl: './quantity-selector.html',
 })
 export class QuantitySelector {
-  itemId = input.required<number>();
+  itemId = input.required<number | string>();
   itemQuantity = input.required<number>();
 
-  increase = output<number>();
-  decrease = output<number>();
+  increase = output<number | string>();
+  decrease = output<number | string>();
 
   onIncrease() {
     this.increase.emit(this.itemId());

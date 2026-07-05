@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { ProductService } from '../../../../shared/services/product.service';
 import { CartService } from '../../../../shared/services/cart.service';
@@ -15,7 +15,6 @@ import { ButtonVariant } from '../../../../shared/types/form.enums';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailsPage {
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
   private cartService = inject(CartService);
@@ -39,20 +38,12 @@ export class ProductDetailsPage {
     return this.productService.getOldPrice(this.productId);
   });
 
-  constructor() {
-    effect(() => {
-      if (!this.currentProduct()) {
-        this.router.navigate(['/404'], {replaceUrl: true});
-      }
-    });
+  onIncreaseQuantity(id: number | string) {
+    this.cartService.increaseQuantity(Number(id));
   }
 
-  onIncreaseQuantity(id: number) {
-    this.cartService.increaseQuantity(id);
-  }
-
-  onDecreaseQuantity(id: number) {
-    this.cartService.decreaseQuantity(id);
+  onDecreaseQuantity(id: number | string) {
+    this.cartService.decreaseQuantity(Number(id));
   }
 
   onAddToCart() {

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 
+import { stripTrailingSlash } from '../utils/url';
 import { environment } from '../../../environments/environment';
 import { Token } from './token';
 
@@ -19,7 +20,7 @@ export interface TokenResponse {
 }
 
 export interface RegisterRequest {
- email: string;
+  email: string;
   password: string;
   firstName: string;
   lastName: string;
@@ -101,15 +102,15 @@ export class Auth {
 
     return this.http
       .post<TokenResponse>(
-        `${environment.authUrl}/oauth/${environment.projectKey}/customers/token`,
+        `${stripTrailingSlash(environment.authUrl)}/oauth/${environment.projectKey}/customers/token`,
         body.toString(),
-        { headers: this.getBasicAuthHeaders() }
+        { headers: this.getBasicAuthHeaders() },
       )
       .pipe(
         tap((response) => {
           this.tokenService.setToken(response.access_token);
           this.loggedIn.set(true);
-        })
+        }),
       );
   }
 
@@ -147,54 +148,50 @@ export class Auth {
   //   );
   // }
   register(data: RegisterRequest): Observable<CustomerResponse> {
-  const shippingAddress = {
-    country: this.mapCountryCode(data.country),
-    city: data.city,
-    streetName: data.street,
-    postalCode: data.postalCode,
-  };
+    const shippingAddress = {
+      country: this.mapCountryCode(data.country),
+      city: data.city,
+      streetName: data.street,
+      postalCode: data.postalCode,
+    };
 
-  const billingAddress = {
-    country: this.mapCountryCode(data.billingCountry ?? data.country),
-    city: data.billingCity ?? data.city,
-    streetName: data.billingStreet ?? data.street,
-    postalCode: data.billingPostalCode ?? data.postalCode,
-  };
+    const billingAddress = {
+      country: this.mapCountryCode(data.billingCountry ?? data.country),
+      city: data.billingCity ?? data.city,
+      streetName: data.billingStreet ?? data.street,
+      postalCode: data.billingPostalCode ?? data.postalCode,
+    };
 
-  const useSameAddress = data.useSameAddressForBilling;
+    const useSameAddress = data.useSameAddressForBilling;
 
-  const customerBody = {
-    email: data.email,
-    password: data.password,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    dateOfBirth: data.dateOfBirth,
-    addresses: useSameAddress
-      ? [shippingAddress]
-      : [shippingAddress, billingAddress],
-    defaultShippingAddress: 0,
-    defaultBillingAddress: useSameAddress ? 0 : 1,
-  };
+    const customerBody = {
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfBirth: data.dateOfBirth,
+      addresses: useSameAddress ? [shippingAddress] : [shippingAddress, billingAddress],
+      defaultShippingAddress: 0,
+      defaultBillingAddress: useSameAddress ? 0 : 1,
+    };
 
-  return this.getProjectToken().pipe(
-    switchMap((tokenResponse) => {
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${tokenResponse.access_token}`,
-      });
+    return this.getProjectToken().pipe(
+      switchMap((tokenResponse) => {
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        });
 
-      return this.http.post<CustomerResponse>(
-        `${environment.apiUrl}/${environment.projectKey}/customers`,
-        customerBody,
-        { headers }
-      );
-    })
-  );
-}
+        return this.http.post<CustomerResponse>(
+          `${environment.apiUrl}/${environment.projectKey}/customers`,
+          customerBody,
+          { headers },
+        );
+      }),
+    );
+  }
 
   getMyProfile(): Observable<CustomerProfile> {
-    return this.http.get<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`
-    );
+    return this.http.get<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`);
   }
 
   updateMyProfile(data: UpdateProfileRequest): Observable<CustomerProfile> {
@@ -222,110 +219,83 @@ export class Auth {
 
     return this.http.post<CustomerProfile>(
       `${environment.apiUrl}/${environment.projectKey}/me`,
-      body
+      body,
     );
   }
 
-  addAddress(
-    version: number,
-    address: AddressFormValue
-  ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      {
-        version,
-        actions: [
-          {
-            action: 'addAddress',
-            address: {
-              streetName: address.streetName,
-              city: address.city,
-              country: this.mapCountryCode(address.country),
-              postalCode: address.postalCode,
-            },
+  addAddress(version: number, address: AddressFormValue): Observable<CustomerProfile> {
+    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+      version,
+      actions: [
+        {
+          action: 'addAddress',
+          address: {
+            streetName: address.streetName,
+            city: address.city,
+            country: this.mapCountryCode(address.country),
+            postalCode: address.postalCode,
           },
-        ],
-      }
-    );
+        },
+      ],
+    });
   }
 
   updateAddress(
     version: number,
     addressId: string,
-    address: AddressFormValue
+    address: AddressFormValue,
   ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      {
-        version,
-        actions: [
-          {
-            action: 'changeAddress',
-            addressId,
-            address: {
-              streetName: address.streetName,
-              city: address.city,
-              country: this.mapCountryCode(address.country),
-              postalCode: address.postalCode,
-            },
+    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+      version,
+      actions: [
+        {
+          action: 'changeAddress',
+          addressId,
+          address: {
+            streetName: address.streetName,
+            city: address.city,
+            country: this.mapCountryCode(address.country),
+            postalCode: address.postalCode,
           },
-        ],
-      }
-    );
+        },
+      ],
+    });
   }
 
-  deleteAddress(
-    version: number,
-    addressId: string
-  ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      {
-        version,
-        actions: [
-          {
-            action: 'removeAddress',
-            addressId,
-          },
-        ],
-      }
-    );
+  deleteAddress(version: number, addressId: string): Observable<CustomerProfile> {
+    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+      version,
+      actions: [
+        {
+          action: 'removeAddress',
+          addressId,
+        },
+      ],
+    });
   }
 
-  setDefaultShippingAddress(
-    version: number,
-    addressId: string
-  ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      {
-        version,
-        actions: [
-          {
-            action: 'setDefaultShippingAddress',
-            addressId,
-          },
-        ],
-      }
-    );
+  setDefaultShippingAddress(version: number, addressId: string): Observable<CustomerProfile> {
+    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+      version,
+      actions: [
+        {
+          action: 'setDefaultShippingAddress',
+          addressId,
+        },
+      ],
+    });
   }
 
-  setDefaultBillingAddress(
-    version: number,
-    addressId: string
-  ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      {
-        version,
-        actions: [
-          {
-            action: 'setDefaultBillingAddress',
-            addressId,
-          },
-        ],
-      }
-    );
+  setDefaultBillingAddress(version: number, addressId: string): Observable<CustomerProfile> {
+    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+      version,
+      actions: [
+        {
+          action: 'setDefaultBillingAddress',
+          addressId,
+        },
+      ],
+    });
   }
 
   logout(): void {
@@ -339,16 +309,14 @@ export class Auth {
     body.set('grant_type', 'client_credentials');
 
     return this.http.post<TokenResponse>(
-      `${environment.authUrl}/oauth/token`,
+      `${stripTrailingSlash(environment.authUrl)}/oauth/${environment.projectKey}/customers/token`,
       body.toString(),
-      { headers: this.getBasicAuthHeaders() }
+      { headers: this.getBasicAuthHeaders() },
     );
   }
 
   private getBasicAuthHeaders(): HttpHeaders {
-    const basicAuth = btoa(
-      `${environment.clientId}:${environment.clientSecret}`
-    );
+    const basicAuth = btoa(`${environment.clientId}:${environment.clientSecret}`);
 
     return new HttpHeaders({
       Authorization: `Basic ${basicAuth}`,
@@ -366,13 +334,13 @@ export class Auth {
     return countries[country] ?? country.toUpperCase();
   }
   changePassword(data: ChangePasswordRequest): Observable<CustomerProfile> {
-  return this.http.post<CustomerProfile>(
-    `${environment.apiUrl}/${environment.projectKey}/me/password`,
-    {
-      version: data.version,
-      currentPassword: data.currentPassword,
-      newPassword: data.newPassword,
-    }
-  );
-}
+    return this.http.post<CustomerProfile>(
+      `${environment.apiUrl}/${environment.projectKey}/me/password`,
+      {
+        version: data.version,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      },
+    );
+  }
 }
