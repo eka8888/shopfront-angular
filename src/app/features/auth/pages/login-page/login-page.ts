@@ -55,8 +55,7 @@ export class LoginPage {
         },
         error: (error: ApiError) => {
           if (error.status === 0) {
-            this.loginError =
-              'Network error. Please check your internet connection.';
+            this.loginError = 'Network error. Please check your internet connection.';
           } else if (error.status === 401 || error.status === 400) {
             this.loginError = 'Invalid email or password.';
           } else {

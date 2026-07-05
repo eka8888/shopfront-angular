@@ -1,87 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 
 import { stripTrailingSlash } from '../utils/url';
 import { environment } from '../../../environments/environment';
 import { Token } from './token';
+import { AuthStore } from '../stores/auth.store.store';
+import {
+  AddressFormValue,
+  ChangePasswordRequest,
+  CustomerProfile,
+  CustomerResponse,
+  LoginRequest,
+  RegisterRequest,
+  TokenResponse,
+  UpdateProfileRequest,
+} from '../models/auth.interface';
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface TokenResponse {
-  access_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
-  refresh_token?: string;
-}
-
-export interface RegisterRequest {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-
-  country: string;
-  street: string;
-  city: string;
-  postalCode: string;
-
-  useSameAddressForBilling: boolean;
-
-  billingCountry?: string;
-  billingStreet?: string;
-  billingCity?: string;
-  billingPostalCode?: string;
-}
-
-export interface CustomerAddress {
-  id?: string;
-  streetName?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-}
-
-export interface CustomerProfile {
-  id: string;
-  version: number;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
-  addresses?: CustomerAddress[];
-  defaultShippingAddressId?: string;
-  defaultBillingAddressId?: string;
-}
-
-export interface CustomerResponse {
-  customer: CustomerProfile;
-}
-
-export interface UpdateProfileRequest {
-  version: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  dateOfBirth: string;
-}
-
-export interface AddressFormValue {
-  streetName: string;
-  city: string;
-  country: string;
-  postalCode: string;
-}
-export interface ChangePasswordRequest {
-  version: number;
-  currentPassword: string;
-  newPassword: string;
-}
 @Injectable({
   providedIn: 'root',
 })
@@ -90,8 +25,11 @@ export class Auth {
   private tokenService = inject(Token);
 
   private loggedIn = signal(!!this.tokenService.getToken());
+  private authStore = inject(AuthStore);
 
-  isAuthenticated = computed(() => this.loggedIn());
+  isAuthenticated(): boolean {
+    return !!this.tokenService.getToken();
+  }
 
   login(data: LoginRequest): Observable<TokenResponse> {
     const body = new URLSearchParams();
@@ -99,6 +37,9 @@ export class Auth {
     body.set('grant_type', 'password');
     body.set('username', data.email);
     body.set('password', data.password);
+
+    this.authStore.setLoading(true);
+    this.authStore.setError(null);
 
     return this.http
       .post<TokenResponse>(
@@ -110,43 +51,12 @@ export class Auth {
         tap((response) => {
           this.tokenService.setToken(response.access_token);
           this.loggedIn.set(true);
+          this.authStore.setToken(response.access_token);
+          this.authStore.setLoading(false);
         }),
       );
   }
 
-  // register(data: RegisterRequest): Observable<CustomerResponse> {
-  //   const customerBody = {
-  //     email: data.email,
-  //     password: data.password,
-  //     firstName: data.firstName,
-  //     lastName: data.lastName,
-  //     dateOfBirth: data.dateOfBirth,
-  //     addresses: [
-  //       {
-  //         country: this.mapCountryCode(data.country),
-  //         city: data.city,
-  //         streetName: data.street,
-  //         postalCode: data.postalCode,
-  //       },
-  //     ],
-  //     defaultShippingAddress: 0,
-  //     defaultBillingAddress: 0,
-  //   };
-
-  //   return this.getProjectToken().pipe(
-  //     switchMap((tokenResponse) => {
-  //       const headers = new HttpHeaders({
-  //         Authorization: `Bearer ${tokenResponse.access_token}`,
-  //       });
-
-  //       return this.http.post<CustomerResponse>(
-  //         `${environment.apiUrl}/${environment.projectKey}/customers`,
-  //         customerBody,
-  //         { headers }
-  //       );
-  //     })
-  //   );
-  // }
   register(data: RegisterRequest): Observable<CustomerResponse> {
     const shippingAddress = {
       country: this.mapCountryCode(data.country),
@@ -191,7 +101,17 @@ export class Auth {
   }
 
   getMyProfile(): Observable<CustomerProfile> {
-    return this.http.get<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`);
+    this.authStore.setLoading(true);
+    this.authStore.setError(null);
+
+    return this.http
+      .get<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`)
+      .pipe(
+        tap((profile) => {
+          this.authStore.setProfile(profile);
+          this.authStore.setLoading(false);
+        }),
+      );
   }
 
   updateMyProfile(data: UpdateProfileRequest): Observable<CustomerProfile> {
@@ -301,6 +221,18 @@ export class Auth {
   logout(): void {
     this.tokenService.clearToken();
     this.loggedIn.set(false);
+    this.authStore.clearToken();
+  }
+
+  changePassword(data: ChangePasswordRequest): Observable<CustomerProfile> {
+    return this.http.post<CustomerProfile>(
+      `${environment.apiUrl}/${environment.projectKey}/me/password`,
+      {
+        version: data.version,
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      },
+    );
   }
 
   private getProjectToken(): Observable<TokenResponse> {
@@ -332,15 +264,5 @@ export class Auth {
     };
 
     return countries[country] ?? country.toUpperCase();
-  }
-  changePassword(data: ChangePasswordRequest): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me/password`,
-      {
-        version: data.version,
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
-      },
-    );
   }
 }
