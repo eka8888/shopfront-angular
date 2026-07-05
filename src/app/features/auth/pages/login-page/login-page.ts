@@ -39,6 +39,7 @@ export class LoginPage {
   });
 
   login(): void {
+    
     this.loginError = '';
 
     if (this.loginForm.invalid) {

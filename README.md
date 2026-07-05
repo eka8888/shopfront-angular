@@ -26,3 +26,18 @@ The application will include:
 - RxJS
 - API integration
 - testing
+
+## Sprint 4 Video Proof
+
+## Sprint 4 Video Proof
+
+[🎥 Watch Sprint 4 Demo](https://drive.google.com/file/d/1NekSxPp7suBNXMg5da-odcJoQubwk82_/view?usp=sharing)
+
+In this video, I demonstrate my Sprint 4 work:
+
+- Login validation
+- Login API error handling
+- Network error handling
+- Successful login
+- Profile update
+- Logout
