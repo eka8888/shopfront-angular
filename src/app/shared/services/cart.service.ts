@@ -66,7 +66,7 @@ export class CartService {
     this.discount.set(0);
   }
 
-  addToCart(productId: number): void {
+  addToCart(productId: string): void {
     const currentProduct = this.productService.getProductById(productId);
 
     if (!currentProduct) {
@@ -99,13 +99,13 @@ export class CartService {
     });
   }
 
-  removeFromCart(productId: number) {
+  removeFromCart(productId: string) {
     this.cartItems.update((items) => {
       return items.filter((item) => item.id !== productId);
     });
   }
 
-  increaseQuantity(productId: number) {
+  increaseQuantity(productId: string) {
     this.cartItems.update((items) => {
       return items.map((item) => {
         if (item.id === productId) {
@@ -120,7 +120,7 @@ export class CartService {
     });
   }
 
-  decreaseQuantity(productId: number) {
+  decreaseQuantity(productId: string) {
     this.cartItems.update((items) => {
       return items.map((item) => {
         if (item.id === productId && item.quantity > 1) {

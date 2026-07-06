@@ -15,7 +15,7 @@ export class ProductCard implements OnInit, OnDestroy {
 
   product = input.required<Product>();
 
-  addToCart = output<number>();
+  addToCart = output<string>();
 
   discountPrice = computed(() => this.product().price + 20);
 

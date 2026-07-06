@@ -43,15 +43,15 @@ export class CartPage {
     this.cartService.resetDiscount();
   }
 
-  onRemoveFromCart(id: number) {
+  onRemoveFromCart(id: string) {
     this.cartService.removeFromCart(id);
   }
 
-  onIncreaseQuantity(id: number) {
+  onIncreaseQuantity(id: string) {
     this.cartService.increaseQuantity(id);
   }
 
-  onDecreaseQuantity(id: number) {
+  onDecreaseQuantity(id: string) {
     this.cartService.decreaseQuantity(id);
   }
 

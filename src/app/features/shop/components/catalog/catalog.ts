@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../../../../shared/services/search.service';
 import { CartService } from '../../../../shared/services/cart.service';
 import { FilteringService } from '../../../../shared/services/filtering.service';
+import { ProductService } from '../../../../shared/services/product.service';
 import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
 import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
@@ -47,6 +48,7 @@ export class Catalog implements OnInit, OnDestroy {
   private cartService = inject(CartService);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
+  private productService = inject(ProductService);
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
@@ -102,7 +104,7 @@ export class Catalog implements OnInit, OnDestroy {
     });
   }
 
-  handleAddToCart(productId: number) {
+  handleAddToCart(productId: string) {
     this.cartService.addToCart(productId);
   }
 
@@ -150,6 +152,13 @@ export class Catalog implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const dataSubscription = this.productService.fetchAllProducts().subscribe({
+      next: (data) => {
+        this.productService.products.set(data);
+      },
+      error: (err) => console.error(err),
+    });
+
     const querySubscription = this.route.queryParams.subscribe((params) => {
       const { category } = params;
 
@@ -165,6 +174,7 @@ export class Catalog implements OnInit, OnDestroy {
     this.addFilters();
 
     this.destroyRef.onDestroy(() => {
+      dataSubscription.unsubscribe();
       querySubscription.unsubscribe();
       formSubscription.unsubscribe();
     });
