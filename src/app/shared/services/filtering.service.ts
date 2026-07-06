@@ -2,22 +2,21 @@ import { Injectable, inject, signal } from '@angular/core';
 
 import { PRICE_RANGE_MAP } from '../constants/price-range';
 import { SearchService } from '../services/search.service';
-import { Category } from '../interfaces/category.interface';
+import { CategoryService } from './category.service';
 import { Product } from '../interfaces/product.interface';
 import { PriceRange } from '../interfaces/price-range.interface';
 import { Filter } from '../types/filter.type';
-
-import categories from '../../shared/data/categories.json';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilteringService {
   private searchService = inject(SearchService);
+  private categoryService = inject(CategoryService);
 
   searchResults = this.searchService.searchResults;
+  categories = this.categoryService.allCategories;
 
-  categories = signal<Category[]>(categories);
   filteredResults = signal<Product[]>([]);
 
   updateSearchAndFilters(
@@ -37,12 +36,12 @@ export class FilteringService {
     categoryFilters: Filter,
   ) {
     if (categoryFilters) {
-      const selectedCategories = Object.keys(categoryFilters).filter((key) => categoryFilters[key]);
+      const selectedCategories = Object.keys(categoryFilters).filter((categoryName) => categoryFilters[categoryName]);
 
       if (selectedCategories.length > 0) {
         const categoryIds = selectedCategories.map((categoryName) => {
           const existedCategory = this.categories().find(
-            (category) => category.name === categoryName,
+            (category) => category.name['en-US'] === categoryName,
           );
 
           if (existedCategory) {
@@ -64,7 +63,7 @@ export class FilteringService {
     priceFilters: Filter,
   ) {
     if (priceFilters) {
-      const selectedPriceRange = Object.keys(priceFilters).filter((key) => priceFilters[key]);
+      const selectedPriceRange = Object.keys(priceFilters).filter((priceRangeName) => priceFilters[priceRangeName]);
 
       if (selectedPriceRange.length > 0) {
         const priceRanges: PriceRange[] = selectedPriceRange.map((value) => PRICE_RANGE_MAP[value]);
