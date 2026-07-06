@@ -34,10 +34,6 @@ export class ProductService {
     return (currentProduct?.price ?? 0) + this.FAKE_DISCOUNT_AMOUNT;
   }
 
-  getProductDetailsImage(id: string) {
-    return `images/product-details/product-${id}/details-1.jpg`;
-  }
-
   fetchProductByKey(key: string) {
     const url = `${this.BASE_URL}/key=${key}`;
 

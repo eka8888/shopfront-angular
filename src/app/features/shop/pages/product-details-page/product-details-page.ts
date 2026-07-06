@@ -32,11 +32,12 @@ export class ProductDetailsPage implements OnInit {
   readonly ButtonVariant = ButtonVariant;
 
   productKey = this.route.snapshot.paramMap.get('key') ?? '';
-  imagePath = this.productService.getProductDetailsImage(this.productKey);
 
   currentProduct = computed(() => {
     return this.productService.getProductById(this.productKey);
   });
+
+  imagePath = computed(() => this.currentProduct()?.detailedImage ?? this.currentProduct()?.image);
 
   currentQuantity = computed(() => {
     const currentItem = this.cartService.cartItems().find((item) => item.id === this.productKey);
@@ -74,7 +75,7 @@ export class ProductDetailsPage implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.productService.fetchProductByKey(this.productKey).subscribe({
-      next: (data) => console.log(data),
+      next: (data) => console.info('Product loaded:', data),
       error: (err) => console.error(err),
     });
 

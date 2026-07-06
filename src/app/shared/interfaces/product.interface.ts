@@ -8,6 +8,7 @@ export interface Product {
   categoryId: number;
   isNew: boolean;
   image?: string;
+  detailedImage?: string;
 }
 
 export interface CtProduct {
