@@ -3,7 +3,19 @@ export interface Category {
   name: string;
 }
 
-export interface CtCategory {
+export interface CtProductCategory {
   id: string;
   typeId: 'category';
+}
+
+export interface CtCategories {
+  results: CtCategory[];
+}
+
+export interface CtCategory {
+  id: string;
+  key: string;
+  name: {
+    'en-US': string;
+  }
 }

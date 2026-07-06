@@ -26,6 +26,7 @@ import { Button } from '../../../../shared/components/button/button';
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
 import { ButtonVariant } from '../../../../shared/types/form.enums';
 import { ButtonType } from '../../../../shared/types/form.enums';
+import { CategoryService } from '../../../../shared/services/category.service';
 
 @Component({
   selector: 'app-catalog',
@@ -49,6 +50,7 @@ export class Catalog implements OnInit, OnDestroy {
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
@@ -57,8 +59,8 @@ export class Catalog implements OnInit, OnDestroy {
   itemsPerPage = signal<number>(12);
   currentPage = signal<number>(1);
 
-  textToSearch = this.searchService.searchInput;
-  categories = this.filteringService.categories;
+  textToSearch = this.searchService.userInput;
+  categories = this.categoryService.allCategories;
   filteredResults = this.filteringService.filteredResults;
 
   formattedPriceRange = computed(() => {
@@ -155,6 +157,7 @@ export class Catalog implements OnInit, OnDestroy {
     const dataSubscription = this.productService.fetchAllProducts().subscribe({
       next: (data) => {
         this.productService.products.set(data);
+        this.searchService.searchResults.set(data);
       },
       error: (err) => console.error(err),
     });
@@ -169,6 +172,14 @@ export class Catalog implements OnInit, OnDestroy {
 
     const formSubscription = this.filteringForm.valueChanges.subscribe(() => {
       this.addFilters();
+    });
+
+    this.categoryService.fetchCategories().subscribe({
+      next: (data) => {
+        this.categories.set(data);
+        console.log(data);
+      },
+      error: (err) => console.log(err),
     });
 
     this.addFilters();

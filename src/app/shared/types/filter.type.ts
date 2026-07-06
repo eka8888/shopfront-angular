@@ -1,1 +1,1 @@
-export type Filter = Record<string, boolean | null> | undefined;
+export type Filters = Record<string, boolean | null> | undefined;

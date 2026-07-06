@@ -28,7 +28,7 @@ export class Header {
   readonly appName = this.appConfig.appName;
   readonly navItems = this.navigationService.navItems();
   readonly isAuthenticated = computed(() => this.authService.isAuthenticated());
-  readonly searchBarValue = this.searchService.searchInput;
+  readonly searchBarValue = this.searchService.userInput;
   readonly cartBadge = this.cartService.itemsQuantity;
 
   handleSearch(value: string): void {

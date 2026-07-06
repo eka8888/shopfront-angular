@@ -7,6 +7,7 @@ export function adaptCtToProduct(ctProduct: CtProduct): Product {
   const description = ctProduct.description?.['en-US'] ?? '';
   const imageUrl = (variant.images?.[0]?.url) ?? '';
   const detailedImageUrl = (variant.images?.[1]?.url) ?? '';
+  const categoryId = ctProduct.categories?.[0].id ?? '';
 
   return {
     id: ctProduct.key,
@@ -14,9 +15,10 @@ export function adaptCtToProduct(ctProduct: CtProduct): Product {
     name: ctProduct.name['en-US'],
     price: price / 100,
     description,
-    categoryId: 0, // TODO: change later
-    isNew: false, // TODO: change later
+    categoryId,
     image: imageUrl,
     detailedImage: detailedImageUrl,
+    createdAt: ctProduct.createdAt,
+    lastModifiedAt: ctProduct.lastModifiedAt,
   };
 }
