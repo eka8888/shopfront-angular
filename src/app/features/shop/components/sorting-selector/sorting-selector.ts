@@ -10,6 +10,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { SelectComponent } from '../../../../shared/components/select/select';
 import { DEFAULT_SORTING, Sorting, isSorting } from '../../../../shared/types/sorting.enums';
+import { sortingOptions } from '../../../../shared/constants/sorting-options';
 
 @Component({
   selector: 'app-sorting-selector',
@@ -23,12 +24,7 @@ export class SortingSelector implements OnInit {
 
   sortSelect = output<Sorting>();
 
-  sortOptions: { value: Sorting; label: string }[] = [
-    { value: Sorting.NameAsc, label: 'Name ↑' },
-    { value: Sorting.NameDesc, label: 'Name ↓' },
-    { value: Sorting.PriceAsc, label: 'Price ↑' },
-    { value: Sorting.PriceDesc, label: 'Price ↓' },
-  ];
+  sortOptions = sortingOptions;
 
   sortingForm = this.formBuilder.group({
     sortBy: [DEFAULT_SORTING],

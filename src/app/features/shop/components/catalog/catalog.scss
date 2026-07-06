@@ -1,0 +1,17 @@
+@reference "../../../../../tailwind.css";
+
+.filter-fieldset {
+  @apply flex flex-col gap-2 border-b border-dark-grey border-solid pb-7.5 mb-7.5;
+
+  &:last-child {
+    @apply border-b-0 mb-0;
+  }
+}
+
+.checkbox-label {
+  @apply font-primary font-normal text-sm leading-5.5 text-grey-blue;
+}
+
+.items-counter {
+  @apply w-64.5 pb-7.5 mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid;
+}

@@ -1,8 +1,29 @@
 <section class="max-w-277.5 mx-auto pb-20">
   <h1 class="sr-only">Shopping Cart</h1>
-  <h2 class="mt-12.5 mb-10 text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
-    Cart ({{ heading() }})
-  </h2>
+
+  <div class="mt-12.5 mb-10 flex items-center justify-between">
+    <h2 class="mt-12.5 mb-10 text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
+      Cart ({{ itemsQuantity() | plurals: 'item' : 'items' }})
+    </h2>
+
+    @if (items().length > 0) {
+      <app-button
+        [variant]="ButtonVariant.Text"
+        [type]="ButtonType.Button"
+        (click)="clearCartModalVisible.set(true)"
+      >
+        Clear Cart
+      </app-button>
+    }
+  </div>
+
+  @if (clearCartModalVisible()) {
+    <app-clear-cart-modal
+      [isOpen]="clearCartModalVisible()"
+      (closed)="clearCartModalVisible.set(false)"
+      (confirmed)="onClearCart()"
+    />
+  }
 
   <!-- CART-ITEMS -->
   @if (items().length === 0) {
@@ -45,8 +66,17 @@
           <div class="flex justify-center items-center uppercase">{{ item.name }}</div>
 
           <!-- CURRENT PRICE -->
-          <div class="flex justify-center items-center">
-            {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+          <div class="flex flex-col justify-center items-center gap-0.5">
+            @if (isDiscountApplied()) {
+              <span class="line-through text-zambezi text-xs font-normal">
+                {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+              <span class="text-light-brown">
+                {{ discountedPrice(item.price) | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+            } @else {
+              {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+            }
           </div>
 
           <!-- QUANTITY SELECTOR -->
@@ -59,8 +89,17 @@
           />
 
           <!-- SUBTOTAL -->
-          <div class="flex justify-center items-center text-light-brown">
-            {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+          <div class="flex flex-col justify-center items-center gap-0.5 text-light-brown">
+            @if (isDiscountApplied()) {
+              <span class="line-through text-zambezi text-xs font-normal">
+                {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+              <span>
+                {{ discountedSubtotal(item) | currency: 'USD' : 'symbol' : '1.0-0' }}
+              </span>
+            } @else {
+              {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+            }
           </div>
         </div>
       }

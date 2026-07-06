@@ -25,6 +25,9 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+              "polyfills": [
+    "zone.js"
+  ],
             "assets": [
               {
                 "glob": "**/*",
@@ -69,9 +72,10 @@
           },
           "defaultConfiguration": "development"
         },
-        "test": {
-          "builder": "@angular/build:unit-test"
-        },
+       "test": {
+  "builder": "@angular/build:unit-test"
+
+},
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {

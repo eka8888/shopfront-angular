@@ -1,14 +1,23 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
 
-import categoriesData from '../data/categories.json';
+import { environment } from '../../../environments/environment';
+import { CtCategories, CtCategory } from '../interfaces/category.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  categories = signal(
-    categoriesData.map((category) => {
-      const slug = category.name
+  private BASE_URL = `${environment.apiUrl}/${environment.projectKey}/categories`;
+
+  private httpClient = inject(HttpClient);
+
+  allCategories = signal<CtCategory[]>([]);
+
+  homePageCategories = signal(
+    this.allCategories().map((category) => {
+      const slug = category.name['en-US']
         .trim()
         .toLowerCase()
         .replace(/[^\w\s-]/g, '')
@@ -22,7 +31,13 @@ export class CategoryService {
     }),
   );
 
-  getCategories() {
-    return this.categories;
+  getHomePageCategories() {
+    return this.homePageCategories;
+  }
+
+  fetchCategories() {
+    const url = `${this.BASE_URL}`;
+
+    return this.httpClient.get<CtCategories>(url).pipe(map((data) => data.results));
   }
 }

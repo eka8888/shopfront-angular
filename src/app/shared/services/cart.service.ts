@@ -13,12 +13,10 @@ export class CartService {
 
   readonly cartItems = signal<CartItem[]>([]);
 
-  readonly cartHeading = computed(() => {
+  readonly itemsQuantity = computed(() => {
     const totalItems = this.cartItems().reduce((sum, item) => sum + item.quantity, 0);
 
-    const heading = totalItems === 1 ? `${totalItems} item` : `${totalItems} items`;
-
-    return heading;
+    return totalItems;
   });
 
   readonly cartTotal = computed(() => {
@@ -68,7 +66,7 @@ export class CartService {
     this.discount.set(0);
   }
 
-  addToCart(productId: number): void {
+  addToCart(productId: string): void {
     const currentProduct = this.productService.getProductById(productId);
 
     if (!currentProduct) {
@@ -101,13 +99,13 @@ export class CartService {
     });
   }
 
-  removeFromCart(productId: number) {
+  removeFromCart(productId: string) {
     this.cartItems.update((items) => {
       return items.filter((item) => item.id !== productId);
     });
   }
 
-  increaseQuantity(productId: number) {
+  increaseQuantity(productId: string) {
     this.cartItems.update((items) => {
       return items.map((item) => {
         if (item.id === productId) {
@@ -122,7 +120,7 @@ export class CartService {
     });
   }
 
-  decreaseQuantity(productId: number) {
+  decreaseQuantity(productId: string) {
     this.cartItems.update((items) => {
       return items.map((item) => {
         if (item.id === productId && item.quantity > 1) {
@@ -135,5 +133,10 @@ export class CartService {
         return item;
       });
     });
+  }
+
+  clearCart() {
+    this.cartItems.set([]);
+    this.discount.set(0);
   }
 }

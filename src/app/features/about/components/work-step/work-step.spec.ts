@@ -13,7 +13,11 @@ describe('WorkStep', () => {
 
     fixture = TestBed.createComponent(WorkStep);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+
+    fixture.componentRef.setInput('title', 'Step title');
+    fixture.componentRef.setInput('description', 'Step description');
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {

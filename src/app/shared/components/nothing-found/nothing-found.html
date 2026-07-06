@@ -1,9 +1,16 @@
 <div class="text-center py-20">
-  <p class="text-black-marlin font-primary text-lg">{{ message() }}</p>
-  <a
-    [routerLink]="btnLink()"
-    class="inline-block mt-7 px-6 py-3 bg-black-marlin text-white cursor-pointer uppercase hover:opacity-70 transition"
-  >
-    {{ btnText() }}
-  </a>
+  <p class="text-black-marlin font-primary text-lg pb-4">{{ message() }}</p>
+
+  @if (btnLink()) {
+    <a
+      [routerLink]="btnLink()"
+      class="inline-block mt-7 px-6 py-3 bg-black-marlin text-white cursor-pointer uppercase hover:opacity-70 transition"
+    >
+      {{ btnText() }}
+    </a>
+  } @else {
+    <app-button [variant]="ButtonVariant.Outline" [fullWidth]="false" (click)="btnClick.emit()">{{
+      btnText()
+    }}</app-button>
+  }
 </div>

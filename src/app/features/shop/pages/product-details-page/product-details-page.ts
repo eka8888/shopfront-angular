@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductService } from '../../../../shared/services/product.service';
 import { CartService } from '../../../../shared/services/cart.service';
@@ -14,43 +22,65 @@ import { ButtonVariant } from '../../../../shared/types/form.enums';
   templateUrl: './product-details-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailsPage {
+export class ProductDetailsPage implements OnInit {
+  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
   private cartService = inject(CartService);
+  private destroyRef = inject(DestroyRef);
 
   readonly ButtonVariant = ButtonVariant;
 
-  productId = Number(this.route.snapshot.paramMap.get('id'));
-  imagePath = this.productService.getProductDetailsImage(this.productId);
+  productKey = this.route.snapshot.paramMap.get('key') ?? '';
 
   currentProduct = computed(() => {
-    return this.productService.getProductById(this.productId);
+    return this.productService.getProductById(this.productKey);
   });
 
+  imagePath = computed(() => this.currentProduct()?.detailedImage ?? this.currentProduct()?.image);
+
   currentQuantity = computed(() => {
-    const currentItem = this.cartService.cartItems().find((item) => item.id === this.productId);
+    const currentItem = this.cartService.cartItems().find((item) => item.id === this.productKey);
 
     return currentItem?.quantity ?? 0;
   });
 
   oldPrice = computed(() => {
-    return this.productService.getOldPrice(this.productId);
+    return this.productService.getOldPrice(this.productKey);
   });
 
-  onIncreaseQuantity(id: number) {
+  constructor() {
+    effect(() => {
+      if (!this.currentProduct()) {
+        this.router.navigate(['/404'], { replaceUrl: true });
+      }
+    });
+  }
+
+  onIncreaseQuantity(id: string) {
     this.cartService.increaseQuantity(id);
   }
 
-  onDecreaseQuantity(id: number) {
+  onDecreaseQuantity(id: string) {
     this.cartService.decreaseQuantity(id);
   }
 
   onAddToCart() {
-    this.cartService.addToCart(this.productId);
+    this.cartService.addToCart(this.productKey);
   }
 
   onRemoveFromCart() {
-    this.cartService.removeFromCart(this.productId);
+    this.cartService.removeFromCart(this.productKey);
+  }
+
+  ngOnInit(): void {
+    const subscription = this.productService.fetchProductByKey(this.productKey).subscribe({
+      next: (data) => console.info('Product loaded:', data),
+      error: (err) => console.error(err),
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 }

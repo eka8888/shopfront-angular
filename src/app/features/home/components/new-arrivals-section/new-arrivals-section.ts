@@ -15,7 +15,7 @@ export class NewArrivalsSection {
 
   newArrivals = this.productService.newArrivals;
 
-  handleAddToCart(productId: number) {
+  handleAddToCart(productId: string) {
     this.cartService.addToCart(productId);
   }
 }
