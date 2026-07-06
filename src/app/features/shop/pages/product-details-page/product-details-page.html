@@ -57,7 +57,7 @@
       <!-- QUANTITY -->
       @if (quantity > 0) {
         <app-quantity-selector
-          [itemId]="productId"
+          [itemId]="productKey"
           [itemQuantity]="quantity"
           (increase)="onIncreaseQuantity($event)"
           (decrease)="onDecreaseQuantity($event)"
