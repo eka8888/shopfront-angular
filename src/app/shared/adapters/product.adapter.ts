@@ -10,6 +10,7 @@ export function adaptCtToProduct(ctProduct: CtProduct): Product {
 
   return {
     id: ctProduct.key,
+    ctId: ctProduct.id,
     name: ctProduct.name['en-US'],
     price: price / 100,
     description,

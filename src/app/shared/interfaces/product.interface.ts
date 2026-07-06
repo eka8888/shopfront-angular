@@ -2,6 +2,7 @@ import { CtCategory } from "./category.interface";
 
 export interface Product {
   id: string;
+  ctId: string;
   name: string;
   price: number;
   description: string;
