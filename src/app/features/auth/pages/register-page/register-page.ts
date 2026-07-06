@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -52,6 +53,7 @@ export class RegisterPage {
   private readonly  appConfig = inject(APP_CONFIG);
   private readonly authService = inject(Auth);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 readonly minPasswordLength = this.appConfig.minPasswordLength;
   registerError = '';
   isLoading = false;
@@ -120,33 +122,26 @@ readonly minPasswordLength = this.appConfig.minPasswordLength;
       .subscribe({
         next: () => {
           this.isLoading = false;
+            this.cdr.markForCheck();
           this.router.navigate(['/home']);
         },
         error: (error: ApiError) => {
           this.isLoading = false;
 
           if (error.status === 0) {
-            this.registerError =
-              'Network error. Please check your internet connection.';
-            return;
-          }
+    this.registerError = 'Network error. Please check your internet connection.';
+  } else if (error.status === 400) {
+    this.registerError = error.message ?? 'Registration failed. Please check your data.';
+  } else if (error.status === 401) {
+    this.registerError =
+      'Registration was successful, but login failed. Please login manually.';
+    this.router.navigate(['/login']);
+  } else {
+    this.registerError = error.message ?? 'Registration failed. Please try again.';
+  }
 
-          if (error.status === 400) {
-            this.registerError =
-              error.message ?? 'Registration failed. Please check your data.';
-            return;
-          }
-
-          if (error.status === 401) {
-            this.registerError =
-              'Registration was successful, but login failed. Please login manually.';
-            this.router.navigate(['/login']);
-            return;
-          }
-
-          this.registerError =
-            error.message ?? 'Registration failed. Please try again.';
-        },
+  this.cdr.markForCheck();
+}
       });
   }
 
