@@ -18,11 +18,20 @@ export class ProductService {
 
   products = signal<Product[]>([]);
 
-  readonly newArrivals = computed(() =>
-    this.products()
-      .filter((product) => product.isNew)
-      .slice(0, 4),
-  );
+  newArrivals = computed(() => {
+    return this.products()
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 4);
+  });
+
+  constructor() {
+    this.fetchAllProducts().subscribe({
+      next:  (data) => {
+        this.products.set(data);
+      },
+      error: (err) => console.log(err),
+    });
+  }
 
   getProductById(id: string) {
     return this.products().find((item) => item.id === id);

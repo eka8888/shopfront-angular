@@ -16,8 +16,9 @@ export function adaptCtToProduct(ctProduct: CtProduct): Product {
     price: price / 100,
     description,
     categoryId,
-    isNew: false, // TODO: change later
     image: imageUrl,
     detailedImage: detailedImageUrl,
+    createdAt: ctProduct.createdAt,
+    lastModifiedAt: ctProduct.lastModifiedAt,
   };
 }

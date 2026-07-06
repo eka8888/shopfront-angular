@@ -1,4 +1,4 @@
-import { CtProductCategory } from "./category.interface";
+import { CtProductCategory } from './category.interface';
 
 export interface Product {
   id: string;
@@ -7,9 +7,10 @@ export interface Product {
   price: number;
   description: string;
   categoryId: string;
-  isNew: boolean;
   image?: string;
   detailedImage?: string;
+  createdAt: string;
+  lastModifiedAt: string;
 }
 
 export interface CtProduct {
@@ -24,8 +25,10 @@ export interface CtProduct {
   };
   description: {
     'en-US': string;
-  },
-  categories?: CtProductCategory[],
+  };
+  categories?: CtProductCategory[];
+  createdAt: string;
+  lastModifiedAt: string;
 }
 
 interface Price {
@@ -44,5 +47,5 @@ export interface CtAllProducts {
   limit: number;
   offset: number;
   total: number;
-  results: CtProduct[]
+  results: CtProduct[];
 }
