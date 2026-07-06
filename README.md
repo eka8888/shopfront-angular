@@ -14,7 +14,7 @@ We selected **ShopFront** as our Angular Sprint project.
 ## Project Description
 
 ShopFront is an online store application built with Angular.
-## Live Demo 🚀 [Open ShopFront Application](https://shopfront-angular-2tbm-git-dev-eka8888s-projects.vercel.app/home)
+## Live Demo 🚀 [Open ShopFront Application](https://shopfront-angular.vercel.app)
 The application will include:
 
 - authentication
