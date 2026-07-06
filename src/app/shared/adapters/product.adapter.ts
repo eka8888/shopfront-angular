@@ -1,10 +1,12 @@
 import { CtProduct, Product } from '../interfaces/product.interface';
 
 export function adaptCtToProduct(ctProduct: CtProduct): Product {
-  const price = ctProduct.masterVariant.prices?.[0].value.centAmount ?? 0;
+  const variant = ctProduct.masterVariant;
+
+  const price = variant.prices?.[0].value.centAmount ?? 0;
   const description = ctProduct.description?.['en-US'] ?? '';
-  const imageUrl = (ctProduct.masterVariant.images?.[0]?.url) ?? '';
-  const detailedImageUrl = (ctProduct.masterVariant.images?.[1]?.url) ?? '';
+  const imageUrl = (variant.images?.[0]?.url) ?? '';
+  const detailedImageUrl = (variant.images?.[1]?.url) ?? '';
 
   return {
     id: ctProduct.key,
