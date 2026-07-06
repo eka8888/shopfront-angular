@@ -59,7 +59,7 @@ export class Catalog implements OnInit, OnDestroy {
   itemsPerPage = signal<number>(12);
   currentPage = signal<number>(1);
 
-  textToSearch = this.searchService.searchInput;
+  textToSearch = this.searchService.userInput;
   categories = this.categoryService.allCategories;
   filteredResults = this.filteringService.filteredResults;
 
@@ -157,6 +157,7 @@ export class Catalog implements OnInit, OnDestroy {
     const dataSubscription = this.productService.fetchAllProducts().subscribe({
       next: (data) => {
         this.productService.products.set(data);
+        this.searchService.searchResults.set(data);
       },
       error: (err) => console.error(err),
     });
