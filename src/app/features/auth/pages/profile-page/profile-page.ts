@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Auth, CustomerAddress } from '../../../../core/services/auth';
+import { Auth } from '../../../../core/services/auth';
 import { Button } from '../../../../shared/components/button/button';
 import { InputComponent } from '../../../../shared/components/input/input';
 import { SelectComponent } from '../../../../shared/components/select/select';
@@ -22,6 +22,7 @@ import {
 } from '../../../../shared/utils/profile.validator';
 import { passwordStrengthValidator } from '../../../../shared/utils/password.validator';
 import { ApiError } from '../../../../core/interceptors/auth-interceptor';
+import { CustomerAddress } from '../../../../core/models/auth.interface';
 
 @Component({
   selector: 'app-profile-page',

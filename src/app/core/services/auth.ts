@@ -1,86 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal} from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Token } from './token';
+import { AuthStore } from '../stores/auth.store.store';
+import { AddressFormValue, ChangePasswordRequest, CustomerProfile, CustomerResponse, LoginRequest, RegisterRequest, TokenResponse, UpdateProfileRequest } from '../models/auth.interface';
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
 
-export interface TokenResponse {
-  access_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
-  refresh_token?: string;
-}
-
-export interface RegisterRequest {
- email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-
-  country: string;
-  street: string;
-  city: string;
-  postalCode: string;
-
-  useSameAddressForBilling: boolean;
-
-  billingCountry?: string;
-  billingStreet?: string;
-  billingCity?: string;
-  billingPostalCode?: string;
-}
-
-export interface CustomerAddress {
-  id?: string;
-  streetName?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-}
-
-export interface CustomerProfile {
-  id: string;
-  version: number;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
-  addresses?: CustomerAddress[];
-  defaultShippingAddressId?: string;
-  defaultBillingAddressId?: string;
-}
-
-export interface CustomerResponse {
-  customer: CustomerProfile;
-}
-
-export interface UpdateProfileRequest {
-  version: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  dateOfBirth: string;
-}
-
-export interface AddressFormValue {
-  streetName: string;
-  city: string;
-  country: string;
-  postalCode: string;
-}
-export interface ChangePasswordRequest {
-  version: number;
-  currentPassword: string;
-  newPassword: string;
-}
 @Injectable({
   providedIn: 'root',
 })
@@ -89,63 +16,40 @@ export class Auth {
   private tokenService = inject(Token);
 
   private loggedIn = signal(!!this.tokenService.getToken());
+private authStore = inject(AuthStore);
 
-  isAuthenticated = computed(() => this.loggedIn());
-
-  login(data: LoginRequest): Observable<TokenResponse> {
-    const body = new URLSearchParams();
-
-    body.set('grant_type', 'password');
-    body.set('username', data.email);
-    body.set('password', data.password);
-
-    return this.http
-      .post<TokenResponse>(
-        `${environment.authUrl}/oauth/${environment.projectKey}/customers/token`,
-        body.toString(),
-        { headers: this.getBasicAuthHeaders() }
-      )
-      .pipe(
-        tap((response) => {
-          this.tokenService.setToken(response.access_token);
-          this.loggedIn.set(true);
-        })
-      );
+  isAuthenticated(): boolean {
+    return !!this.tokenService.getToken();
   }
 
-  // register(data: RegisterRequest): Observable<CustomerResponse> {
-  //   const customerBody = {
-  //     email: data.email,
-  //     password: data.password,
-  //     firstName: data.firstName,
-  //     lastName: data.lastName,
-  //     dateOfBirth: data.dateOfBirth,
-  //     addresses: [
-  //       {
-  //         country: this.mapCountryCode(data.country),
-  //         city: data.city,
-  //         streetName: data.street,
-  //         postalCode: data.postalCode,
-  //       },
-  //     ],
-  //     defaultShippingAddress: 0,
-  //     defaultBillingAddress: 0,
-  //   };
+login(data: LoginRequest): Observable<TokenResponse> {
+  const body = new URLSearchParams();
 
-  //   return this.getProjectToken().pipe(
-  //     switchMap((tokenResponse) => {
-  //       const headers = new HttpHeaders({
-  //         Authorization: `Bearer ${tokenResponse.access_token}`,
-  //       });
+  body.set('grant_type', 'password');
+  body.set('username', data.email);
+  body.set('password', data.password);
 
-  //       return this.http.post<CustomerResponse>(
-  //         `${environment.apiUrl}/${environment.projectKey}/customers`,
-  //         customerBody,
-  //         { headers }
-  //       );
-  //     })
-  //   );
-  // }
+  this.authStore.setLoading(true);
+  this.authStore.setError(null);
+
+  return this.http
+    .post<TokenResponse>(
+      `${environment.authUrl}/oauth/${environment.projectKey}/customers/token`,
+      body.toString(),
+      { headers: this.getBasicAuthHeaders() }
+    )
+    .pipe(
+      tap((response) => {
+        this.tokenService.setToken(response.access_token);
+        this.authStore.setToken(response.access_token);
+        this.authStore.setLoading(false);
+      })
+    );
+}
+
+
+ 
+  
   register(data: RegisterRequest): Observable<CustomerResponse> {
   const shippingAddress = {
     country: this.mapCountryCode(data.country),
@@ -192,10 +96,20 @@ export class Auth {
 }
 
   getMyProfile(): Observable<CustomerProfile> {
-    return this.http.get<CustomerProfile>(
+  this.authStore.setLoading(true);
+  this.authStore.setError(null);
+
+  return this.http
+    .get<CustomerProfile>(
       `${environment.apiUrl}/${environment.projectKey}/me`
+    )
+    .pipe(
+      tap((profile) => {
+        this.authStore.setProfile(profile);
+        this.authStore.setLoading(false);
+      })
     );
-  }
+}
 
   updateMyProfile(data: UpdateProfileRequest): Observable<CustomerProfile> {
     const body = {
@@ -329,9 +243,9 @@ export class Auth {
   }
 
   logout(): void {
-    this.tokenService.clearToken();
-    this.loggedIn.set(false);
-  }
+  this.tokenService.clearToken();
+  this.authStore.clearToken();
+}
 
   private getProjectToken(): Observable<TokenResponse> {
     const body = new URLSearchParams();
@@ -346,15 +260,15 @@ export class Auth {
   }
 
   private getBasicAuthHeaders(): HttpHeaders {
-    const basicAuth = btoa(
-      `${environment.clientId}:${environment.clientSecret}`
-    );
+  const basicAuth = btoa(
+    `${environment.clientId}:${environment.clientSecret}`
+  );
 
-    return new HttpHeaders({
-      Authorization: `Basic ${basicAuth}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-  }
+  return new HttpHeaders({
+    Authorization: `Basic ${basicAuth}`,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  });
+}
 
   private mapCountryCode(country: string): string {
     const countries: Record<string, string> = {
