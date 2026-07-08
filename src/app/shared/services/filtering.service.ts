@@ -1,48 +1,49 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 
 import { PRICE_RANGE_MAP } from '../constants/price-range';
 import { SearchService } from '../services/search.service';
-import { Category } from '../interfaces/category.interface';
+import { CategoryService } from './category.service';
 import { Product } from '../interfaces/product.interface';
 import { PriceRange } from '../interfaces/price-range.interface';
-import { Filter } from '../types/filter.type';
-
-import categories from '../../shared/data/categories.json';
+import { Filters } from '../types/filter.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilteringService {
   private searchService = inject(SearchService);
+  private categoryService = inject(CategoryService);
 
   searchResults = this.searchService.searchResults;
+  categories = this.categoryService.allCategories;
 
-  categories = signal<Category[]>(categories);
-  filteredResults = signal<Product[]>([]);
+  categoryFilters = signal<Filters>({});
+  priceFilters = signal<Filters>({});
 
-  updateSearchAndFilters(
-    categoryFilters: Filter,
-    priceFilters: Filter,
-  ) {
+  filteredResults = computed(() => {
     let filteredCatalog = this.searchResults();
 
-    filteredCatalog = this.filterByCategory(filteredCatalog, categoryFilters);
-    filteredCatalog = this.filterByPrice(filteredCatalog, priceFilters);
+    filteredCatalog = this.filterByCategory(filteredCatalog, this.categoryFilters());
+    filteredCatalog = this.filterByPrice(filteredCatalog, this.priceFilters());
 
-    this.filteredResults.set(filteredCatalog);
+    return filteredCatalog;
+  });
+
+  updateSearchAndFilters(categoryFilters: Filters, priceFilters: Filters) {
+    this.categoryFilters.set(categoryFilters);
+    this.priceFilters.set(priceFilters);
   }
 
-  private filterByCategory(
-    products: Product[],
-    categoryFilters: Filter,
-  ) {
+  private filterByCategory(products: Product[], categoryFilters: Filters) {
     if (categoryFilters) {
-      const selectedCategories = Object.keys(categoryFilters).filter((key) => categoryFilters[key]);
+      const selectedCategories = Object.keys(categoryFilters).filter(
+        (categoryName) => categoryFilters[categoryName],
+      );
 
       if (selectedCategories.length > 0) {
         const categoryIds = selectedCategories.map((categoryName) => {
           const existedCategory = this.categories().find(
-            (category) => category.name === categoryName,
+            (category) => category.name['en-US'] === categoryName,
           );
 
           if (existedCategory) {
@@ -59,12 +60,11 @@ export class FilteringService {
     return products;
   }
 
-  private filterByPrice(
-    products: Product[],
-    priceFilters: Filter,
-  ) {
+  private filterByPrice(products: Product[], priceFilters: Filters) {
     if (priceFilters) {
-      const selectedPriceRange = Object.keys(priceFilters).filter((key) => priceFilters[key]);
+      const selectedPriceRange = Object.keys(priceFilters).filter(
+        (priceRangeName) => priceFilters[priceRangeName],
+      );
 
       if (selectedPriceRange.length > 0) {
         const priceRanges: PriceRange[] = selectedPriceRange.map((value) => PRICE_RANGE_MAP[value]);

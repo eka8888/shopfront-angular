@@ -37,6 +37,7 @@ export interface Cart {
 
 export type CartUpdateAction =
   | { action: 'addLineItem'; productId: string; variantId: number; quantity: number }
+  | { action: 'addLineItem'; sku: string; quantity: number }
   | { action: 'changeLineItemQuantity'; lineItemId: string; quantity: number }
   | { action: 'removeLineItem'; lineItemId: string };
 

@@ -2,10 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 
-import { stripTrailingSlash } from '../utils/url';
 import { environment } from '../../../environments/environment';
 import { Token } from './token';
 import { AuthStore } from '../stores/auth.store.store';
+import { stripTrailingSlash } from '../utils/url';
 import {
   AddressFormValue,
   ChangePasswordRequest,
@@ -23,9 +23,12 @@ import {
 export class Auth {
   private http = inject(HttpClient);
   private tokenService = inject(Token);
+  private authStore = inject(AuthStore);
 
   private loggedIn = signal(!!this.tokenService.getToken());
-  private authStore = inject(AuthStore);
+
+  private readonly apiBase = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}`;
+  private readonly authBase = stripTrailingSlash(environment.authUrl);
 
   isAuthenticated(): boolean {
     return !!this.tokenService.getToken();
@@ -43,7 +46,7 @@ export class Auth {
 
     return this.http
       .post<TokenResponse>(
-        `${stripTrailingSlash(environment.authUrl)}/oauth/${environment.projectKey}/customers/token`,
+        `${this.authBase}/oauth/${environment.projectKey}/customers/token`,
         body.toString(),
         { headers: this.getBasicAuthHeaders() },
       )
@@ -91,11 +94,9 @@ export class Auth {
           Authorization: `Bearer ${tokenResponse.access_token}`,
         });
 
-        return this.http.post<CustomerResponse>(
-          `${environment.apiUrl}/${environment.projectKey}/customers`,
-          customerBody,
-          { headers },
-        );
+        return this.http.post<CustomerResponse>(`${this.apiBase}/customers`, customerBody, {
+          headers,
+        });
       }),
     );
   }
@@ -104,14 +105,12 @@ export class Auth {
     this.authStore.setLoading(true);
     this.authStore.setError(null);
 
-    return this.http
-      .get<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`)
-      .pipe(
-        tap((profile) => {
-          this.authStore.setProfile(profile);
-          this.authStore.setLoading(false);
-        }),
-      );
+    return this.http.get<CustomerProfile>(`${this.apiBase}/me`).pipe(
+      tap((profile) => {
+        this.authStore.setProfile(profile);
+        this.authStore.setLoading(false);
+      }),
+    );
   }
 
   updateMyProfile(data: UpdateProfileRequest): Observable<CustomerProfile> {
@@ -137,14 +136,11 @@ export class Auth {
       ],
     };
 
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me`,
-      body,
-    );
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, body);
   }
 
   addAddress(version: number, address: AddressFormValue): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, {
       version,
       actions: [
         {
@@ -165,7 +161,7 @@ export class Auth {
     addressId: string,
     address: AddressFormValue,
   ): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, {
       version,
       actions: [
         {
@@ -183,7 +179,7 @@ export class Auth {
   }
 
   deleteAddress(version: number, addressId: string): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, {
       version,
       actions: [
         {
@@ -195,7 +191,7 @@ export class Auth {
   }
 
   setDefaultShippingAddress(version: number, addressId: string): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, {
       version,
       actions: [
         {
@@ -207,7 +203,7 @@ export class Auth {
   }
 
   setDefaultBillingAddress(version: number, addressId: string): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(`${environment.apiUrl}/${environment.projectKey}/me`, {
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me`, {
       version,
       actions: [
         {
@@ -225,14 +221,11 @@ export class Auth {
   }
 
   changePassword(data: ChangePasswordRequest): Observable<CustomerProfile> {
-    return this.http.post<CustomerProfile>(
-      `${environment.apiUrl}/${environment.projectKey}/me/password`,
-      {
-        version: data.version,
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
-      },
-    );
+    return this.http.post<CustomerProfile>(`${this.apiBase}/me/password`, {
+      version: data.version,
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
   }
 
   private getProjectToken(): Observable<TokenResponse> {
@@ -240,11 +233,9 @@ export class Auth {
 
     body.set('grant_type', 'client_credentials');
 
-    return this.http.post<TokenResponse>(
-      `${stripTrailingSlash(environment.authUrl)}/oauth/${environment.projectKey}/customers/token`,
-      body.toString(),
-      { headers: this.getBasicAuthHeaders() },
-    );
+    return this.http.post<TokenResponse>(`${this.authBase}/oauth/token`, body.toString(), {
+      headers: this.getBasicAuthHeaders(),
+    });
   }
 
   private getBasicAuthHeaders(): HttpHeaders {

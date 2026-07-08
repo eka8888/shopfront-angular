@@ -106,6 +106,105 @@ describe('CartApi', () => {
     expect(cartStoreMock.setCart).toHaveBeenCalledWith(mockCart);
   });
 
+  it('should share one in-flight request when loadActiveCart() is called concurrently', () => {
+    const firstResult = vi.fn();
+    const secondResult = vi.fn();
+
+    service.loadActiveCart().subscribe(firstResult);
+    service.loadActiveCart().subscribe(secondResult);
+
+    // Only one HTTP request should have been made, despite two callers.
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/active-cart`,
+    );
+    req.flush(mockCart);
+
+    expect(firstResult).toHaveBeenCalledWith(mockCart);
+    expect(secondResult).toHaveBeenCalledWith(mockCart);
+  });
+
+  it('should make a fresh request the next time loadActiveCart() is called after the first completes', () => {
+    service.loadActiveCart().subscribe();
+
+    const firstReq = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/active-cart`,
+    );
+    firstReq.flush(mockCart);
+
+    service.loadActiveCart().subscribe();
+
+    const secondReq = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/active-cart`,
+    );
+    secondReq.flush(mockCart);
+  });
+
+  it('should send an addLineItem update action by sku when a cart is already loaded', () => {
+    cartStoreMock.cart.mockReturnValue(mockCart);
+    const updatedCart = { ...mockCart, version: 2 };
+
+    service.addLineItem('SKU-006').subscribe((cart) => {
+      expect(cart).toEqual(updatedCart);
+    });
+
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({
+      version: mockCart.version,
+      actions: [{ action: 'addLineItem', sku: 'SKU-006', quantity: 1 }],
+    });
+    req.flush(updatedCart);
+
+    expect(cartStoreMock.setCart).toHaveBeenCalledWith(updatedCart);
+  });
+
+  it('should default to a quantity of 1 when adding a line item', () => {
+    cartStoreMock.cart.mockReturnValue(mockCart);
+
+    service.addLineItem('SKU-006').subscribe();
+
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    expect(req.request.body.actions[0].quantity).toBe(1);
+    req.flush(mockCart);
+  });
+
+  it('should support an explicit quantity when adding a line item', () => {
+    cartStoreMock.cart.mockReturnValue(mockCart);
+
+    service.addLineItem('SKU-006', 3).subscribe();
+
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    expect(req.request.body.actions[0].quantity).toBe(3);
+    req.flush(mockCart);
+  });
+
+  it('should load the active cart first when adding a line item with no cart loaded yet', () => {
+    cartStoreMock.cart.mockReturnValue(null);
+
+    service.addLineItem('SKU-006').subscribe();
+
+    const loadReq = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/active-cart`,
+    );
+    expect(loadReq.request.method).toBe('GET');
+    loadReq.flush(mockCart);
+
+    const addReq = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    expect(addReq.request.body).toEqual({
+      version: mockCart.version,
+      actions: [{ action: 'addLineItem', sku: 'SKU-006', quantity: 1 }],
+    });
+    addReq.flush(mockCart);
+  });
+
   it('should send a changeLineItemQuantity update action', () => {
     cartStoreMock.cart.mockReturnValue(mockCart);
 

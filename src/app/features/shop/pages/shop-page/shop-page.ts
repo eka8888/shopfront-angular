@@ -17,7 +17,7 @@ export class ShopPage implements OnInit {
     const subscription = this.activatedRoute.queryParams.subscribe((params) => {
       const { searchFor } = params;
 
-      this.searchService.searchInput.set(searchFor ?? '');
+      this.searchService.userInput.set(searchFor ?? '');
     });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());

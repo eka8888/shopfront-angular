@@ -21,6 +21,8 @@ import { NothingFound } from '../../../../shared/components/nothing-found/nothin
 export class CartPage {
   private cartApi = inject(CartApi);
   private cartStore = inject(CartStore);
+  // Discount / promo-code stays local for now — commercetools cart discounts
+  // are a separate follow-up (see PR notes).
   private cartService = inject(CartService);
 
   modalVisible = signal(false);
@@ -71,11 +73,11 @@ export class CartPage {
     this.cartService.resetDiscount();
   }
 
-  onRemoveFromCart(lineItemId: number | string) {
-    this.cartApi.removeLineItem(String(lineItemId)).subscribe();
+  onRemoveFromCart(lineItemId: string) {
+    this.cartApi.removeLineItem(lineItemId).subscribe();
   }
 
-  onIncreaseQuantity(lineItemId: number | string) {
+  onIncreaseQuantity(lineItemId: string) {
     const item = this.findLineItem(lineItemId);
 
     if (!item) {
@@ -85,7 +87,7 @@ export class CartPage {
     this.cartApi.changeLineItemQuantity(item.id, item.quantity + 1).subscribe();
   }
 
-  onDecreaseQuantity(lineItemId: number | string) {
+  onDecreaseQuantity(lineItemId: string) {
     const item = this.findLineItem(lineItemId);
 
     if (!item || item.quantity <= 1) {
@@ -109,7 +111,7 @@ export class CartPage {
     return this.discountedPrice(this.itemUnitPrice(item)) * item.quantity;
   }
 
-  private findLineItem(lineItemId: number | string): LineItem | undefined {
-    return this.items().find((item) => item.id === String(lineItemId));
+  private findLineItem(lineItemId: string): LineItem | undefined {
+    return this.items().find((item) => item.id === lineItemId);
   }
 }

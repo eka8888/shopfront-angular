@@ -21,14 +21,16 @@
           Category
         </legend>
         @for (category of categories(); track category.id) {
+          @let categoryName = category.name['en-US'];
+
           <label [for]="'category' + category.id" class="checkbox-label">
             <input
               type="checkbox"
-              [value]="category.name"
+              [value]="categoryName"
               [id]="'category' + category.id"
-              [formControlName]="category.name"
+              [formControlName]="categoryName"
             />
-            {{ category.name }}</label
+            {{ categoryName }}</label
           >
         }
       </fieldset>

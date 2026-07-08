@@ -4,7 +4,7 @@
 <section class="flex justify-between mx-auto min-h-screen max-w-277.5 pt-12.5 pb-15 bg-white">
   <!-- IMAGES -->
   <div class="w-133.75">
-    <img [src]="imagePath" alt="product image" />
+    <img [src]="imagePath()" alt="product image" />
   </div>
 
   <!-- DETAILS -->
@@ -39,10 +39,7 @@
 
       <!-- CART BUTTON -->
       @if (quantity < 1) {
-        <app-button
-          [variant]="ButtonVariant.Outline"
-          [fullWidth]="true"
-          (click)="onAddToCart()"
+        <app-button [variant]="ButtonVariant.Outline" [fullWidth]="true" (click)="onAddToCart()"
           >Add To Cart</app-button
         >
       } @else {
@@ -57,10 +54,10 @@
       <!-- QUANTITY -->
       @if (quantity > 0) {
         <app-quantity-selector
-          [itemId]="productId"
+          [itemId]="productKey"
           [itemQuantity]="quantity"
-          (increase)="onIncreaseQuantity($event)"
-          (decrease)="onDecreaseQuantity($event)"
+          (increase)="onIncreaseQuantity()"
+          (decrease)="onDecreaseQuantity()"
           class="flex justify-center items-center w-32.5 mt-6"
         />
       }
