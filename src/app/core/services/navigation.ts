@@ -17,9 +17,5 @@ export class Navigation {
       label: 'About',
       path: '/about',
     },
-    {
-      label: 'Contact',
-      path: '/contact',
-    },
   ]);
 }

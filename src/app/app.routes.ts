@@ -29,11 +29,6 @@ export const routes: Routes = [
       import('./features/cart/pages/cart-page/cart-page').then((m) => m.CartPage),
   },
   {
-    path: 'contact',
-    loadComponent: () =>
-      import('./features/contact/pages/contact-page/contact-page').then((m) => m.ContactPage),
-  },
-  {
     path: '404',
     loadComponent: () => import('./shared/components/not-found/not-found').then((m) => m.NotFound),
   },
