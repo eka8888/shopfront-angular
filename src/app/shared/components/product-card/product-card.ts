@@ -1,4 +1,4 @@
-import { Component, computed, input, OnDestroy, OnInit, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product.interface';
 import { Button } from '../button/button';
