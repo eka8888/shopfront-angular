@@ -42,7 +42,7 @@ export class SearchService {
       next: (data) => {
         this.searchResults.set(data);
       },
-      error: (err) => console.error(err),
+      error: (err) => console.error(`Search failed for query "${text}": ${err}`),
     });
 
     this.destroyRef.onDestroy(() => {

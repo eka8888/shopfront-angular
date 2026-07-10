@@ -10,7 +10,7 @@ import { ButtonVariant } from '../../types/form.enums';
   templateUrl: './product-card.html',
   standalone: true,
 })
-export class ProductCard implements OnInit, OnDestroy {
+export class ProductCard {
   readonly ButtonVariant = ButtonVariant;
 
   product = input.required<Product>();
@@ -18,14 +18,6 @@ export class ProductCard implements OnInit, OnDestroy {
   addToCart = output<string>();
 
   discountPrice = computed(() => this.product().price + 20);
-
-  ngOnInit(): void {
-    console.log('Product card initialized');
-  }
-
-  ngOnDestroy(): void {
-    console.log('Product card destroyed');
-  }
 
   onAddToCart(event: Event): void {
     event.preventDefault();

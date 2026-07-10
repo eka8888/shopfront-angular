@@ -5,6 +5,6 @@ export class EmailSubscriptionService {
   async subscribe(email: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    console.log(`Email "${email}" успешно "отправлен"`);
+    console.info(`Email "${email}" успешно "отправлен"`);
   }
 }

@@ -159,7 +159,7 @@ export class Catalog implements OnInit, OnDestroy {
         this.productService.products.set(data);
         this.searchService.searchResults.set(data);
       },
-      error: (err) => console.error(err),
+      error: (err) => console.error('Failed to load products:', err),
     });
 
     const querySubscription = this.route.queryParams.subscribe((params) => {
@@ -177,9 +177,8 @@ export class Catalog implements OnInit, OnDestroy {
     this.categoryService.fetchCategories().subscribe({
       next: (data) => {
         this.categories.set(data);
-        console.log(data);
       },
-      error: (err) => console.log(err),
+      error: (err) => console.error('Failed to load categories:', err),
     });
 
     this.addFilters();

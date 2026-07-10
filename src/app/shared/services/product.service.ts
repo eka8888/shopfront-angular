@@ -29,7 +29,7 @@ export class ProductService {
       next:  (data) => {
         this.products.set(data);
       },
-      error: (err) => console.log(err),
+      error: (err) => console.error('Failed to load products:', err),
     });
   }
 
