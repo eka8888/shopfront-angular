@@ -57,11 +57,13 @@ export class SearchService {
       url += `&text.en-US=${encodeURIComponent(searchText)}`;
     }
 
-    return this.httpClient.get<CtAllProducts>(url).pipe(map((data) => data.results.map((obj) => adaptCtToProduct(obj))));
+    return this.httpClient
+      .get<CtAllProducts>(url)
+      .pipe(map((data) => data.results.map((obj) => adaptCtToProduct(obj))));
   }
 
   clearSearch() {
     this.userInput.set('');
-    this.searchResults.set([]);
+    this.searchResults.set(this.catalog());
   }
 }
