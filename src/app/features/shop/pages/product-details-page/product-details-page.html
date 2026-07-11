@@ -39,10 +39,7 @@
 
       <!-- CART BUTTON -->
       @if (quantity < 1) {
-        <app-button
-          [variant]="ButtonVariant.Outline"
-          [fullWidth]="true"
-          (click)="onAddToCart()"
+        <app-button [variant]="ButtonVariant.Outline" [fullWidth]="true" (click)="onAddToCart()"
           >Add To Cart</app-button
         >
       } @else {
@@ -59,8 +56,9 @@
         <app-quantity-selector
           [itemId]="productKey"
           [itemQuantity]="quantity"
-          (increase)="onIncreaseQuantity($event)"
-          (decrease)="onDecreaseQuantity($event)"
+          [disabled]="isCartUpdating()"
+          (increase)="onIncreaseQuantity()"
+          (decrease)="onDecreaseQuantity()"
           class="flex justify-center items-center w-32.5 mt-6"
         />
       }

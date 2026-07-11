@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 
 import { ProductService } from '../../../../shared/services/product.service';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
-import { CartService } from '../../../../shared/services/cart.service';
+import { CartApi } from '../../../../core/services/cart-api';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
+import { Product } from '../../../../shared/interfaces/product.interface';
 
 @Component({
   selector: 'app-new-arrivals-section',
@@ -11,11 +13,11 @@ import { CartService } from '../../../../shared/services/cart.service';
 })
 export class NewArrivalsSection {
   private productService = inject(ProductService);
-  private cartService = inject(CartService);
+  private cartApi = inject(CartApi);
 
   newArrivals = this.productService.newArrivals;
 
-  handleAddToCart(productId: string) {
-    this.cartService.addToCart(productId);
+  handleAddToCart(product: Product) {
+    this.cartApi.addLineItem(product.sku).subscribe({ error: ignoreHandledError });
   }
 }

@@ -4,12 +4,13 @@ import { map } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { CtCategories, CtCategory } from '../interfaces/category.interface';
+import { stripTrailingSlash } from '../../core/utils/url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private BASE_URL = `${environment.apiUrl}/${environment.projectKey}/categories`;
+  private BASE_URL = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}/categories`;
 
   private httpClient = inject(HttpClient);
 

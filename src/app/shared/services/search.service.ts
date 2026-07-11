@@ -8,12 +8,13 @@ import { environment } from '../../../environments/environment';
 import { CtAllProducts } from '../interfaces/product.interface';
 import { adaptCtToProduct } from '../adapters/product.adapter';
 import { Product } from '../interfaces/product.interface';
+import { stripTrailingSlash } from '../../core/utils/url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  private BASE_URL = `${environment.apiUrl}/${environment.projectKey}/product-projections/search`;
+  private BASE_URL = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}/product-projections/search`;
 
   private router = inject(Router);
   private productService = inject(ProductService);
@@ -57,7 +58,9 @@ export class SearchService {
       url += `&text.en-US=${encodeURIComponent(searchText)}`;
     }
 
-    return this.httpClient.get<CtAllProducts>(url).pipe(map((data) => data.results.map((obj) => adaptCtToProduct(obj))));
+    return this.httpClient
+      .get<CtAllProducts>(url)
+      .pipe(map((data) => data.results.map((obj) => adaptCtToProduct(obj))));
   }
 
   clearSearch() {
