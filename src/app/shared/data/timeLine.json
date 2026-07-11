@@ -1,20 +1,26 @@
 [
   {
-    "year": 1910,
-    "description": "Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices.",
-    "image": "images/about/timeLine-1.png",
-    "alt": "About Moon"
+    "sprint": 1,
+    "description": "Set up the feature-based project architecture (core, shared, features, layout), built the Home page sections — Hero, Categories, New Arrivals — plus the first reusable components — Header, SearchBar, ProductCard, Button — and got parent-child communication working with input() and output().",
+    "image": "images/about/sprint-1.png",
+    "alt": "Sprint 1 — Project Setup & Component Basics"
   },
   {
-    "year": 1990,
-    "description": "Maecenas sem eros, rutrum vitae risus eget, vulputate aliquam nisi. dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit ",
-    "image": "images/about/timeLine-2.png",
-    "alt": "About Moon"
+    "sprint": 2,
+    "description": "Added routing with lazy loading, built the Shop, Product Details, Cart, Auth, and Not Found pages, wired up CI/CD with GitHub Actions, and started using Angular Signals — signal(), computed(), and effect() — to manage state reactively across the app.",
+    "image": "images/about/sprint-2.png",
+    "alt": "Sprint 2 — Routing & Signals"
   },
   {
-    "year": 2010,
-    "description": "Rutrum vitae risus eget, vulputate aliquam nisi ex gravida neque tempus. sit aliquam sit nullam neque ultrices.",
-    "image": "images/about/timeLine-3.png",
-    "alt": "About Moon"
+    "sprint": 3,
+    "description": "Replaced template inputs with Reactive Forms across Login, Register, and Profile, wrote a custom password validator, added product sorting and search with a custom pipe and a NothingFound empty state, built the PromoCode component, and learned ControlValueAccessor the hard way — by forgetting it once.",
+    "image": "images/about/sprint-3.png",
+    "alt": "Sprint 3 — Directives, Pipes & Forms"
+  },
+  {
+    "sprint": 4,
+    "description": "Connected the whole app to the real commercetools API — authentication, profile and address management, product catalog with search and filtering, and a fully working cart with add/update/remove through Cart Update Actions — plus an HTTP interceptor, RxJS operators, and our first real unit tests.",
+    "image": "images/about/sprint-4.png",
+    "alt": "Sprint 4 — HTTP, RxJS & Testing"
   }
 ]
