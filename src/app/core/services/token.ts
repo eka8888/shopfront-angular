@@ -4,21 +4,55 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class Token {
-    private readonly tokenKey = 'access_token';
+  private readonly publicTokenKey = 'public_access_token';
+  private readonly customerTokenKey = 'customer_access_token';
 
-  token = signal<string | null>(localStorage.getItem(this.tokenKey));
+  /**
+   * Token used for public commercetools requests:
+   * products, categories, product search, and so on.
+   */
+  readonly publicToken = signal<string | null>(
+    localStorage.getItem(this.publicTokenKey)
+  );
 
-  setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-    this.token.set(token);
+  /**
+   * Token received after customer login.
+   * Used for /me, /me/password, /me/carts, and similar endpoints.
+   */
+  readonly customerToken = signal<string | null>(
+    localStorage.getItem(this.customerTokenKey)
+  );
+
+  setPublicToken(token: string): void {
+    localStorage.setItem(this.publicTokenKey, token);
+    this.publicToken.set(token);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  getPublicToken(): string | null {
+    return this.publicToken();
   }
 
-  clearToken(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.token.set(null);
+  clearPublicToken(): void {
+    localStorage.removeItem(this.publicTokenKey);
+    this.publicToken.set(null);
+  }
+
+  setCustomerToken(token: string): void {
+    localStorage.setItem(this.customerTokenKey, token);
+    this.customerToken.set(token);
+  }
+
+  getCustomerToken(): string | null {
+    return this.customerToken();
+  }
+
+  clearCustomerToken(): void {
+    localStorage.removeItem(this.customerTokenKey);
+    this.customerToken.set(null);
+  }
+
+  clearAllTokens(): void {
+    this.clearPublicToken();
+    this.clearCustomerToken();
   }
 }

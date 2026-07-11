@@ -1,17 +1,23 @@
 import { computed } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+
 import { CustomerProfile } from '../models/auth.interface';
 
-
 interface AuthState {
-  token: string | null;
+  customerToken: string | null;
   profile: CustomerProfile | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
-  token: localStorage.getItem('access_token'),
+  customerToken: localStorage.getItem('customer_access_token'),
   profile: null,
   loading: false,
   error: null,
@@ -23,20 +29,23 @@ export const AuthStore = signalStore(
   withState(initialState),
 
   withComputed((store) => ({
-    isAuthenticated: computed(() => !!store.token()),
+    isAuthenticated: computed(() => !!store.customerToken()),
   })),
 
   withMethods((store) => ({
-    setToken(token: string): void {
-      localStorage.setItem('access_token', token);
-      patchState(store, { token });
+    setCustomerToken(customerToken: string): void {
+      patchState(store, {
+        customerToken,
+        error: null,
+      });
     },
 
-    clearToken(): void {
-      localStorage.removeItem('access_token');
+    clearCustomerToken(): void {
       patchState(store, {
-        token: null,
+        customerToken: null,
         profile: null,
+        error: null,
+        loading: false,
       });
     },
 
@@ -50,6 +59,12 @@ export const AuthStore = signalStore(
 
     setError(error: string | null): void {
       patchState(store, { error });
+    },
+
+    clearProfile(): void {
+      patchState(store, {
+        profile: null,
+      });
     },
   }))
 );
