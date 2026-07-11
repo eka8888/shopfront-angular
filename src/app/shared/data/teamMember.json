@@ -4,7 +4,7 @@
     "alt": "Ekaterina — Team Lead",
     "name": "Ekaterina",
     "position": "Team Lead",
-    "bio": "Set up the project architecture from day one and kept the team moving with lazy-loaded routing, signal-based auth, and a CI pipeline that actually catches problems before they reach main.",
+    "bio": "Set up the project's feature-based architecture from day one — core, shared, features, layout — and built the first shared components, Header, SearchBar, and ProductCard. Went on to build the entire authentication system: Login, Register, and Profile pages with route guards, Reactive Forms, and a custom password validator, plus the CI pipeline and ESLint setup that kept the team's code quality in check. In the final sprint, connected authentication, profile editing, and address management to the real commercetools API, added an HTTP interceptor for auth tokens, and wrote unit tests covering the whole flow.",
     "github": "https://github.com/eka8888"
   },
   {
@@ -12,7 +12,7 @@
     "alt": "Zorro Amarillo — Frontend Developer",
     "name": "Zorro Amarillo",
     "position": "Frontend Developer",
-    "bio": "Built the Shop and Cart experience end to end — from the product grid to localStorage-synced cart state — and brought a sharp eye for detail to every code review.",
+    "bio": "Built the Home page's core sections — Hero, Categories, Promo, New Arrivals — then went on to build the Shop, Product Details, and Cart pages with lazy loading, plus the CartService and reusable QuantitySelector behind them. Added product sorting and full-text search with a custom pipe and dedicated service, along with category and price filtering. In the final sprint, connected the whole catalog to the real commercetools API — search, filtering, categories, and product details — with an adapter layer to keep API data and the UI cleanly separated.",
     "github": "https://github.com/zorro-amarillo"
   },
   {
@@ -20,7 +20,7 @@
     "alt": "S-Arashu — Frontend Developer",
     "name": "S-Arashu",
     "position": "Frontend Developer",
-    "bio": "Crafted the shared component library — buttons, inputs, and the footer — learning Tailwind, ControlValueAccessor, and a healthy respect for ESLint along the way.",
+    "bio": "Started with the shared component library — buttons, inputs, and the footer — learning Tailwind and ControlValueAccessor along the way, plus the Not Found page and the PromoCode component with its own reactive discount logic. In the final sprint, connected the entire cart to the real commercetools API — fetching, quantity updates, removals, and Add to Cart from every product surface — through a dedicated CartApi and CartStore, wrote unit tests for it all, and fixed a handful of concurrency bugs, like race conditions on rapid quantity clicks, flagged in code review.",
     "github": "https://github.com/s-arashu"
   }
 ]

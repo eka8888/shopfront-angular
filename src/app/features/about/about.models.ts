@@ -1,5 +1,5 @@
 export interface TimelineEvent {
-  year: number;
+  sprint: number;
   description: string;
   image: string;
   alt: string;

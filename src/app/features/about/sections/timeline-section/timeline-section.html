@@ -1,10 +1,10 @@
 <section class="pb-16">
-  @for (time of timeLine(); track time.year) {
+  @for (time of timeLine(); track time.sprint) {
     @if ($odd) {
       <div class="flex justify-between">
         <img [ngSrc]="time.image" [alt]="time.alt" width="555" height="348" />
         <app-timeline-text
-          [sprint]="time.year"
+          [sprint]="time.sprint"
           [description]="time.description"
           class="card-wrapper"
         ></app-timeline-text>
@@ -12,7 +12,7 @@
     } @else {
       <div class="flex justify-between">
         <app-timeline-text
-          [sprint]="time.year"
+          [sprint]="time.sprint"
           [description]="time.description"
           class="card-wrapper"
         ></app-timeline-text>
