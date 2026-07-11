@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ProductService } from '../../../../shared/services/product.service';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { CartApi } from '../../../../core/services/cart-api';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { Product } from '../../../../shared/interfaces/product.interface';
 
 @Component({
@@ -17,6 +18,6 @@ export class NewArrivalsSection {
   newArrivals = this.productService.newArrivals;
 
   handleAddToCart(product: Product) {
-    this.cartApi.addLineItem(product.sku).subscribe();
+    this.cartApi.addLineItem(product.sku).subscribe({ error: ignoreHandledError });
   }
 }

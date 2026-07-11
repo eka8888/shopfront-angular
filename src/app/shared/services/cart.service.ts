@@ -11,7 +11,12 @@ export class CartService {
     const savedDiscount = localStorage.getItem('savedDiscount');
 
     if (savedDiscount) {
-      this.discount.set(JSON.parse(savedDiscount));
+      try {
+        this.discount.set(JSON.parse(savedDiscount));
+      } catch {
+        console.warn('Ignoring corrupted savedDiscount value in localStorage.');
+        localStorage.removeItem('savedDiscount');
+      }
     }
 
     effect(() => {

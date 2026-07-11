@@ -7,7 +7,6 @@ import { Cart, CartUpdateAction } from '../models/cart.interface';
 import { CartStore } from '../stores/cart.store';
 import { stripTrailingSlash } from '../utils/url';
 
-/** How many times to retry an update after a 409 (version conflict) before giving up. */
 const MAX_CONFLICT_RETRIES = 1;
 
 @Injectable({
@@ -19,21 +18,14 @@ export class CartApi {
 
   private readonly baseUrl = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}`;
 
-  // Tracks an in-flight loadActiveCart() request so concurrent callers
-  // (e.g. Header and CartPage both loading on init) share one HTTP call
-  // instead of firing duplicate requests.
   private activeCartRequest$: Observable<Cart> | null = null;
 
-  /**
-   * Fetches the customer's active cart. commercetools returns a 404 when no
-   * active cart exists yet, in which case a new (empty) cart is created.
-   */
   loadActiveCart(): Observable<Cart> {
     if (this.activeCartRequest$) {
       return this.activeCartRequest$;
     }
 
-    this.cartStore.setLoading(true);
+    this.cartStore.beginRequest();
     this.cartStore.setError(null);
 
     this.activeCartRequest$ = this.http.get<Cart>(`${this.baseUrl}/me/active-cart`).pipe(
@@ -46,10 +38,10 @@ export class CartApi {
       }),
       tap((cart) => {
         this.cartStore.setCart(cart);
-        this.cartStore.setLoading(false);
       }),
       catchError((error: HttpErrorResponse) => this.handleError(error)),
       finalize(() => {
+        this.cartStore.endRequest();
         this.activeCartRequest$ = null;
       }),
       shareReplay(1),
@@ -64,15 +56,6 @@ export class CartApi {
     });
   }
 
-  /**
-   * Adds a line item by SKU. If the cart hasn't been loaded into the store
-   * yet (e.g. this is the very first API call in the session), it's loaded
-   * — creating one if needed — before the item is added.
-   *
-   * commercetools automatically merges into an existing line item for the
-   * same product variant, so callers don't need to check whether the
-   * product is already in the cart first.
-   */
   addLineItem(sku: string, quantity = 1): Observable<Cart> {
     const cart = this.cartStore.cart();
 
@@ -96,9 +79,11 @@ export class CartApi {
       return throwError(() => new Error('No active cart to update.'));
     }
 
+    this.cartStore.beginLineItemUpdate(lineItemId);
+
     return this.updateCart(cart.id, cart.version, [
       { action: 'changeLineItemQuantity', lineItemId, quantity },
-    ]);
+    ]).pipe(finalize(() => this.cartStore.endLineItemUpdate(lineItemId)));
   }
 
   removeLineItem(lineItemId: string): Observable<Cart> {
@@ -108,7 +93,11 @@ export class CartApi {
       return throwError(() => new Error('No active cart to update.'));
     }
 
-    return this.updateCart(cart.id, cart.version, [{ action: 'removeLineItem', lineItemId }]);
+    this.cartStore.beginLineItemUpdate(lineItemId);
+
+    return this.updateCart(cart.id, cart.version, [{ action: 'removeLineItem', lineItemId }]).pipe(
+      finalize(() => this.cartStore.endLineItemUpdate(lineItemId)),
+    );
   }
 
   clearCart(): Observable<Cart> {
@@ -132,7 +121,7 @@ export class CartApi {
     actions: CartUpdateAction[],
     retriesLeft = MAX_CONFLICT_RETRIES,
   ): Observable<Cart> {
-    this.cartStore.setLoading(true);
+    this.cartStore.beginRequest();
     this.cartStore.setError(null);
 
     return this.http
@@ -143,12 +132,9 @@ export class CartApi {
       .pipe(
         tap((cart) => {
           this.cartStore.setCart(cart);
-          this.cartStore.setLoading(false);
         }),
         catchError((error: HttpErrorResponse) => {
           if (error.status === 409 && retriesLeft > 0) {
-            // Someone else changed the cart since we last read its version.
-            // Refetch the current version and retry the same actions once.
             return this.http.get<Cart>(`${this.baseUrl}/me/carts/${cartId}`).pipe(
               switchMap((freshCart) =>
                 this.updateCart(cartId, freshCart.version, actions, retriesLeft - 1),
@@ -158,6 +144,9 @@ export class CartApi {
           }
 
           return this.handleError(error);
+        }),
+        finalize(() => {
+          this.cartStore.endRequest();
         }),
       );
   }
@@ -173,7 +162,6 @@ export class CartApi {
     }
 
     this.cartStore.setError(message);
-    this.cartStore.setLoading(false);
 
     return throwError(() => error);
   }

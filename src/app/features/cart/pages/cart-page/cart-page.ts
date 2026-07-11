@@ -6,6 +6,7 @@ import { CartApi } from '../../../../core/services/cart-api';
 import { CartStore } from '../../../../core/stores/cart.store';
 import { LineItem } from '../../../../core/models/cart.interface';
 import { moneyToAmount, localizedName } from '../../../../core/utils/money';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { QuantitySelector } from '../../../../shared/components/quantity-selector/quantity-selector';
 import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant, ButtonType } from '../../../../shared/types/form.enums';
@@ -21,8 +22,6 @@ import { NothingFound } from '../../../../shared/components/nothing-found/nothin
 export class CartPage {
   private cartApi = inject(CartApi);
   private cartStore = inject(CartStore);
-  // Discount / promo-code stays local for now — commercetools cart discounts
-  // are a separate follow-up (see PR notes).
   private cartService = inject(CartService);
 
   modalVisible = signal(false);
@@ -46,7 +45,7 @@ export class CartPage {
   discountAmount = computed(() => this.total() * (this.discount() / 100));
 
   constructor() {
-    this.cartApi.loadActiveCart().subscribe();
+    this.cartApi.loadActiveCart().subscribe({ error: ignoreHandledError });
   }
 
   itemName(item: LineItem): string {
@@ -65,6 +64,10 @@ export class CartPage {
     return moneyToAmount(item.totalPrice);
   }
 
+  isLineItemUpdating(lineItemId: string): boolean {
+    return this.cartStore.isLineItemUpdating(lineItemId);
+  }
+
   onTotalChanged(percent: number) {
     this.cartService.applyDiscount(percent);
   }
@@ -74,7 +77,7 @@ export class CartPage {
   }
 
   onRemoveFromCart(lineItemId: string) {
-    this.cartApi.removeLineItem(lineItemId).subscribe();
+    this.cartApi.removeLineItem(lineItemId).subscribe({ error: ignoreHandledError });
   }
 
   onIncreaseQuantity(lineItemId: string) {
@@ -84,7 +87,9 @@ export class CartPage {
       return;
     }
 
-    this.cartApi.changeLineItemQuantity(item.id, item.quantity + 1).subscribe();
+    this.cartApi
+      .changeLineItemQuantity(item.id, item.quantity + 1)
+      .subscribe({ error: ignoreHandledError });
   }
 
   onDecreaseQuantity(lineItemId: string) {
@@ -94,12 +99,15 @@ export class CartPage {
       return;
     }
 
-    this.cartApi.changeLineItemQuantity(item.id, item.quantity - 1).subscribe();
+    this.cartApi
+      .changeLineItemQuantity(item.id, item.quantity - 1)
+      .subscribe({ error: ignoreHandledError });
   }
 
   onClearCart() {
     this.cartApi.clearCart().subscribe({
       complete: () => this.clearCartModalVisible.set(false),
+      error: ignoreHandledError,
     });
   }
 

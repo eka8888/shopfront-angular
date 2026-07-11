@@ -15,8 +15,11 @@ describe('CartApi', () => {
   const cartStoreMock = {
     cart: vi.fn(),
     setCart: vi.fn(),
-    setLoading: vi.fn(),
     setError: vi.fn(),
+    beginRequest: vi.fn(),
+    endRequest: vi.fn(),
+    beginLineItemUpdate: vi.fn(),
+    endLineItemUpdate: vi.fn(),
   };
 
   const mockCart: Cart = {
@@ -84,7 +87,8 @@ describe('CartApi', () => {
     req.flush(mockCart);
 
     expect(cartStoreMock.setCart).toHaveBeenCalledWith(mockCart);
-    expect(cartStoreMock.setLoading).toHaveBeenCalledWith(false);
+    expect(cartStoreMock.beginRequest).toHaveBeenCalledTimes(1);
+    expect(cartStoreMock.endRequest).toHaveBeenCalledTimes(1);
   });
 
   it('should create a new cart when no active cart exists (404)', () => {
@@ -113,7 +117,6 @@ describe('CartApi', () => {
     service.loadActiveCart().subscribe(firstResult);
     service.loadActiveCart().subscribe(secondResult);
 
-    // Only one HTTP request should have been made, despite two callers.
     const req = httpMock.expectOne(
       `${environment.apiUrl}/${environment.projectKey}/me/active-cart`,
     );
@@ -219,6 +222,39 @@ describe('CartApi', () => {
       actions: [{ action: 'changeLineItemQuantity', lineItemId: 'line-item-1', quantity: 5 }],
     });
     req.flush(mockCart);
+  });
+
+  it('should mark the line item as updating while the request is in flight, and clear it on success', () => {
+    cartStoreMock.cart.mockReturnValue(mockCart);
+
+    service.changeLineItemQuantity('line-item-1', 5).subscribe();
+
+    expect(cartStoreMock.beginLineItemUpdate).toHaveBeenCalledWith('line-item-1');
+    expect(cartStoreMock.endLineItemUpdate).not.toHaveBeenCalled();
+
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    req.flush(mockCart);
+
+    expect(cartStoreMock.endLineItemUpdate).toHaveBeenCalledWith('line-item-1');
+  });
+
+  it('should clear the line-item-updating flag even when the request fails', () => {
+    cartStoreMock.cart.mockReturnValue(mockCart);
+
+    service.changeLineItemQuantity('line-item-1', 5).subscribe({
+      error: () => {
+        // expected
+      },
+    });
+
+    const req = httpMock.expectOne(
+      `${environment.apiUrl}/${environment.projectKey}/me/carts/${mockCart.id}`,
+    );
+    req.flush('Server error', { status: 500, statusText: 'Internal Server Error' });
+
+    expect(cartStoreMock.endLineItemUpdate).toHaveBeenCalledWith('line-item-1');
   });
 
   it('should send a removeLineItem update action', () => {

@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { SearchService } from '../../../../shared/services/search.service';
 import { CartApi } from '../../../../core/services/cart-api';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { FilteringService } from '../../../../shared/services/filtering.service';
 import { ProductService } from '../../../../shared/services/product.service';
 import { Product } from '../../../../shared/interfaces/product.interface';
@@ -108,7 +109,7 @@ export class Catalog implements OnInit, OnDestroy {
   }
 
   handleAddToCart(product: Product) {
-    this.cartApi.addLineItem(product.sku).subscribe();
+    this.cartApi.addLineItem(product.sku).subscribe({ error: ignoreHandledError });
   }
 
   handleSelectSort(sortOption: Sorting) {

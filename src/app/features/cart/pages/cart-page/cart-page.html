@@ -94,6 +94,7 @@
           <app-quantity-selector
             [itemId]="item.id"
             [itemQuantity]="item.quantity"
+            [disabled]="isLineItemUpdating(item.id)"
             (increase)="onIncreaseQuantity($event)"
             (decrease)="onDecreaseQuantity($event)"
             class="flex justify-center items-center"
