@@ -45,9 +45,7 @@ export class Header {
   readonly appName = this.appConfig.appName;
   readonly navItems = this.navigationService.navItems();
 
-  /**
-   * This is already a computed signal from Auth service.
-   */
+
   readonly isAuthenticated =
     this.authService.isAuthenticated;
 

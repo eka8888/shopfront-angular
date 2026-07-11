@@ -1,21 +1,61 @@
 import {
   ApplicationConfig,
+  inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
 } from '@angular/core';
+import {
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  catchError,
+  of,
+} from 'rxjs';
 
 import { routes } from './app.routes';
 import { APP_CONFIG } from './core/config/app-config.token';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { provideZoneChangeDetection } from '@angular/core';
+import { PublicTokenService } from './core/services/public-token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-      provideZoneChangeDetection({ eventCoalescing: true }),
+
+    provideZoneChangeDetection({
+      eventCoalescing: true,
+    }),
+
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+
+    provideHttpClient(
+      withInterceptors([
+        authInterceptor,
+      ])
+    ),
+
+    /*
+     * Initializes the public token once
+     * when the application starts.
+     *
+     * If initialization fails, the app still loads.
+     * A later public request can try obtaining it again
+     * through the interceptor.
+     */
+    provideAppInitializer(() => {
+      const publicTokenService = inject(
+        PublicTokenService
+      );
+
+      return publicTokenService
+        .ensurePublicToken()
+        .pipe(
+          catchError(() => of(null))
+        );
+    }),
+
     {
       provide: APP_CONFIG,
       useValue: {
