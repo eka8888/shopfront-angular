@@ -12,10 +12,12 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SearchService } from '../../../../shared/services/search.service';
-import { CartService } from '../../../../shared/services/cart.service';
+import { CartApi } from '../../../../core/services/cart-api';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { FilteringService } from '../../../../shared/services/filtering.service';
 import { ProductService } from '../../../../shared/services/product.service';
 import { CategoryService } from '../../../../shared/services/category.service';
+import { Product } from '../../../../shared/interfaces/product.interface';
 import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
 import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
@@ -46,7 +48,7 @@ export class Catalog implements OnInit, OnDestroy {
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonType = ButtonType;
 
-  private cartService = inject(CartService);
+  private cartApi = inject(CartApi);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
   private productService = inject(ProductService);
@@ -108,8 +110,8 @@ export class Catalog implements OnInit, OnDestroy {
     });
   }
 
-  handleAddToCart(productId: string) {
-    this.cartService.addToCart(productId);
+  handleAddToCart(product: Product) {
+    this.cartApi.addLineItem(product.sku).subscribe({ error: ignoreHandledError });
   }
 
   handleSelectSort(sortOption: Sorting) {

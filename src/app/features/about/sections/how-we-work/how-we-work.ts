@@ -11,17 +11,19 @@ import { WorkStep } from '../../components/work-step/work-step';
 export class HowWeWork {
   steps = [
     {
-      title: 'Product design',
+      title: 'Split the work',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis.',
+        'Each sprint, the team lead broke down the feature set and split tasks by area — auth, cart, shared components — so everyone could move in parallel without stepping on each other.',
     },
     {
-      title: 'Crafted',
-      description: 'Rutrum vitae risus eget, vulputate aliquam nisi ex gravida neque tempus.',
+      title: 'Build & review',
+      description:
+        'Every feature went through a pull request before merging into dev. Code reviews caught real issues — from missing ControlValueAccessor implementations to ESLint violations — before they reached main.',
     },
     {
-      title: 'Sell product',
-      description: 'Maecenas sem eros, rutrum vitae risus eget, vulputate aliquam nisi.',
+      title: 'Ship & reflect',
+      description:
+        'After each sprint, we deployed the latest build and wrote a short dev log — what worked, what we learned, and what to do differently next time.',
     },
   ];
 }

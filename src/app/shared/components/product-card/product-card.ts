@@ -15,13 +15,13 @@ export class ProductCard {
 
   product = input.required<Product>();
 
-  addToCart = output<string>();
+  addToCart = output<Product>();
 
   discountPrice = computed(() => this.product().price + 20);
 
   onAddToCart(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.addToCart.emit(this.product().id);
+    this.addToCart.emit(this.product());
   }
 }

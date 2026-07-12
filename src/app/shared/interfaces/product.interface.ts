@@ -3,6 +3,7 @@ import { CtProductCategory } from './category.interface';
 export interface Product {
   id: string;
   ctId: string;
+  sku: string;
   name: string;
   price: number;
   description: string;
@@ -17,6 +18,7 @@ export interface CtProduct {
   id: string;
   key: string;
   masterVariant: {
+    sku: string;
     prices: Price[];
     images?: Image[];
   };

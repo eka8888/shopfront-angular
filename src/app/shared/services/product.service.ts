@@ -6,13 +6,14 @@ import { CtProduct, Product } from '../interfaces/product.interface';
 import { CtAllProducts } from '../interfaces/product.interface';
 import { adaptCtToProduct } from '../adapters/product.adapter';
 import { environment } from '../../../environments/environment';
+import { stripTrailingSlash } from '../../core/utils/url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private FAKE_DISCOUNT_AMOUNT = 20;
-  private BASE_URL = `${environment.apiUrl}/${environment.projectKey}/product-projections`;
+  private BASE_URL = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}/product-projections`;
 
   private httpClient = inject(HttpClient);
 

@@ -1,10 +1,3 @@
-export interface TimelineEvent {
-  sprint: number;
-  description: string;
-  image: string;
-  alt: string;
-}
-
 export interface TeamMember {
   image: string;
   alt: string;

@@ -11,7 +11,9 @@ import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductService } from '../../../../shared/services/product.service';
-import { CartService } from '../../../../shared/services/cart.service';
+import { CartApi } from '../../../../core/services/cart-api';
+import { CartStore } from '../../../../core/stores/cart.store';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { QuantitySelector } from '../../../../shared/components/quantity-selector/quantity-selector';
 import { Button } from '../../../../shared/components/button/button';
 import { ButtonVariant } from '../../../../shared/types/form.enums';
@@ -26,7 +28,8 @@ export class ProductDetailsPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private productService = inject(ProductService);
-  private cartService = inject(CartService);
+  private cartApi = inject(CartApi);
+  private cartStore = inject(CartStore);
   private destroyRef = inject(DestroyRef);
 
   readonly ButtonVariant = ButtonVariant;
@@ -39,10 +42,22 @@ export class ProductDetailsPage implements OnInit {
 
   imagePath = computed(() => this.currentProduct()?.detailedImage ?? this.currentProduct()?.image);
 
-  currentQuantity = computed(() => {
-    const currentItem = this.cartService.cartItems().find((item) => item.id === this.productKey);
+  currentLineItem = computed(() => {
+    const ctId = this.currentProduct()?.ctId;
 
-    return currentItem?.quantity ?? 0;
+    if (!ctId) {
+      return undefined;
+    }
+
+    return this.cartStore.lineItems().find((item) => item.productId === ctId);
+  });
+
+  currentQuantity = computed(() => this.currentLineItem()?.quantity ?? 0);
+
+  isCartUpdating = computed(() => {
+    const item = this.currentLineItem();
+
+    return item ? this.cartStore.isLineItemUpdating(item.id) : false;
   });
 
   oldPrice = computed(() => {
@@ -57,20 +72,48 @@ export class ProductDetailsPage implements OnInit {
     });
   }
 
-  onIncreaseQuantity(id: string) {
-    this.cartService.increaseQuantity(id);
+  onIncreaseQuantity() {
+    const item = this.currentLineItem();
+
+    if (!item) {
+      return;
+    }
+
+    this.cartApi
+      .changeLineItemQuantity(item.id, item.quantity + 1)
+      .subscribe({ error: ignoreHandledError });
   }
 
-  onDecreaseQuantity(id: string) {
-    this.cartService.decreaseQuantity(id);
+  onDecreaseQuantity() {
+    const item = this.currentLineItem();
+
+    if (!item || item.quantity <= 1) {
+      return;
+    }
+
+    this.cartApi
+      .changeLineItemQuantity(item.id, item.quantity - 1)
+      .subscribe({ error: ignoreHandledError });
   }
 
   onAddToCart() {
-    this.cartService.addToCart(this.productKey);
+    const sku = this.currentProduct()?.sku;
+
+    if (!sku) {
+      return;
+    }
+
+    this.cartApi.addLineItem(sku).subscribe({ error: ignoreHandledError });
   }
 
   onRemoveFromCart() {
-    this.cartService.removeFromCart(this.productKey);
+    const lineItemId = this.currentLineItem()?.id;
+
+    if (!lineItemId) {
+      return;
+    }
+
+    this.cartApi.removeLineItem(lineItemId).subscribe({ error: ignoreHandledError });
   }
 
   ngOnInit(): void {
