@@ -1,7 +1,7 @@
 import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { map, Subject, switchMap, finalize } from 'rxjs';
 
 import { ProductService } from './product.service';
 import { environment } from '../../../environments/environment';
@@ -20,10 +20,37 @@ export class SearchService {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
+  private searchSubject$ = new Subject<string>();
+
   catalog = this.productService.products;
 
   userInput = signal<string>('');
   searchResults = signal<Product[]>([]);
+  isLoading = signal<boolean>(false);
+
+  constructor() {
+    const subscription = this.searchSubject$.pipe(
+      switchMap((text) => {
+        this.isLoading.set(true);
+        this.searchResults.set([]);
+
+        return this.fetchFoundProducts(text).pipe(
+          map((data) => {
+            this.searchResults.set(data);
+
+            return data;
+          }),
+          finalize(() => this.isLoading.set(false)),
+        );
+      })
+    ).subscribe({
+      error: (err) => console.error(`Search error: ${err}`),
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 
   searchProducts(textInput: string) {
     this.userInput.set(textInput);
@@ -34,20 +61,12 @@ export class SearchService {
       this.router.navigate(['/shop'], {
         queryParams: { searchFor: text },
       });
+      this.searchSubject$.next(text);
     } else {
       this.router.navigate(['/shop']);
+      this.searchResults.set(this.catalog());
+      return;
     }
-
-    const subscription = this.fetchFoundProducts(text).subscribe({
-      next: (data) => {
-        this.searchResults.set(data);
-      },
-      error: (err) => console.error(`Search failed for query "${text}": ${err}`),
-    });
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
   }
 
   fetchFoundProducts(searchText: string) {
@@ -65,5 +84,17 @@ export class SearchService {
   clearSearch() {
     this.userInput.set('');
     this.searchResults.set(this.catalog());
+  }
+
+  getSearchInputFromUrl(text: string) {
+    const searchText = text.trim();
+
+    if (searchText) {
+      this.userInput.set(searchText);
+      this.searchSubject$.next(searchText);
+    } else {
+      this.userInput.set('');
+      this.searchResults.set(this.catalog());
+    }
   }
 }
