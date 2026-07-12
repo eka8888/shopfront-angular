@@ -118,8 +118,7 @@ export class ProductDetailsPage implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.productService.fetchProductByKey(this.productKey).subscribe({
-      next: (data) => console.info('Product loaded:', data),
-      error: (err) => console.error(err),
+      error: (err) => console.error('Failed to load product:', err),
     });
 
     this.destroyRef.onDestroy(() => {
