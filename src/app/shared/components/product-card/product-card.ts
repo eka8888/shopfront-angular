@@ -1,4 +1,4 @@
-import { Component, computed, input, OnDestroy, OnInit, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product.interface';
 import { Button } from '../button/button';
@@ -10,26 +10,18 @@ import { ButtonVariant } from '../../types/form.enums';
   templateUrl: './product-card.html',
   standalone: true,
 })
-export class ProductCard implements OnInit, OnDestroy {
+export class ProductCard {
   readonly ButtonVariant = ButtonVariant;
 
   product = input.required<Product>();
 
-  addToCart = output<string>();
+  addToCart = output<Product>();
 
   discountPrice = computed(() => this.product().price + 20);
-
-  ngOnInit(): void {
-    console.log('Product card initialized');
-  }
-
-  ngOnDestroy(): void {
-    console.log('Product card destroyed');
-  }
 
   onAddToCart(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.addToCart.emit(this.product().id);
+    this.addToCart.emit(this.product());
   }
 }

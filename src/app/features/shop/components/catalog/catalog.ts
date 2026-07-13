@@ -9,24 +9,26 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { SearchService } from '../../../../shared/services/search.service';
-import { CartService } from '../../../../shared/services/cart.service';
+import { CartApi } from '../../../../core/services/cart-api';
+import { ignoreHandledError } from '../../../../core/utils/rxjs';
 import { FilteringService } from '../../../../shared/services/filtering.service';
 import { ProductService } from '../../../../shared/services/product.service';
+import { CategoryService } from '../../../../shared/services/category.service';
+import { Product } from '../../../../shared/interfaces/product.interface';
 import { ProductsSortPipe } from '../../../../shared/pipes/products-sort-pipe';
 import { PluralsPipe } from '../../../../shared/pipes/plurals-pipe';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { SortingSelector } from '../sorting-selector/sorting-selector';
 import { NothingFound } from '../../../../shared/components/nothing-found/nothing-found';
-import { PRICE_RANGES } from '../../../../shared/constants/price-range';
 import { Button } from '../../../../shared/components/button/button';
 
+import { PRICE_RANGES } from '../../../../shared/constants/price-range';
 import { DEFAULT_SORTING, Sorting } from '../../../../shared/types/sorting.enums';
 import { ButtonVariant } from '../../../../shared/types/form.enums';
 import { ButtonType } from '../../../../shared/types/form.enums';
-import { CategoryService } from '../../../../shared/services/category.service';
 
 @Component({
   selector: 'app-catalog',
@@ -46,12 +48,13 @@ export class Catalog implements OnInit, OnDestroy {
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonType = ButtonType;
 
-  private cartService = inject(CartService);
+  private cartApi = inject(CartApi);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
 
@@ -60,6 +63,7 @@ export class Catalog implements OnInit, OnDestroy {
   currentPage = signal<number>(1);
 
   textToSearch = this.searchService.userInput;
+  isFetching = computed(() => this.searchService.isLoading() || this.productService.isLoading());
   categories = this.categoryService.allCategories;
   filteredResults = this.filteringService.filteredResults;
 
@@ -101,13 +105,13 @@ export class Catalog implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      this.textToSearch();
+      this.searchService.searchResults();
       this.addFilters();
     });
   }
 
-  handleAddToCart(productId: string) {
-    this.cartService.addToCart(productId);
+  handleAddToCart(product: Product) {
+    this.cartApi.addLineItem(product.sku).subscribe({ error: ignoreHandledError });
   }
 
   handleSelectSort(sortOption: Sorting) {
@@ -128,6 +132,8 @@ export class Catalog implements OnInit, OnDestroy {
     this.searchService.clearSearch();
 
     this.addFilters();
+
+    this.router.navigate(['/shop']);
   }
 
   setCategory(category: string) {
@@ -157,16 +163,25 @@ export class Catalog implements OnInit, OnDestroy {
     const dataSubscription = this.productService.fetchAllProducts().subscribe({
       next: (data) => {
         this.productService.products.set(data);
-        this.searchService.searchResults.set(data);
+
+        if (!this.searchService.userInput()) {
+          this.searchService.clearSearch();
+        }
       },
-      error: (err) => console.error(err),
+      error: (err) => console.error('Failed to load products:', err),
     });
 
     const querySubscription = this.route.queryParams.subscribe((params) => {
-      const { category } = params;
+      const { category, searchFor: productToSearch } = params;
 
       if (category && typeof category === 'string') {
         this.setCategory(category);
+      }
+
+      if (productToSearch) {
+        this.searchService.getSearchInputFromUrl(productToSearch);
+      } else {
+        this.searchService.clearSearch();
       }
     });
 
@@ -174,20 +189,8 @@ export class Catalog implements OnInit, OnDestroy {
       this.addFilters();
     });
 
-    this.categoryService.fetchCategories().subscribe({
-      next: (data) => {
-        this.categories.set(data);
-        console.log(data);
-      },
-      error: (err) => console.log(err),
-    });
-
-    this.addFilters();
-
     this.destroyRef.onDestroy(() => {
-      dataSubscription.unsubscribe();
-      querySubscription.unsubscribe();
-      formSubscription.unsubscribe();
+      [dataSubscription, querySubscription, formSubscription].forEach((sub) => sub.unsubscribe());
     });
   }
 

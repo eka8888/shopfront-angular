@@ -11,5 +11,5 @@ import { CategoryService } from '../../../../shared/services/category.service';
 export class CategoriesSection {
   private categoryService = inject(CategoryService);
 
-  categories = this.categoryService.getHomePageCategories();
+  categories = this.categoryService.homePageCategories;
 }

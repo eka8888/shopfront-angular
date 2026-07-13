@@ -1,5 +1,5 @@
 export interface TimelineEvent {
-  year: number;
+  sprint: number;
   description: string;
   image: string;
   alt: string;
@@ -10,4 +10,6 @@ export interface TeamMember {
   alt: string;
   name: string;
   position: string;
+  bio: string;
+  github: string;
 }

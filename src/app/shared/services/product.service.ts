@@ -1,37 +1,30 @@
 import { computed, Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { finalize, map } from 'rxjs';
 
 import { CtProduct, Product } from '../interfaces/product.interface';
 import { CtAllProducts } from '../interfaces/product.interface';
 import { adaptCtToProduct } from '../adapters/product.adapter';
 import { environment } from '../../../environments/environment';
+import { stripTrailingSlash } from '../../core/utils/url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   private FAKE_DISCOUNT_AMOUNT = 20;
-  private BASE_URL = `${environment.apiUrl}/${environment.projectKey}/product-projections`;
+  private BASE_URL = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}/product-projections`;
 
   private httpClient = inject(HttpClient);
 
   products = signal<Product[]>([]);
+  isLoading = signal<boolean>(false);
 
   newArrivals = computed(() => {
-    return this.products()
+    return [...this.products()]
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 4);
   });
-
-  constructor() {
-    this.fetchAllProducts().subscribe({
-      next:  (data) => {
-        this.products.set(data);
-      },
-      error: (err) => console.log(err),
-    });
-  }
 
   getProductById(id: string) {
     return this.products().find((item) => item.id === id);
@@ -50,10 +43,15 @@ export class ProductService {
   }
 
   fetchAllProducts() {
+    this.isLoading.set(true);
+
     const url = `${this.BASE_URL}?limit=50`;
 
     return this.httpClient
       .get<CtAllProducts>(url)
-      .pipe(map((resData) => resData.results.map((obj) => adaptCtToProduct(obj))));
+      .pipe(
+        map((resData) => resData.results.map((obj) => adaptCtToProduct(obj))),
+        finalize(() => this.isLoading.set(false)),
+      );
   }
 }

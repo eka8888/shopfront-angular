@@ -55,7 +55,9 @@
     </form>
   </div>
 
-  @if (products.length === 0) {
+  @if (isFetching()) {
+    <img src="icons/loader.svg" alt="Loading..." class="mx-auto" />
+  } @else if (products.length === 0) {
     <app-nothing-found
       message="Nothing found"
       btnText="Reset all filters"

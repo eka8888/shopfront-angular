@@ -2,8 +2,8 @@
   <h1 class="sr-only">Shopping Cart</h1>
 
   <div class="mt-12.5 mb-10 flex items-center justify-between">
-    <h2 class="mt-12.5 mb-10 text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
-      Cart ({{ itemsQuantity() | plurals: 'item' : 'items' }})
+    <h2 class="text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
+      Cart ({{ heading() }})
     </h2>
 
     @if (items().length > 0) {
@@ -25,8 +25,16 @@
     />
   }
 
+  @if (error()) {
+    <div class="mb-6 px-5 py-4 bg-red-50 text-red-700 font-primary text-sm">
+      {{ error() }}
+    </div>
+  }
+
   <!-- CART-ITEMS -->
-  @if (items().length === 0) {
+  @if (loading() && items().length === 0) {
+    <p class="font-primary text-zambezi py-10 text-center">Loading your cart…</p>
+  } @else if (items().length === 0) {
     <app-nothing-found message="Your cart is empty" btnText="Go to Shop" btnLink="/shop" />
   } @else {
     <!-- TITLE -->
@@ -61,21 +69,24 @@
           </div>
 
           <!-- IMAGE -->
-          <img [src]="item.image" [alt]="item.name" class="mx-auto" />
+          <img [src]="itemImage(item)" [alt]="itemName(item)" class="mx-auto" />
           <!-- PRODUCT NAME -->
-          <div class="flex justify-center items-center uppercase">{{ item.name }}</div>
+          <div class="flex justify-center items-center uppercase">{{ itemName(item) }}</div>
 
           <!-- CURRENT PRICE -->
           <div class="flex flex-col justify-center items-center gap-0.5">
             @if (isDiscountApplied()) {
               <span class="line-through text-zambezi text-xs font-normal">
-                {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+                {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
               </span>
               <span class="text-light-brown">
-                {{ discountedPrice(item.price) | currency: 'USD' : 'symbol' : '1.0-0' }}
+                {{
+                  discountedPrice(itemUnitPrice(item))
+                    | currency: currencyCode() : 'symbol' : '1.0-0'
+                }}
               </span>
             } @else {
-              {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+              {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
             }
           </div>
 
@@ -83,6 +94,7 @@
           <app-quantity-selector
             [itemId]="item.id"
             [itemQuantity]="item.quantity"
+            [disabled]="isLineItemUpdating(item.id)"
             (increase)="onIncreaseQuantity($event)"
             (decrease)="onDecreaseQuantity($event)"
             class="flex justify-center items-center"
@@ -92,13 +104,13 @@
           <div class="flex flex-col justify-center items-center gap-0.5 text-light-brown">
             @if (isDiscountApplied()) {
               <span class="line-through text-zambezi text-xs font-normal">
-                {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+                {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
               </span>
               <span>
-                {{ discountedSubtotal(item) | currency: 'USD' : 'symbol' : '1.0-0' }}
+                {{ discountedSubtotal(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
               </span>
             } @else {
-              {{ item.price * item.quantity | currency: 'USD' : 'symbol' : '1.0-0' }}
+              {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
             }
           </div>
         </div>
@@ -142,13 +154,13 @@
         @if (discount() > 0) {
           <div class="flex justify-between text-base mb-3 text-light-brown">
             <div>Discount</div>
-            <div>- {{ discountAmount() | currency: 'USD' }}</div>
+            <div>- {{ discountAmount() | currency: currencyCode() }}</div>
           </div>
         }
 
         <div class="flex justify-between text-base">
           <div>Total</div>
-          <div>{{ totalForPromo() | currency: 'USD' }}</div>
+          <div>{{ totalForPromo() | currency: currencyCode() }}</div>
         </div>
       </div>
     </div>
