@@ -1,35 +1,59 @@
-import { ChangeDetectionStrategy, Component,  computed,  inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+} from '@angular/core';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
+
 import { SearchBar } from '../search-bar/search-bar';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Button } from '../button/button';
+
 import { Navigation } from '../../../core/services/navigation';
 import { Auth } from '../../../core/services/auth';
-import { ButtonVariant } from '../../types/form.enums';
 import { APP_CONFIG } from '../../../core/config/app-config.token';
+
 import { SearchService } from '../../services/search.service';
 import { CartService } from '../../services/cart.service';
+import { ButtonVariant } from '../../types/form.enums';
+
 @Component({
   selector: 'app-header',
-  imports: [SearchBar, RouterLink, RouterLinkActive, Button],
-  templateUrl: './header.html',
   standalone: true,
+  imports: [
+    SearchBar,
+    RouterLink,
+    RouterLinkActive,
+    Button,
+  ],
+  templateUrl: './header.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
   readonly ButtonVariant = ButtonVariant;
 
-  private navigationService = inject(Navigation);
-  private authService = inject(Auth);
-  private router = inject(Router);
-  private appConfig = inject(APP_CONFIG);
-  private searchService = inject(SearchService);
-  private cartService = inject(CartService);
+  private readonly navigationService = inject(Navigation);
+  private readonly authService = inject(Auth);
+  private readonly router = inject(Router);
+  private readonly appConfig = inject(APP_CONFIG);
+  private readonly searchService = inject(SearchService);
+  private readonly cartService = inject(CartService);
 
   readonly appName = this.appConfig.appName;
   readonly navItems = this.navigationService.navItems();
-  readonly isAuthenticated = computed(() => this.authService.isAuthenticated());
-  readonly searchBarValue = this.searchService.userInput;
-  readonly cartBadge = this.cartService.itemsQuantity;
+
+
+  readonly isAuthenticated =
+    this.authService.isAuthenticated;
+
+  readonly searchBarValue =
+    this.searchService.userInput;
+
+  readonly cartBadge =
+    this.cartService.itemsQuantity;
 
   handleSearch(value: string): void {
     this.searchService.searchProducts(value);
