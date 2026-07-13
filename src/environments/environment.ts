@@ -7,5 +7,6 @@ export const environment = {
   apiUrl: 'https://api.europe-west1.gcp.commercetools.com',
 
   clientId: '',
-  clientSecret: '',
+  clientSecret: ''
+
 };
