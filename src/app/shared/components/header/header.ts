@@ -19,6 +19,7 @@ import { APP_CONFIG } from '../../../core/config/app-config.token';
 import { SearchService } from '../../services/search.service';
 import { CartService } from '../../services/cart.service';
 import { ButtonVariant } from '../../types/form.enums';
+import { CartStore } from '../../../core/stores/cart.store';
 
 @Component({
   selector: 'app-header',
@@ -41,6 +42,7 @@ export class Header {
   private readonly appConfig = inject(APP_CONFIG);
   private readonly searchService = inject(SearchService);
   private readonly cartService = inject(CartService);
+  private cartStore = inject(CartStore);
 
   readonly appName = this.appConfig.appName;
   readonly navItems = this.navigationService.navItems();
@@ -53,7 +55,7 @@ export class Header {
     this.searchService.userInput;
 
   readonly cartBadge =
-    this.cartService.itemsQuantity;
+    this.cartStore.itemsCount;
 
   handleSearch(value: string): void {
     this.searchService.searchProducts(value);
