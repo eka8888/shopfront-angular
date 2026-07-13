@@ -189,15 +189,8 @@ export class Catalog implements OnInit, OnDestroy {
       this.addFilters();
     });
 
-    const categorySubscription = this.categoryService.fetchCategories().subscribe({
-      next: (data) => {
-        this.categories.set(data);
-      },
-      error: (err) => console.error('Failed to load categories:', err),
-    });
-
     this.destroyRef.onDestroy(() => {
-      [dataSubscription, querySubscription, formSubscription, categorySubscription].forEach((sub) => sub.unsubscribe());
+      [dataSubscription, querySubscription, formSubscription].forEach((sub) => sub.unsubscribe());
     });
   }
 

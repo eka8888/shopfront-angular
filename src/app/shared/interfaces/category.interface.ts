@@ -17,5 +17,8 @@ export interface CtCategory {
   key: string;
   name: {
     'en-US': string;
-  }
+  };
+  slug: {
+    'en-US': string;
+  };
 }

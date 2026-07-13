@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, DestroyRef, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 
@@ -13,27 +13,31 @@ export class CategoryService {
   private BASE_URL = `${stripTrailingSlash(environment.apiUrl)}/${environment.projectKey}/categories`;
 
   private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
 
   allCategories = signal<CtCategory[]>([]);
 
-  homePageCategories = signal(
-    this.allCategories().map((category) => {
-      const slug = category.name['en-US']
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-');
+  readonly homePageCategories = computed(() => {
+    return this.allCategories().map((category) => {
+      const slug = category.slug['en-US'];
 
       return {
         ...category,
         image: `images/categories-section/${slug}.jpg`,
         slug,
       };
-    }),
-  );
+    });
+  });
 
-  getHomePageCategories() {
-    return this.homePageCategories;
+  constructor() {
+    const categorySubscription = this.fetchCategories().subscribe({
+      next: (data) => {
+        this.allCategories.set(data);
+      },
+      error: (err) => console.error('Failed to load categories:', err),
+    });
+
+    this.destroyRef.onDestroy(() => categorySubscription.unsubscribe());
   }
 
   fetchCategories() {
