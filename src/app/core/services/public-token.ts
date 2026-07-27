@@ -27,20 +27,10 @@ export class PublicTokenService {
   private readonly httpBackend = inject(HttpBackend);
   private readonly tokenService = inject(Token);
 
-  /**
-   * This HttpClient bypasses all interceptors.
-   *
-   * It prevents a circular flow:
-   * interceptor -> token request -> interceptor -> token request...
-   */
+
   private readonly rawHttp = new HttpClient(this.httpBackend);
 
-  /**
-   * Stores an active token request.
-   *
-   * If several API requests happen at the same time,
-   * only one OAuth request will be sent.
-   */
+
   private tokenRequest$: Observable<string> | null = null;
 
   ensurePublicToken(forceRefresh = false): Observable<string> {
