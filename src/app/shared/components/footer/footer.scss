@@ -13,14 +13,14 @@
 
 .footer-bottom-text {
   @apply font-normal text-base leading-[138%] text-center
-        text-card-placeholder pl-5;
+        text-card-placeholder sm:pl-5;
 }
 
 .footer-divider {
-  @apply relative after:absolute pe-3
-        after:content-[''] after:w-[1px]
-        after:bg-divider-and-footer-link after:h-full
-        after:top-0 after:left-full pl-5;
+  @apply relative sm:pe-3
+        sm:after:absolute after:content-['']
+        sm:after:w-[1px] sm:after:bg-divider-and-footer-link
+        sm:after:h-full sm:after:top-0 sm:after:left-full sm:pl-5;
 }
 
 .footer-bottom-link {

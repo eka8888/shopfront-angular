@@ -1,6 +1,12 @@
-<section class="flex pb-16 items-center">
-  <img ngSrc="images/about/how-we-work.png" alt="How we work" width="555" height="443" />
-  <div class="flex flex-col px-14 py-7 gap-[4%]">
+<section class="flex flex-col lg:flex-row pb-10 sm:pb-12 lg:pb-16 lg:items-center">
+  <img
+    ngSrc="images/about/how-we-work.png"
+    alt="How we work"
+    width="555"
+    height="443"
+    class="w-full lg:w-[555px] lg:shrink-0 lg:grow-0 h-auto object-cover"
+  />
+  <div class="flex flex-col px-0 py-6 sm:px-6 lg:px-14 lg:py-7 gap-4 lg:gap-[4%]">
     <h3 class="main-title">How we work</h3>
     @for (step of steps; track step.title) {
       <app-work-step [title]="step.title" [description]="step.description" class="pb-3" />

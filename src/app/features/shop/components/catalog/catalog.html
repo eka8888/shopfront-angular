@@ -2,8 +2,8 @@
 @let page = currentPage();
 @let allPages = totalPages();
 
-<div class="flex gap-6">
-  <div class="flex flex-col pr-5">
+<div class="flex flex-col lg:flex-row gap-6">
+  <div class="flex flex-col w-full lg:w-64.5 lg:pr-5 lg:shrink-0">
     <!-- ITEMS QUANTITY -->
     @if (filteredResults().length === 0) {
       <div class="items-counter">0 items found</div>
@@ -13,8 +13,41 @@
       </div>
     }
 
+    <!-- MOBILE/TABLET FILTERS TOGGLE -->
+    <button
+      type="button"
+      class="lg:hidden flex items-center justify-between border border-black-marlin px-4 h-11 mb-6 font-primary font-semibold text-sm uppercase tracking-wide text-black-marlin cursor-pointer"
+      (click)="toggleFilters()"
+      [attr.aria-expanded]="filtersOpen()"
+      aria-controls="catalog-filters"
+    >
+      Filters
+      <svg
+        width="12"
+        height="8"
+        viewBox="0 0 12 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="transition-transform duration-200"
+        [class.rotate-180]="filtersOpen()"
+      >
+        <path
+          d="M1 1.5L6 6.5L11 1.5"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
     <!-- FILTERING -->
-    <form [formGroup]="filteringForm">
+    <form
+      id="catalog-filters"
+      [formGroup]="filteringForm"
+      class="lg:block"
+      [class.hidden]="!filtersOpen()"
+    >
       <!-- BY CATEGORY -->
       <fieldset class="filter-fieldset" [formGroupName]="'categoryList'">
         <legend class="font-primary font-semibold text-sm leading-5.5 text-black-marlin mb-5.5">
@@ -64,21 +97,23 @@
       (btnClick)="resetSearchAndFilters()"
     />
   } @else {
-    <div class="flex flex-col w-full max-w-206.25">
+    <div class="flex flex-col w-full lg:max-w-206.25 min-w-0">
       <!-- SORTING -->
-      <div class="max-w-63.75 ml-auto mb-7.5">
+      <div class="w-full sm:max-w-63.75 sm:ml-auto mb-6 lg:mb-7.5">
         <app-sorting-selector (sortSelect)="handleSelectSort($event)" />
       </div>
 
       <!-- CATALOG -->
-      <div class="grid grid-cols-[repeat(auto-fill,255px)] gap-x-5 gap-y-10 mb-7.5">
+      <div
+        class="grid grid-cols-[repeat(auto-fill,255px)] justify-center lg:justify-start gap-x-5 gap-y-8 lg:gap-y-10 mb-7.5"
+      >
         @for (product of products; track product.id) {
           <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
         }
       </div>
 
       <!-- PAGINATION -->
-      <div class="flex justify-end gap-2 items-center">
+      <div class="flex justify-center lg:justify-end gap-2 items-center">
         <app-button
           [variant]="ButtonVariant.Outline"
           [type]="ButtonType.Button"
@@ -102,7 +137,7 @@
           </svg>
         </app-button>
         <div
-          class="flex items-center font-primary font-normal text-sm leading-5.5 text-black-marlin border-y border-black-marlin px-4 h-11"
+          class="flex items-center font-primary font-normal text-sm leading-5.5 text-black-marlin border-y border-black-marlin px-4 h-11 whitespace-nowrap"
         >
           Page {{ page }} of {{ allPages }}
         </div>

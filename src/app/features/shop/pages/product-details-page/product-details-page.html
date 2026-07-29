@@ -1,28 +1,32 @@
 @let product = currentProduct();
 @let quantity = currentQuantity();
 
-<section class="flex justify-between mx-auto min-h-screen max-w-277.5 pt-12.5 pb-15 bg-white">
+<section
+  class="flex flex-col lg:flex-row justify-between gap-8 lg:gap-10 mx-auto min-h-screen max-w-277.5 pt-8 sm:pt-10 lg:pt-12.5 pb-15 bg-white"
+>
   <!-- IMAGES -->
-  <div class="w-133.75">
-    <img [src]="imagePath()" alt="product image" />
+  <div class="w-full lg:w-133.75 shrink-0">
+    <img [src]="imagePath()" alt="product image" class="w-full h-auto object-cover" />
   </div>
 
   <!-- DETAILS -->
-  <div class="w-128.75">
+  <div class="w-full lg:w-128.75">
     <!-- NAME -->
     <h1
-      class="mb-5 font-primary font-semibold text-xl leading-7 tracking-[0.06em] uppercase text-black-marlin"
+      class="mb-5 font-primary font-semibold text-lg sm:text-xl leading-7 tracking-[0.06em] uppercase text-black-marlin"
     >
       {{ product?.name }}
     </h1>
 
     <!-- PRICE -->
     <div class="flex gap-4">
-      <div class="font-primary font-normal text-2xl leading-8 tracking-[0.06em] text-black-marlin">
+      <div
+        class="font-primary font-normal text-xl sm:text-2xl leading-8 tracking-[0.06em] text-black-marlin"
+      >
         {{ product?.price | currency: 'USD' : 'symbol' : '1.0-0' }}
       </div>
       <div
-        class="font-primary font-normal text-2xl leading-8 tracking-[0.06em] line-through text-light-grey"
+        class="font-primary font-normal text-xl sm:text-2xl leading-8 tracking-[0.06em] line-through text-light-grey"
       >
         {{ oldPrice() | currency: 'USD' : 'symbol' : '1.0-0' }}
       </div>

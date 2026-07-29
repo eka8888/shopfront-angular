@@ -1,5 +1,5 @@
 @reference "../../../../../tailwind.css";
 
 .card-wrapper {
-  @apply flex flex-col bg-seashell flex-2 justify-center gap-[10%];
+  @apply flex flex-col bg-seashell flex-2 justify-center gap-6 lg:gap-[10%] py-8 px-5 sm:px-8 lg:py-0 lg:px-0 min-h-56 lg:min-h-0;
 }
