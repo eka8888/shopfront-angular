@@ -36,14 +36,7 @@ export const appConfig: ApplicationConfig = {
       ])
     ),
 
-    /*
-     * Initializes the public token once
-     * when the application starts.
-     *
-     * If initialization fails, the app still loads.
-     * A later public request can try obtaining it again
-     * through the interceptor.
-     */
+
     provideAppInitializer(() => {
       const publicTokenService = inject(
         PublicTokenService
