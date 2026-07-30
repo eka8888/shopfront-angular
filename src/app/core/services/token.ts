@@ -35,7 +35,6 @@ export class Token {
 
     this.publicToken.set(token);
   }
-
   getPublicToken(): string | null {
     if (!this.isPublicTokenValid()) {
       return null;
