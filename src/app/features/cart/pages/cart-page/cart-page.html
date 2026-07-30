@@ -1,8 +1,8 @@
-<section class="max-w-277.5 mx-auto pb-20">
+<section class="max-w-277.5 mx-auto pb-16 lg:pb-20">
   <h1 class="sr-only">Shopping Cart</h1>
 
-  <div class="mt-12.5 mb-10 flex items-center justify-between">
-    <h2 class="text-black-marlin font-primary font-semibold text-2xl leading-[133%]">
+  <div class="mt-8 sm:mt-10 lg:mt-12.5 mb-6 lg:mb-10 flex items-center justify-between gap-4">
+    <h2 class="text-black-marlin font-primary font-semibold text-xl sm:text-2xl leading-[133%]">
       Cart ({{ heading() }})
     </h2>
 
@@ -37,87 +37,167 @@
   } @else if (items().length === 0) {
     <app-nothing-found message="Your cart is empty" btnText="Go to Shop" btnLink="/shop" />
   } @else {
-    <!-- TITLE -->
-    <div
-      class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em]"
-    >
-      <div class="flex justify-center">
-        <img src="icons/cart/trash-icon.svg" alt="trash icon" class="w-4.75 h-5" />
+    <!-- DESKTOP TABLE (xl and up — the fixed grid needs the full 1110px with no side padding) -->
+    <div class="hidden xl:block">
+      <!-- TITLE -->
+      <div
+        class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 max-w-277.5 h-12 uppercase bg-black-marlin text-white text-center items-center font-primary font-semibold text-sm leading-[143%] tracking-[0.06em]"
+      >
+        <div class="flex justify-center">
+          <img src="icons/cart/trash-icon.svg" alt="trash icon" class="w-4.75 h-5" />
+        </div>
+        <div>Photo</div>
+        <div>Product</div>
+        <div>Price</div>
+        <div>Quantity</div>
+        <div>Subtotal</div>
       </div>
-      <div>Photo</div>
-      <div>Product</div>
-      <div>Price</div>
-      <div>Quantity</div>
-      <div>Subtotal</div>
+
+      <!-- ITEMS-LIST -->
+      <div class="mb-10">
+        @for (item of items(); track item.id) {
+          <!-- CART-ITEM -->
+          <div
+            class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 py-5 border-b border-black font-primary text-sm text-black-marlin font-semibold leading-[143%] tracking-[0.06em]"
+          >
+            <!-- DELETE BUTTON -->
+            <div class="flex justify-center items-center">
+              <button
+                (click)="onRemoveFromCart(item.id)"
+                class="cursor-pointer hover:opacity-70 transition-opacity"
+              >
+                <img src="icons/cart/delete-btn.svg" alt="delete button" />
+              </button>
+            </div>
+
+            <!-- IMAGE -->
+            <img [src]="itemImage(item)" [alt]="itemName(item)" class="mx-auto" />
+            <!-- PRODUCT NAME -->
+            <div class="flex justify-center items-center uppercase">{{ itemName(item) }}</div>
+
+            <!-- CURRENT PRICE -->
+            <div class="flex flex-col justify-center items-center gap-0.5">
+              @if (isDiscountApplied()) {
+                <span class="line-through text-zambezi text-xs font-normal">
+                  {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                </span>
+                <span class="text-light-brown">
+                  {{
+                    discountedPrice(itemUnitPrice(item))
+                      | currency: currencyCode() : 'symbol' : '1.0-0'
+                  }}
+                </span>
+              } @else {
+                {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+              }
+            </div>
+
+            <!-- QUANTITY SELECTOR -->
+            <app-quantity-selector
+              [itemId]="item.id"
+              [itemQuantity]="item.quantity"
+              [disabled]="isLineItemUpdating(item.id)"
+              (increase)="onIncreaseQuantity($event)"
+              (decrease)="onDecreaseQuantity($event)"
+              class="flex justify-center items-center"
+            />
+
+            <!-- SUBTOTAL -->
+            <div class="flex flex-col justify-center items-center gap-0.5 text-light-brown">
+              @if (isDiscountApplied()) {
+                <span class="line-through text-zambezi text-xs font-normal">
+                  {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                </span>
+                <span>
+                  {{ discountedSubtotal(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                </span>
+              } @else {
+                {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+              }
+            </div>
+          </div>
+        }
+      </div>
     </div>
 
-    <!-- ITEMS-LIST -->
-    <div class="mb-10">
+    <!-- MOBILE / TABLET CARDS (below xl) -->
+    <div class="xl:hidden flex flex-col gap-5 mb-10">
       @for (item of items(); track item.id) {
-        <!-- CART-ITEM -->
-        <div
-          class="grid grid-cols-[50px_120px_400px_180px_130px_180px] gap-2.5 py-5 border-b border-black font-primary text-sm text-black-marlin font-semibold leading-[143%] tracking-[0.06em]"
-        >
-          <!-- DELETE BUTTON -->
-          <div class="flex justify-center items-center">
-            <button
-              (click)="onRemoveFromCart(item.id)"
-              class="cursor-pointer hover:opacity-70 transition-opacity"
-            >
-              <img src="icons/cart/delete-btn.svg" alt="delete button" />
-            </button>
-          </div>
-
+        <div class="flex gap-4 pb-5 border-b border-black">
           <!-- IMAGE -->
-          <img [src]="itemImage(item)" [alt]="itemName(item)" class="mx-auto" />
-          <!-- PRODUCT NAME -->
-          <div class="flex justify-center items-center uppercase">{{ itemName(item) }}</div>
-
-          <!-- CURRENT PRICE -->
-          <div class="flex flex-col justify-center items-center gap-0.5">
-            @if (isDiscountApplied()) {
-              <span class="line-through text-zambezi text-xs font-normal">
-                {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
-              </span>
-              <span class="text-light-brown">
-                {{
-                  discountedPrice(itemUnitPrice(item))
-                    | currency: currencyCode() : 'symbol' : '1.0-0'
-                }}
-              </span>
-            } @else {
-              {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
-            }
-          </div>
-
-          <!-- QUANTITY SELECTOR -->
-          <app-quantity-selector
-            [itemId]="item.id"
-            [itemQuantity]="item.quantity"
-            [disabled]="isLineItemUpdating(item.id)"
-            (increase)="onIncreaseQuantity($event)"
-            (decrease)="onDecreaseQuantity($event)"
-            class="flex justify-center items-center"
+          <img
+            [src]="itemImage(item)"
+            [alt]="itemName(item)"
+            class="w-20 h-20 sm:w-24 sm:h-24 object-cover shrink-0"
           />
 
-          <!-- SUBTOTAL -->
-          <div class="flex flex-col justify-center items-center gap-0.5 text-light-brown">
-            @if (isDiscountApplied()) {
-              <span class="line-through text-zambezi text-xs font-normal">
-                {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
-              </span>
-              <span>
-                {{ discountedSubtotal(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
-              </span>
-            } @else {
-              {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
-            }
+          <!-- INFO -->
+          <div class="flex flex-col flex-1 min-w-0 gap-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="uppercase font-primary font-semibold text-sm text-black-marlin">
+                {{ itemName(item) }}
+              </div>
+
+              <button
+                (click)="onRemoveFromCart(item.id)"
+                class="shrink-0 cursor-pointer hover:opacity-70 transition-opacity"
+                aria-label="Remove item"
+              >
+                <img src="icons/cart/delete-btn.svg" alt="" class="w-4 h-4" />
+              </button>
+            </div>
+
+            <!-- UNIT PRICE -->
+            <div class="flex items-center gap-2 font-primary text-sm text-black-marlin">
+              @if (isDiscountApplied()) {
+                <span class="line-through text-zambezi text-xs font-normal">
+                  {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                </span>
+                <span class="text-light-brown font-semibold">
+                  {{
+                    discountedPrice(itemUnitPrice(item))
+                      | currency: currencyCode() : 'symbol' : '1.0-0'
+                  }}
+                </span>
+              } @else {
+                <span class="font-semibold">
+                  {{ itemUnitPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                </span>
+              }
+            </div>
+
+            <!-- QUANTITY + SUBTOTAL -->
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+              <app-quantity-selector
+                [itemId]="item.id"
+                [itemQuantity]="item.quantity"
+                [disabled]="isLineItemUpdating(item.id)"
+                (increase)="onIncreaseQuantity($event)"
+                (decrease)="onDecreaseQuantity($event)"
+                class="block w-32 shrink-0"
+              />
+
+              <div
+                class="flex flex-col items-end gap-0.5 text-light-brown font-primary font-semibold text-sm"
+              >
+                @if (isDiscountApplied()) {
+                  <span class="line-through text-zambezi text-xs font-normal">
+                    {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                  </span>
+                  <span>
+                    {{ discountedSubtotal(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                  </span>
+                } @else {
+                  {{ itemTotalPrice(item) | currency: currencyCode() : 'symbol' : '1.0-0' }}
+                }
+              </div>
+            </div>
           </div>
         </div>
       }
     </div>
 
-    <div class="flex">
+    <div class="flex flex-col sm:flex-row gap-6 sm:gap-4">
       <!-- PROMO CODE BUTTON -->
       <div class="pb-10">
         @let appliedDiscount = isDiscountApplied();
@@ -147,18 +227,18 @@
 
       <!-- TOTAL -->
       <div
-        class="max-w-135 px-10 py-12.5 ml-auto bg-black-marlin text-white font-primary font-semibold text-xl leading-[140%] grow-2"
+        class="w-full sm:max-w-135 px-6 sm:px-10 py-8 sm:py-12.5 sm:ml-auto bg-black-marlin text-white font-primary font-semibold text-lg sm:text-xl leading-[140%] sm:grow-2"
       >
-        <h3 class="mb-10">Cart totals</h3>
+        <h3 class="mb-6 sm:mb-10">Cart totals</h3>
 
         @if (discount() > 0) {
-          <div class="flex justify-between text-base mb-3 text-light-brown">
+          <div class="flex justify-between text-sm sm:text-base mb-3 text-light-brown">
             <div>Discount</div>
             <div>- {{ discountAmount() | currency: currencyCode() }}</div>
           </div>
         }
 
-        <div class="flex justify-between text-base">
+        <div class="flex justify-between text-sm sm:text-base">
           <div>Total</div>
           <div>{{ totalForPromo() | currency: currencyCode() }}</div>
         </div>

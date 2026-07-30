@@ -48,6 +48,12 @@ export class Catalog implements OnInit, OnDestroy {
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonType = ButtonType;
 
+  readonly filtersOpen = signal(false);
+
+  toggleFilters(): void {
+    this.filtersOpen.update((isOpen) => !isOpen);
+  }
+
   private cartApi = inject(CartApi);
   private searchService = inject(SearchService);
   private filteringService = inject(FilteringService);

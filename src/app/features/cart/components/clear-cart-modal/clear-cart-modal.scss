@@ -8,7 +8,7 @@
 }
 
 .modal {
-  @apply relative z-10 bg-white w-full max-w-[440px] px-12 py-10 flex flex-col gap-6;
+  @apply relative z-10 bg-white w-full max-w-[440px] mx-4 sm:mx-0 px-6 sm:px-12 py-8 sm:py-10 flex flex-col gap-6;
 }
 
 .modal__close {
@@ -28,7 +28,7 @@
 
 .modal__title {
   @apply font-secondary font-bold
-        text-4xl leading-none tracking-[0.04em] uppercase
+        text-2xl sm:text-4xl leading-none tracking-[0.04em] uppercase
         text-black-marlin;
 }
 

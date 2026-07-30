@@ -1,13 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { SearchBar } from '../search-bar/search-bar';
 import { Button } from '../button/button';
@@ -24,12 +16,7 @@ import { CartStore } from '../../../core/stores/cart.store';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [
-    SearchBar,
-    RouterLink,
-    RouterLinkActive,
-    Button,
-  ],
+  imports: [SearchBar, RouterLink, RouterLinkActive, Button],
   templateUrl: './header.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -47,22 +34,34 @@ export class Header {
   readonly appName = this.appConfig.appName;
   readonly navItems = this.navigationService.navItems();
 
+  readonly isAuthenticated = this.authService.isAuthenticated;
 
-  readonly isAuthenticated =
-    this.authService.isAuthenticated;
+  readonly searchBarValue = this.searchService.userInput;
 
-  readonly searchBarValue =
-    this.searchService.userInput;
+  readonly cartBadge = this.cartStore.itemsCount;
 
-  readonly cartBadge =
-    this.cartStore.itemsCount;
+  readonly mobileMenuOpen = signal(false);
 
   handleSearch(value: string): void {
     this.searchService.searchProducts(value);
   }
 
+  handleMobileSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.handleSearch(value);
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+    this.closeMobileMenu();
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen.update((isOpen) => !isOpen);
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen.set(false);
   }
 }

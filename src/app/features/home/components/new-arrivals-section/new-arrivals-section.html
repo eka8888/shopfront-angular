@@ -1,8 +1,12 @@
-<section class="mx-auto max-w-277.5 py-20">
-  <h2 class="mb-12 font-secondary font-bold text-[30px] leading-[120%] text-black-marlin uppercase text-center">Discover new arrivals</h2>
+<section class="mx-auto max-w-277.5 py-10 sm:py-14 lg:py-20">
+  <h2
+    class="mb-8 sm:mb-10 lg:mb-12 font-secondary font-bold text-2xl sm:text-[26px] lg:text-[30px] leading-[120%] text-black-marlin uppercase text-center"
+  >
+    Discover new arrivals
+  </h2>
 
   <!-- NEW ARRIVALS -->
-  <div class="flex justify-center gap-7.5">
+  <div class="flex flex-wrap justify-center gap-6 sm:gap-7.5">
     @for (product of newArrivals(); track product.id) {
       <app-product-card [product]="product" (addToCart)="handleAddToCart($event)" />
     }

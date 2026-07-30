@@ -1,13 +1,17 @@
-<section class="m-auto py-20">
-  <div class="flex justify-center gap-7.5">
+<section class="m-auto py-10 sm:py-14 lg:py-20">
+  <div class="flex flex-wrap justify-center gap-x-6 gap-y-8 sm:gap-x-7.5">
     <!-- CATEGORY-CARD -->
     @for (category of categories(); track category.id) {
       @let categoryName = category.name['en-US'];
 
-      <a routerLink="/shop" [queryParams]="{category: categoryName}" class="flex flex-col gap-5.75">
-        <img [src]="category.image" [alt]="categoryName" />
+      <a
+        routerLink="/shop"
+        [queryParams]="{ category: categoryName }"
+        class="flex flex-col items-center gap-3 sm:gap-5.75 w-28 sm:w-36 lg:w-auto"
+      >
+        <img [src]="category.image" [alt]="categoryName" class="w-full h-auto object-cover" />
         <h3
-          class="text-black-marlin font-semibold text-lg leading-[133%] tracking-[0.06em] uppercase"
+          class="text-black-marlin font-semibold text-xs sm:text-base lg:text-lg leading-[133%] tracking-[0.06em] uppercase text-center"
         >
           {{ categoryName }}
         </h3>

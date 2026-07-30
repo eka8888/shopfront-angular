@@ -13,5 +13,5 @@
 }
 
 .items-counter {
-  @apply w-64.5 pb-7.5 mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid;
+  @apply w-full lg:w-64.5 pb-7.5 mb-6 lg:mb-7.5 font-primary font-semibold text-sm leading-5.5 text-grey-blue border-b border-dark-grey border-solid;
 }

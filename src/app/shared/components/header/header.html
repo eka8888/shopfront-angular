@@ -1,81 +1,198 @@
 <!-- HEADER -->
-<header class="w-full border-b border-[#E5E5E5] bg-white">
-  <div class="max-w-[1440px] mx-auto h-[82px] px-6 lg:px-14 flex items-center justify-between">
+<header class="w-full border-b border-[#E5E5E5] bg-white sticky top-0 z-40">
+  <div
+    class="max-w-[1440px] mx-auto min-h-[64px] md:min-h-[82px] px-4 sm:px-6 lg:px-14 flex items-center justify-between gap-3"
+  >
     <!-- LOGO -->
-    <div class="flex items-center gap-3 cursor-pointer shrink-0" routerLink="/home">
-      <div class="w-11 h-11 rounded-full border border-[#2D2A32] flex items-center justify-center">
-        <span class="text-sm font-medium text-[#2D2A32]"> S </span>
+    <a
+      class="flex items-center gap-2 sm:gap-3 cursor-pointer min-w-0"
+      routerLink="/home"
+      (click)="closeMobileMenu()"
+    >
+      <div
+        class="w-8 h-8 sm:w-9 sm:h-9 md:w-11 md:h-11 rounded-full border border-[#2D2A32] flex items-center justify-center shrink-0"
+      >
+        <span class="text-xs sm:text-sm font-medium text-[#2D2A32]"> S </span>
       </div>
 
-      <h1 class="text-[38px] font-medium tracking-[-1px] text-[#2D2A32]">{{ appName }}</h1>
-    </div>
+      <h1
+        class="text-xl sm:text-2xl md:text-[32px] lg:text-[38px] font-medium tracking-[-0.5px] lg:tracking-[-1px] text-[#2D2A32] truncate min-w-0"
+      >
+        {{ appName }}
+      </h1>
+    </a>
 
-    <!-- NAVIGATION -->
-    <nav class="hidden md:flex items-center gap-12">
+    <!-- NAVIGATION (tablet & up) -->
+    <nav class="hidden md:flex items-center gap-6 lg:gap-12">
       @for (item of navItems; track item.path) {
         <a
           [routerLink]="item.path"
           routerLinkActive="text-black"
-          class="text-[13px] uppercase tracking-[2px] text-[#6B6B6B] hover:text-black transition duration-300 font-medium"
+          class="text-[13px] uppercase tracking-[2px] text-[#6B6B6B] hover:text-black transition duration-300 font-medium whitespace-nowrap"
         >
           {{ item.label }}
         </a>
       }
     </nav>
 
-    <!-- RIGHT SIDE -->
-    <div class="flex items-center gap-4">
-      <!-- SEARCH -->
+    <!-- RIGHT SIDE (tablet & up) -->
+    <div class="hidden md:flex items-center gap-2 lg:gap-4">
+      <!-- SEARCH (desktop only) -->
       <app-search-bar [searchValue]="searchBarValue()" (searchChange)="handleSearch($event)" />
 
       @if (!isAuthenticated()) {
         <a
           routerLink="/login"
-          class="h-[46px] px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:bg-[#2D2A32] hover:text-white transition duration-300"
+          class="h-10 lg:h-[46px] px-4 lg:px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:bg-[#2D2A32] hover:text-white transition duration-300 whitespace-nowrap"
         >
           Login
         </a>
 
         <a
           routerLink="/register"
-          class="h-[46px] px-7 border border-[#2D2A32] bg-[#2D2A32] text-white flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:opacity-80 transition duration-300"
+          class="h-10 lg:h-[46px] px-4 lg:px-7 border border-[#2D2A32] bg-[#2D2A32] text-white flex items-center justify-center text-[12px] uppercase tracking-[2px] hover:opacity-80 transition duration-300 whitespace-nowrap"
         >
           Register
         </a>
       } @else {
         <a
           routerLink="/profile"
-          class="text-[13px] uppercase tracking-[2px] text-[#2D2A32] hover:text-black transition"
+          class="text-[13px] uppercase tracking-[2px] text-[#2D2A32] hover:text-black transition whitespace-nowrap"
         >
           Profile
         </a>
 
         <app-button (click)="logout()"> Logout </app-button>
       }
-
-      <!-- CART -->
-      <a
-        routerLink="/cart"
-        class="relative hover:opacity-70 transition-opacity"
-        routerLinkActive
-        #rla="routerLinkActive"
-        [attr.aria-label]="'Cart, ' + cartBadge() + ' items'"
-      >
-        <img
-          [src]="rla.isActive ? 'icons/header/cart-icon-active.svg' : 'icons/header/cart-icon.svg'"
-          alt=""
-        />
-
-        <!-- CART BADGE -->
-        @if (cartBadge()) {
-          <div
-            class="absolute -top-3.5 -right-3.5 flex justify-center items-center min-w-5 min-h-5 bg-light-brown text-white rounded-full text-[10px] p-0.5"
-            aria-hidden="true"
-          >
-            {{ cartBadge() }}
-          </div>
-        }
-      </a>
     </div>
+
+    <!-- CART (always visible) -->
+    <a
+      routerLink="/cart"
+      class="relative hover:opacity-70 transition-opacity shrink-0"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [attr.aria-label]="'Cart, ' + cartBadge() + ' items'"
+      (click)="closeMobileMenu()"
+    >
+      <img
+        [src]="rla.isActive ? 'icons/header/cart-icon-active.svg' : 'icons/header/cart-icon.svg'"
+        alt=""
+        class="w-6 h-6 md:w-auto md:h-auto"
+      />
+
+      <!-- CART BADGE -->
+      @if (cartBadge()) {
+        <div
+          class="absolute -top-2.5 -right-2.5 md:-top-3.5 md:-right-3.5 flex justify-center items-center min-w-4.5 min-h-4.5 md:min-w-5 md:min-h-5 bg-light-brown text-white rounded-full text-[9px] md:text-[10px] p-0.5"
+          aria-hidden="true"
+        >
+          {{ cartBadge() }}
+        </div>
+      }
+    </a>
+
+    <!-- MOBILE MENU TOGGLE -->
+    <button
+      type="button"
+      class="md:hidden flex items-center justify-center w-9 h-9 shrink-0 cursor-pointer"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="mobileMenuOpen()"
+      aria-controls="mobile-nav"
+      [attr.aria-label]="mobileMenuOpen() ? 'Close menu' : 'Open menu'"
+    >
+      @if (mobileMenuOpen()) {
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 2L20 20M20 2L2 20"
+            stroke="#2D2A32"
+            stroke-width="1.75"
+            stroke-linecap="round"
+          />
+        </svg>
+      } @else {
+        <svg
+          width="22"
+          height="16"
+          viewBox="0 0 22 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 1H21M1 8H21M1 15H21"
+            stroke="#2D2A32"
+            stroke-width="1.75"
+            stroke-linecap="round"
+          />
+        </svg>
+      }
+    </button>
   </div>
+
+  <!-- MOBILE MENU PANEL -->
+  @if (mobileMenuOpen()) {
+    <div
+      id="mobile-nav"
+      class="md:hidden border-t border-[#E5E5E5] bg-white px-4 sm:px-6 py-5 flex flex-col gap-5"
+    >
+      <div class="border border-gray-300 h-11 flex items-center">
+        <input
+          type="text"
+          placeholder="Search products..."
+          [value]="searchBarValue()"
+          (input)="handleMobileSearch($event)"
+          class="h-full w-full px-4 outline-none text-sm"
+        />
+      </div>
+
+      <nav class="flex flex-col gap-4">
+        @for (item of navItems; track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="text-black"
+            (click)="closeMobileMenu()"
+            class="text-sm uppercase tracking-[2px] text-[#6B6B6B] hover:text-black transition font-medium"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+
+      <div class="flex flex-col gap-3 pt-2 border-t border-[#E5E5E5]">
+        @if (!isAuthenticated()) {
+          <a
+            routerLink="/login"
+            (click)="closeMobileMenu()"
+            class="h-11 px-7 border border-[#2D2A32] flex items-center justify-center text-[12px] uppercase tracking-[2px]"
+          >
+            Login
+          </a>
+
+          <a
+            routerLink="/register"
+            (click)="closeMobileMenu()"
+            class="h-11 px-7 border border-[#2D2A32] bg-[#2D2A32] text-white flex items-center justify-center text-[12px] uppercase tracking-[2px]"
+          >
+            Register
+          </a>
+        } @else {
+          <a
+            routerLink="/profile"
+            (click)="closeMobileMenu()"
+            class="text-[13px] uppercase tracking-[2px] text-[#2D2A32]"
+          >
+            Profile
+          </a>
+
+          <app-button (click)="logout()" [fullWidth]="true"> Logout </app-button>
+        }
+      </div>
+    </div>
+  }
 </header>

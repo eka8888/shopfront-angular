@@ -1,12 +1,10 @@
 <div
-  class="border border-light-text px-[165px] py-0 w-full max-w-[1440px] h-[404px] shadow-[0_1px_4px_0_rgba(25,33,61,0.08)] bg-black-marlin"
+  class="border border-light-text w-full max-w-[1440px] shadow-[0_1px_4px_0_rgba(25,33,61,0.08)] bg-black-marlin px-5 sm:px-10 md:px-16 lg:px-[165px] py-10 md:py-0"
 >
-  <div class="flex">
+  <div class="flex flex-col md:flex-row">
     <div
-      class="pt-[50px] px-20 pb-[100px] px-20 py-0 flex flex-col flex-1 gap-y-6 gap-x-[10%] relative after:absolute after:content-[''] after:w-[1px] after:bg-divider-and-footer-link after:h-full after:top-0 after:right-0"
+      class="md:pt-[50px] md:pb-[60px] lg:pb-[100px] md:px-10 lg:px-20 py-0 flex flex-col flex-1 gap-y-6 md:gap-x-[10%] relative md:after:absolute md:after:content-[''] md:after:w-[1px] md:after:bg-divider-and-footer-link md:after:h-full md:after:top-0 md:after:right-0"
     >
-      
-
       <p class="font-primary font-normal text-sm leading-[157%] text-light-text">
         ShopFront — an Angular sprint project exploring signals, reactive forms, and routing, built
         by a three-person team.
@@ -15,7 +13,7 @@
       <app-button
         [variant]="ButtonVariant.Dark"
         [fullWidth]="true"
-        class="w-[67%] block"
+        class="w-full sm:w-[67%] md:w-full lg:w-[67%] block"
         routerLink="/about"
       >
         Know more
@@ -44,11 +42,13 @@
       </app-button>
     </div>
 
-    <div class="flex flex-2 pt-[60px] px-20 pb-[70px] gap-[10%] justify-center">
+    <div
+      class="flex flex-col sm:flex-row flex-2 py-8 md:py-0 md:pt-[60px] md:px-10 lg:px-20 md:pb-[70px] gap-8 sm:gap-[10%] md:justify-center"
+    >
       @for (title of titles; track title; let i = $index) {
-        <div class="flex flex-col items-start gap-[7%]">
+        <div class="flex flex-col items-start gap-3 md:gap-[7%]">
           <h3
-            class="font-primary font-semibold text-base leading-[138%] tracking-[0.06em] uppercase text-white pb-[10%]"
+            class="font-primary font-semibold text-base leading-[138%] tracking-[0.06em] uppercase text-white pb-1 md:pb-[10%]"
           >
             {{ title }}
           </h3>
@@ -70,7 +70,7 @@
   </div>
 
   <div
-    class="flex relative after:absolute after:content-[''] after:w-full after:bg-divider-and-footer-link after:h-[1px] after:top-0 after:right-0 pt-5 m-auto justify-center"
+    class="flex flex-col sm:flex-row relative after:absolute after:content-[''] after:w-full after:bg-divider-and-footer-link after:h-[1px] after:top-0 after:right-0 pt-5 pb-8 md:pb-5 m-auto justify-center items-center gap-1 sm:gap-0 text-center"
   >
     <p class="footer-bottom-text footer-divider">Copyright © 2026 ShopFront</p>
     <p class="footer-bottom-text">Built with Angular & RS School</p>

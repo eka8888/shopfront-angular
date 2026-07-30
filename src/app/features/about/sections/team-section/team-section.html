@@ -1,41 +1,45 @@
-<h2
-  class="font-secondary font-bold text-4xl leading-none uppercase text-center text-black-marlin pb-6"
-  #trigger
->
-  Meet Our Team
-</h2>
-
-<p
-  class="font-primary font-normal text-base leading-[157%] text-center text-zambezi max-w-[600px] mx-auto pb-16"
->
-  Three developers, four sprints, and a lot of "wait, why does this signal not update" moments — we
-  worked through it together. We split tasks by feature area, reviewed most pull requests before
-  merging, and kept each other updated on what we built and what tripped us up, so nobody got stuck
-  alone for long.
-</p>
-
-@defer (on viewport(trigger)) {
-  <div class="flex flex-wrap justify-center gap-12 pb-24 gap-1.5">
-    @for (fields of memberSignal(); track fields.name) {
-      <app-team-card
-        [member]="fields"
-        class="member-card min-h-28 flex"
-        [style.animation-delay]="$index * 0.5 + 's'"
-      ></app-team-card>
-    }
-  </div>
-}
-
-<div class="flex flex-col items-center gap-4 pb-16">
-  <p class="font-primary font-normal text-sm leading-[157%] text-center text-zambezi">
-    This project was built as part of the RS School Angular course.
-  </p>
-  <a
-    href="https://rs.school/"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-flex items-center transition-opacity hover:opacity-70"
+<section>
+  <h2
+    class="font-secondary font-bold text-3xl sm:text-4xl leading-none uppercase text-center text-black-marlin pb-6"
+    #trigger
   >
-    <img src="/images/about/rss-logo.c19ce1b4.svg" alt="RS School logo" width="160" height="40" />
-  </a>
-</div>
+    Meet Our Team
+  </h2>
+
+  <p
+    class="font-primary font-normal text-base leading-[157%] text-center text-zambezi max-w-[600px] mx-auto pb-10 sm:pb-16"
+  >
+    Three developers, four sprints, and a lot of "wait, why does this signal not update" moments —
+    we worked through it together. We split tasks by feature area, reviewed most pull requests
+    before merging, and kept each other updated on what we built and what tripped us up, so nobody
+    got stuck alone for long.
+  </p>
+
+  @defer (on viewport(trigger)) {
+    <div
+      class="flex flex-wrap justify-center gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-10 pb-16 sm:pb-20 lg:pb-24"
+    >
+      @for (fields of memberSignal(); track fields.name) {
+        <app-team-card
+          [member]="fields"
+          class="member-card min-h-28 flex"
+          [style.animation-delay]="$index * 0.5 + 's'"
+        ></app-team-card>
+      }
+    </div>
+  }
+
+  <div class="flex flex-col items-center gap-4 pb-10 sm:pb-16">
+    <p class="font-primary font-normal text-sm leading-[157%] text-center text-zambezi">
+      This project was built as part of the RS School Angular course.
+    </p>
+    <a
+      href="https://rs.school/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center transition-opacity hover:opacity-70"
+    >
+      <img src="/images/about/rss-logo.c19ce1b4.svg" alt="RS School logo" width="160" height="40" />
+    </a>
+  </div>
+</section>
