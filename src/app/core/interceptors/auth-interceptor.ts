@@ -34,10 +34,7 @@ export const authInterceptor: HttpInterceptorFn = (
     environment.apiUrl
   );
 
-  /*
-   * Requests that are not sent to the commercetools API
-   * continue without any Bearer token.
-   */
+
   if (!isCommercetoolsApi) {
     return next(request);
   }
@@ -45,9 +42,6 @@ export const authInterceptor: HttpInterceptorFn = (
   const isCustomerRequest =
     isCustomerSpecificRequest(request.url);
 
-  /*
-   * Customer endpoints use only the customer token.
-   */
   if (isCustomerRequest) {
     const customerToken =
       tokenService.getCustomerToken();
@@ -61,10 +55,7 @@ export const authInterceptor: HttpInterceptorFn = (
 
     return next(authorizedRequest).pipe(
       catchError((error: HttpErrorResponse) => {
-        /*
-         * A 401 on a /me request means the customer's
-         * session is no longer valid.
-         */
+      
         if (error.status === 401) {
           tokenService.clearCustomerToken();
         }
@@ -76,14 +67,7 @@ export const authInterceptor: HttpInterceptorFn = (
     );
   }
 
-  /*
-   * Public requests:
-   *
-   * 1. Ensure that a valid public token exists.
-   * 2. Add it to the request.
-   * 3. If the API returns 401, refresh the token.
-   * 4. Repeat the original request once.
-   */
+
   return publicTokenService
     .ensurePublicToken()
     .pipe(
@@ -139,9 +123,7 @@ export const authInterceptor: HttpInterceptorFn = (
       }),
 
       catchError((error: unknown) => {
-        /*
-         * Do not wrap an ApiError for the second time.
-         */
+  
         if (isApiError(error)) {
           return throwError(() => error);
         }
